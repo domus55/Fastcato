@@ -12,6 +12,8 @@ def screenUpdate():
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             Game.Game.isRunning = False
 
+    Game.Game.keyPressed = pygame.key.get_pressed()
+
 
 def screenRender():
     pygame.display.update()
