@@ -1,9 +1,12 @@
 import math
 
 import pygame
+
+import Block
 from Screen import *
 from InnerTimer import *
 from Camera import *
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -16,9 +19,16 @@ class Player(pygame.sprite.Sprite):
         self.rect.center = 100, 100
         self._velocityX = 0
         self._velocityY = 0
-        self.speed = 10
+        self.speed = 3
 
     def update(self, keyPressed):
+        self._move(keyPressed)
+        self._collision()
+
+    def render(self):
+        screen.blit(self.image, self.rect.topleft)
+
+    def _move(self, keyPressed):
         self._velocityX = 0
         self._velocityY = 0
 
@@ -34,12 +44,37 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx += self._velocityX * Timer.deltaTime / 10
         self.rect.centery += self._velocityY * Timer.deltaTime / 10
 
-    def render(self):
-        screen.blit(self.image, (self.rect.centerx - Camera.posX, self.rect.centery - Camera.posY))
+    def _collision(self):
+        for i in Block.Block.allBlocks:
+            if self.rect.colliderect(i.rect):
+                halfBlockSize = i.rect.size[0] / 2, i.rect.size[1] / 2
 
-    def getCenter(self):
-        centerX, centerY = self.rect.center
-        centerX += self.width / 2
-        centerY += self.height / 2
-        return (centerX, centerY)
+                deltaX = i.rect.centerx  - (self.rect.centerx )
+                deltaY = i.rect.centery  - (self.rect.centery )
+                intersectX = abs(deltaX) - (halfBlockSize[0] + self.rect.size[0] / 2)
+                intersectY = abs(deltaY) - (halfBlockSize[1] + self.rect.size[1] / 2)
+
+                changePositionX = 0
+                changePositionY = 0
+
+                if intersectX < 0 and intersectY < 0:
+                    if intersectX > intersectY:
+                        if deltaX > 0:
+                            changePositionX = intersectX
+                            changePositionY = 0
+                        else:
+                            changePositionX = -intersectX
+                            changePositionY = 0
+                    else:
+                        if deltaY > 0:
+                            changePositionX = 0
+                            changePositionY = intersectY
+                        else:
+                            changePositionX = 0
+                            changePositionY = -intersectY
+
+                self.rect.centerx += changePositionX
+                self.rect.centery += changePositionY
+
+
 

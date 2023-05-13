@@ -1,6 +1,8 @@
 import Player
+import Block
 
-class levelManager:
+
+class LevelManager:
     def __init__(self):
         self.currentLevel = 1
         self.player = Player.Player()
@@ -10,4 +12,6 @@ class levelManager:
         pass
 
     def level1(self):
-        pass
+        b = Block.Block((300, 300))
+        Block.Block.allBlocks.append(b)
+

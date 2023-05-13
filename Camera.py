@@ -6,7 +6,12 @@ class Camera:
 
     @staticmethod
     def update(player):
-        #TODO make camer movement smother
-        Camera.posX, Camera.posY = player.getCenter()
-        Camera.posX -= 800
-        Camera.posY -= 450
+        #TODO make camera movement smother
+        #Camera.posX, Camera.posY = player.getCenter()
+        #Camera.posX -= 800
+        #Camera.posY -= 450
+        pass
+
+    @staticmethod
+    def relativePosition(pos):
+        return pos[0] - Camera.posX, pos[1] - Camera.posY
