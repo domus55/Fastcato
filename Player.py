@@ -1,11 +1,9 @@
-import math
-
-import pygame
-
 import Block
+import LevelManager
+from Obstacles import ObstacleManager
 from Screen import *
 from InnerTimer import *
-from Camera import *
+import Camera
 
 
 class Player(pygame.sprite.Sprite):
@@ -24,27 +22,28 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, keyPressed):
         self._move(keyPressed)
-        self._collision()
+        self._collisionWithBlock()
+        self._collisionWithObstacle()
 
     def render(self):
-        screen.blit(self.image, Camera.relativePosition(self.rect.topleft))
+        screen.blit(self.image, Camera.Camera.relativePosition(self.rect.topleft))
 
     def _move(self, keyPressed):
         self._velocityX = 0
-        self._velocityY += 0.1 * Timer.deltaTime / 10
+        self._velocityY += 0.2 * Timer.deltaTime / 10
 
         if keyPressed[pygame.K_a]:
             self._velocityX -= self.speed
         if keyPressed[pygame.K_d]:
             self._velocityX += self.speed
         if keyPressed[pygame.K_w] and self.canJump:
-            self._velocityY = - self.speed * 2.5
+            self._velocityY = - self.speed * 3
             self.canJump = False
 
         self.rect.centerx += self._velocityX * Timer.deltaTime / 10
         self.rect.centery += self._velocityY * Timer.deltaTime / 10
 
-    def _collision(self):
+    def _collisionWithBlock(self):
         self.canJump = False
 
         for i in Block.Block.allBlocks:
@@ -85,6 +84,13 @@ class Player(pygame.sprite.Sprite):
 
                 if (changePositionY > 0):
                     self._velocityY = 0
+
+    def _collisionWithObstacle(self):
+        for i in ObstacleManager.ObstacleManager.allObstacles:
+            if self.rect.colliderect(i.rect):
+                LevelManager.LevelManager.restartLevel()
+
+
 
 
 

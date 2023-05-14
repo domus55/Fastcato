@@ -7,8 +7,9 @@ class Camera:
     @staticmethod
     def update(player):
         #TODO make camera movement smother
-        Camera.posX, _ = player.rect.center
+        Camera.posX, Camera.posY = player.rect.center
         Camera.posX -= 800
+        Camera.posY -= 500
         pass
 
     @staticmethod

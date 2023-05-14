@@ -1,7 +1,5 @@
-import pygame
 from Player import *
 from Screen import *
-import LevelManager
 from Camera import *
 import InnerTimer
 
@@ -13,18 +11,19 @@ class Game:
     def __init__(self):
         self._maxFps = 60
         self._clock = clock = pygame.time.Clock()
-        self.lvlManager = LevelManager.LevelManager()
+        LevelManager.LevelManager.Initialize()
 
     def update(self):
         InnerTimer.Timer.update()
         screenUpdate()
-        self.lvlManager.player.update(Game.keyPressed)
-        Camera.update(self.lvlManager.player) #must be after player update
+        LevelManager.LevelManager.player.update(Game.keyPressed)
+        Camera.update(LevelManager.LevelManager.player) #must be after player update
 
 
     def render(self):
         screen.fill((0, 0, 0))
-        self.lvlManager.player.render()
+        LevelManager.LevelManager.player.render()
+        ObstacleManager.ObstacleManager.renderAll()
         Block.Block.renderAll()
         screenRender()
 

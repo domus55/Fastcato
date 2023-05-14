@@ -1,17 +1,30 @@
 import Player
 import Block
+from Obstacles import ObstacleManager
 
 
 class LevelManager:
-    def __init__(self):
-        self.currentLevel = 1
-        self.player = Player.Player()
-        self.level1()
+    currentLevel = 1
+    player = None
 
-    def update(self):
+    @staticmethod
+    def Initialize():
+        LevelManager.player = Player.Player()
+        LevelManager.level1()
+
+    @staticmethod
+    def update():
         pass
 
-    def level1(self):
+    @staticmethod
+    def restartLevel():
+        LevelManager.player = Player.Player()
+        Block.Block.allBlocks.clear()
+        ObstacleManager.ObstacleManager.allObstacles.clear()
+        LevelManager.level1()
+
+    @staticmethod
+    def level1():
         for i in range(20):
             Block.Block.createBlock(Block.BlockType.GRASS, (i + 1, 10))
             Block.Block.createBlock(Block.BlockType.GRASS, (i + 1, 11))
@@ -23,6 +36,7 @@ class LevelManager:
         Block.Block.createBlock(Block.BlockType.GRASS, (12, 6))
 
         Block.Block.setBlocks()
+        ObstacleManager.ObstacleManager.createObstacle(ObstacleManager.ObstacleType.HEADGEHOG, (12, 5))
 
 
 
