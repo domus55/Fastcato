@@ -20,37 +20,39 @@ class Player(pygame.sprite.Sprite):
         self._velocityX = 0
         self._velocityY = 0
         self.speed = 3
+        self.canJump = False
 
     def update(self, keyPressed):
         self._move(keyPressed)
         self._collision()
 
     def render(self):
-        screen.blit(self.image, self.rect.topleft)
+        screen.blit(self.image, Camera.relativePosition(self.rect.topleft))
 
     def _move(self, keyPressed):
         self._velocityX = 0
-        self._velocityY = 0
+        self._velocityY += 0.1 * Timer.deltaTime / 10
 
         if keyPressed[pygame.K_a]:
             self._velocityX -= self.speed
         if keyPressed[pygame.K_d]:
             self._velocityX += self.speed
-        if keyPressed[pygame.K_w]:
-            self._velocityY -= self.speed
-        if keyPressed[pygame.K_s]:
-            self._velocityY += self.speed
+        if keyPressed[pygame.K_w] and self.canJump:
+            self._velocityY = - self.speed * 2.5
+            self.canJump = False
 
         self.rect.centerx += self._velocityX * Timer.deltaTime / 10
         self.rect.centery += self._velocityY * Timer.deltaTime / 10
 
     def _collision(self):
+        self.canJump = False
+
         for i in Block.Block.allBlocks:
             if self.rect.colliderect(i.rect):
                 halfBlockSize = i.rect.size[0] / 2, i.rect.size[1] / 2
 
-                deltaX = i.rect.centerx  - (self.rect.centerx )
-                deltaY = i.rect.centery  - (self.rect.centery )
+                deltaX = i.rect.centerx - (self.rect.centerx )
+                deltaY = i.rect.centery - (self.rect.centery )
                 intersectX = abs(deltaX) - (halfBlockSize[0] + self.rect.size[0] / 2)
                 intersectY = abs(deltaY) - (halfBlockSize[1] + self.rect.size[1] / 2)
 
@@ -75,6 +77,14 @@ class Player(pygame.sprite.Sprite):
 
                 self.rect.centerx += changePositionX
                 self.rect.centery += changePositionY
+
+                if(changePositionY < 0):
+                    self.canJump = True
+                    self._velocityY = 0
+
+
+                if (changePositionY > 0):
+                    self._velocityY = 0
 
 
 

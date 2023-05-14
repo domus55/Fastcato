@@ -11,7 +11,7 @@ class Game:
     keyPressed = None
 
     def __init__(self):
-        self._maxFps = 300
+        self._maxFps = 60
         self._clock = clock = pygame.time.Clock()
         self.lvlManager = LevelManager.LevelManager()
 

@@ -12,6 +12,17 @@ class LevelManager:
         pass
 
     def level1(self):
-        b = Block.Block((300, 300))
-        Block.Block.allBlocks.append(b)
+        for i in range(20):
+            Block.Block.createBlock(Block.BlockType.GRASS, (i + 1, 10))
+            Block.Block.createBlock(Block.BlockType.GRASS, (i + 1, 11))
+            Block.Block.createBlock(Block.BlockType.GRASS, (i + 1, 12))
+
+        for i in range(4):
+            Block.Block.createBlock(Block.BlockType.GRASS, (i + 7, 6))
+
+        Block.Block.createBlock(Block.BlockType.GRASS, (12, 6))
+
+        Block.Block.setBlocks()
+
+
 

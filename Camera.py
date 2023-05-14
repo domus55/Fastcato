@@ -2,14 +2,13 @@ import LevelManager
 
 class Camera:
     posX = 0
-    posY = 0
+    posY = -200
 
     @staticmethod
     def update(player):
         #TODO make camera movement smother
-        #Camera.posX, Camera.posY = player.getCenter()
-        #Camera.posX -= 800
-        #Camera.posY -= 450
+        Camera.posX, _ = player.rect.center
+        Camera.posX -= 800
         pass
 
     @staticmethod
