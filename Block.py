@@ -11,7 +11,7 @@ class BlockType(Enum):
 
 class Block(pygame.sprite.Sprite):
     allBlocks = []
-    grassLayout = [[0 for col in range(20)] for row in range(200)]
+    grassLayout = [[0 for col in range(21)] for row in range(200)]
 
     IMG_GRASS1 = pygame.image.load("images/grass/1.png")
     IMG_GRASS2 = pygame.image.load("images/grass/2.png")

@@ -14,6 +14,7 @@ class Headgehog(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = pos[0] * 50, pos[1] * 50 + 12
 
+
     def render(self):
         screen.blit(self.image, Camera.Camera.relativePosition(self.rect.topleft))
 

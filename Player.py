@@ -14,11 +14,12 @@ class Player(pygame.sprite.Sprite):
         self.height = 100
         self.image = pygame.transform.scale(tempImage, (self.width, self.height))
         self.rect = self.image.get_rect()
-        self.rect.center = 100, 100
         self._velocityX = 0
         self._velocityY = 0
         self.speed = 3
         self.canJump = False
+        self.startingPosition = (100, 100)
+        self.restart()
 
     def update(self, keyPressed):
         self._move(keyPressed)
@@ -27,6 +28,10 @@ class Player(pygame.sprite.Sprite):
 
     def render(self):
         screen.blit(self.image, Camera.Camera.relativePosition(self.rect.topleft))
+
+    def restart(self):
+        self.rect.center = self.startingPosition
+
 
     def _move(self, keyPressed):
         self._velocityX = 0
@@ -42,6 +47,9 @@ class Player(pygame.sprite.Sprite):
 
         self.rect.centerx += self._velocityX * Timer.deltaTime / 10
         self.rect.centery += self._velocityY * Timer.deltaTime / 10
+
+        if self.rect.centerx < Camera.Camera.LEFT_WALL:
+            self.rect.centerx = Camera.Camera.LEFT_WALL
 
     def _collisionWithBlock(self):
         self.canJump = False

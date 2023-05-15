@@ -1,15 +1,18 @@
 import LevelManager
 
 class Camera:
-    posX = 0
-    posY = -200
+    LEFT_WALL = 25
+
+    posX = 50
+    posY = 0
 
     @staticmethod
     def update(player):
         #TODO make camera movement smother
-        Camera.posX, Camera.posY = player.rect.center
+        Camera.posX, _ = player.rect.center
         Camera.posX -= 800
-        Camera.posY -= 500
+        if Camera.posX < Camera.LEFT_WALL:
+            Camera.posX = Camera.LEFT_WALL
         pass
 
     @staticmethod

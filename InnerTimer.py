@@ -1,6 +1,5 @@
 import datetime
 
-
 class Timer:
     _prevTime = None
 
