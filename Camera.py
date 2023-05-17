@@ -1,9 +1,9 @@
 import LevelManager
 
 class Camera:
-    LEFT_WALL = 25
+    LEFT_WALL = 0
 
-    posX = 50
+    posX = 0
     posY = 0
 
     @staticmethod

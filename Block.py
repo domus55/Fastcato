@@ -13,19 +13,19 @@ class Block(pygame.sprite.Sprite):
     allBlocks = []
     grassLayout = [[0 for col in range(21)] for row in range(200)]
 
-    IMG_GRASS1 = pygame.image.load("images/grass/1.png")
-    IMG_GRASS2 = pygame.image.load("images/grass/2.png")
-    IMG_GRASS3 = pygame.image.load("images/grass/3.png")
-    IMG_GRASS4 = pygame.image.load("images/grass/4.png")
-    IMG_GRASS5 = pygame.image.load("images/grass/5.png")
-    IMG_GRASS6 = pygame.image.load("images/grass/6.png")
-    IMG_GRASS7 = pygame.image.load("images/grass/7.png")
-    IMG_GRASS8 = pygame.image.load("images/grass/8.png")
-    IMG_GRASS9 = pygame.image.load("images/grass/9.png")
-    IMG_GRASS10 = pygame.image.load("images/grass/10.png")
-    IMG_GRASS11 = pygame.image.load("images/grass/11.png")
-    IMG_GRASS12 = pygame.image.load("images/grass/12.png")
-    IMG_GRASS16 = pygame.image.load("images/grass/16.png")
+    IMG_GRASS1 = pygame.image.load("images/grass/1.png").convert()
+    IMG_GRASS2 = pygame.image.load("images/grass/2.png").convert()
+    IMG_GRASS3 = pygame.image.load("images/grass/3.png").convert()
+    IMG_GRASS4 = pygame.image.load("images/grass/4.png").convert()
+    IMG_GRASS5 = pygame.image.load("images/grass/5.png").convert()
+    IMG_GRASS6 = pygame.image.load("images/grass/6.png").convert()
+    IMG_GRASS7 = pygame.image.load("images/grass/7.png").convert()
+    IMG_GRASS8 = pygame.image.load("images/grass/8.png").convert()
+    IMG_GRASS9 = pygame.image.load("images/grass/9.png").convert()
+    IMG_GRASS10 = pygame.image.load("images/grass/10.png").convert()
+    IMG_GRASS11 = pygame.image.load("images/grass/11.png").convert()
+    IMG_GRASS12 = pygame.image.load("images/grass/12.png").convert()
+    IMG_GRASS16 = pygame.image.load("images/grass/16.png").convert()
 
     def __init__(self, img, pos):
         super().__init__()

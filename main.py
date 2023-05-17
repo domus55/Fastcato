@@ -7,4 +7,3 @@ while Game.isRunning:
     game.delay()
 
 game.exit()
-

@@ -7,9 +7,11 @@ import Camera
 
 
 class Player(pygame.sprite.Sprite):
+    instance = None
+
     def __init__(self):
         super().__init__()
-        tempImage = pygame.image.load("images/cat.png")
+        tempImage = pygame.image.load("images/cat.png").convert()
         self.width = 80
         self.height = 100
         self.image = pygame.transform.scale(tempImage, (self.width, self.height))
@@ -21,8 +23,10 @@ class Player(pygame.sprite.Sprite):
         self.startingPosition = (100, 100)
         self.restart()
 
+
     def update(self, keyPressed):
         self._move(keyPressed)
+        self._isOutOfMap()
         self._collisionWithBlock()
         self._collisionWithObstacle()
 
@@ -48,8 +52,15 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx += self._velocityX * Timer.deltaTime / 10
         self.rect.centery += self._velocityY * Timer.deltaTime / 10
 
+
+    def _isOutOfMap(self):
+        #Stop on the left wall
         if self.rect.centerx < Camera.Camera.LEFT_WALL:
             self.rect.centerx = Camera.Camera.LEFT_WALL
+
+        #Fell out of the map
+        if self.rect.centery > 1000:
+            LevelManager.LevelManager.restartLevel()
 
     def _collisionWithBlock(self):
         self.canJump = False
@@ -95,7 +106,7 @@ class Player(pygame.sprite.Sprite):
 
     def _collisionWithObstacle(self):
         for i in ObstacleManager.ObstacleManager.allObstacles:
-            if self.rect.colliderect(i.rect):
+            if self.rect.colliderect(i.hitbox):
                 LevelManager.LevelManager.restartLevel()
 
 
