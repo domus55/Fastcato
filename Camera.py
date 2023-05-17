@@ -1,5 +1,3 @@
-import LevelManager
-
 class Camera:
     LEFT_WALL = 0
 

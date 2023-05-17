@@ -1,9 +1,6 @@
-import pygame
 from enum import Enum
 
-import Camera
 from Obstacles import Hedgehog
-from Screen import *
 
 
 class ObstacleType(Enum):

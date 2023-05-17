@@ -1,5 +1,4 @@
 import pygame
-
 import time
 from random import randrange
 
@@ -24,7 +23,7 @@ class Headgehog(pygame.sprite.Sprite):
         self.hitbox.size = (HITBOX_DOWNSIZE * self.hitbox.size[0],  HITBOX_DOWNSIZE * self.hitbox.size[1])
         self.hitbox.center = self.rect.center
         self._lastAnimationFrame = 0
-        self._animationDeltaTime = randrange(10) / 10 #used to make other headgehog move differently then this one
+        self._animationDeltaTime = randrange(10) / 10      #used to make other headgehog move differently then this one
         self._animationBooster = randrange(80, 120) / 100  # used so each animation will be at a little different speed
 
     @staticmethod

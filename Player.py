@@ -1,9 +1,9 @@
 import Block
 import LevelManager
+import Camera
 from Obstacles import ObstacleManager
 from Screen import *
 from InnerTimer import *
-import Camera
 
 
 class Player(pygame.sprite.Sprite):
