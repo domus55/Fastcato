@@ -7,7 +7,7 @@ from Screen import screen
 
 
 class Background:
-    instance = None
+    _instance = None
 
     def __init__(self):
         super().__init__()
@@ -19,9 +19,9 @@ class Background:
 
     @staticmethod
     def getInstance():
-        if Background.instance is None:
-            Background.instance = Background()
-        return Background.instance
+        if Background._instance is None:
+            Background._instance = Background()
+        return Background._instance
 
 
     def _loadImages(self):

@@ -35,7 +35,7 @@ class LevelManager:
 
     @staticmethod
     def restartLevel():
-        Player.Player.instance.restart()
+        Player.Player.getInstance().restart()
         Block.Block.allBlocks.clear()
         ObstacleManager.ObstacleManager.allObstacles.clear()
 
@@ -59,7 +59,7 @@ class LevelManager:
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.GRASS:
                     Block.Block.createBlock(Block.BlockType.GRASS, (i, j))
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.PLAYER_SPAWN:
-                    Player.Player.instance.startingPosition = (i * 50, j * 50)
+                    Player.Player.getInstance().startingPosition = (i * 50, j * 50)
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.HEADGEHOG:
                     ObstacleManager.ObstacleManager.createObstacle(ObstacleManager.ObstacleType.HEADGEHOG, (i, j))
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.FINISH_LINE:
@@ -68,7 +68,7 @@ class LevelManager:
         ObstacleManager.ObstacleManager.createObstacle(ObstacleManager.ObstacleType.HEADGEHOG, (2, 16))
 
         Block.Block.setBlocks()
-        Player.Player.instance.restart()
+        Player.Player.getInstance().restart()
 
 
 

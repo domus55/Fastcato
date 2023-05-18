@@ -7,7 +7,7 @@ from InnerTimer import *
 
 
 class Player(pygame.sprite.Sprite):
-    instance = None
+    _instance = None
 
     def __init__(self):
         super().__init__()
@@ -22,6 +22,12 @@ class Player(pygame.sprite.Sprite):
         self.canJump = False
         self.startingPosition = (100, 100)
         self.restart()
+
+    @staticmethod
+    def getInstance():
+        if Player._instance is None:
+            Player._instance = Player()
+        return Player._instance
 
 
     def update(self, keyPressed):

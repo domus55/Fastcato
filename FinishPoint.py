@@ -25,5 +25,5 @@ class FinishPoint(pygame.sprite.Sprite):
     @staticmethod
     def update():
         if FinishPoint.instance is not None:
-            if FinishPoint.instance.rect.colliderect(Player.Player.instance.rect):
+            if FinishPoint.instance.rect.colliderect(Player.Player.getInstance().rect):
                 LevelManager.LevelManager.nextLevel()
