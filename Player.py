@@ -11,7 +11,7 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self):
         super().__init__()
-        tempImage = pygame.image.load("images/cat.png").convert()
+        tempImage = pygame.image.load("images/cat.png").convert_alpha()
         self.width = 80
         self.height = 100
         self.image = pygame.transform.scale(tempImage, (self.width, self.height))

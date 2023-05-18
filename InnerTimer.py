@@ -11,6 +11,8 @@ class Timer:
         if Timer._prevTime is None:
             Timer._prevTime = datetime.datetime.now()
         Timer.deltaTime = ((datetime.datetime.now() - Timer._prevTime).microseconds) / 1000
+        if Timer.deltaTime > 250:
+            Timer.deltaTime = 0
         Timer._prevTime = datetime.datetime.now()
 
 

@@ -34,7 +34,7 @@ class Headgehog(pygame.sprite.Sprite):
         for i in range(NUMBER_OF_IMAGES):
             img = pygame.image.load(f"images/hedgehog/idle/{i+1}.png")
             readyImg = pygame.transform.scale(img, (SIZE * 1.4, SIZE))
-            Headgehog.IDLE_ANIMATION.append(readyImg)
+            Headgehog.IDLE_ANIMATION.append(readyImg.convert_alpha())
 
         for i in range(len(Headgehog.IDLE_ANIMATION)):
             Headgehog.IDLE_ANIMATION.append(Headgehog.IDLE_ANIMATION[i])
