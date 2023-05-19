@@ -3,6 +3,7 @@ import time
 from random import randrange
 
 import Camera
+from CloudManager import CloudManager
 from Screen import screen
 
 
@@ -40,11 +41,18 @@ class Background:
             movingSpeed = 0
             if i is 1:
                 movingSpeed = 0.02
+                CloudManager.renderBeforeMountains()
             if i is 2:
                 movingSpeed = 0.1
+
             positionX = ((-Camera.Camera.posX * movingSpeed) % self.imageWidth[i]) - self.imageWidth[i]
             screen.blit(self.layerArr[i], (positionX, 0))
             screen.blit(self.layerArr[i], (positionX + self.imageWidth[i], 0))
+
+            if i is 2:
+                CloudManager.renderAfterMountains()
+
+
 
 
     def update(self):

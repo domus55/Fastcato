@@ -1,5 +1,6 @@
 import pygame
 
+from CloudManager import CloudManager
 from FinishPoint import FinishPoint
 from Block import Block
 from Camera import Camera
@@ -19,16 +20,18 @@ class Game:
         self._clock = clock = pygame.time.Clock()
         LevelManager.Initialize()
         screenInitialize()
+        CloudManager.initialize()
 
     def update(self):
         Timer.update()
-        Timer.showFps()
+        #Timer.showFps()
         screenUpdate()
         ObstacleManager.updateAll()
         Player.getInstance().update(Game.keyPressed)
         FinishPoint.update()
-        Camera.update(Player.getInstance()) #must be after player update
+        Camera.update(Player.getInstance()) #must be called after player update
         Background.getInstance().update()
+        CloudManager.update()
 
 
     def render(self):
