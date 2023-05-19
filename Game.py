@@ -16,7 +16,7 @@ class Game:
     keyPressed = None
 
     def __init__(self):
-        self._maxFps = 10003
+        self._maxFps = 10005
         self._clock = clock = pygame.time.Clock()
         LevelManager.Initialize()
         screenInitialize()
@@ -24,7 +24,7 @@ class Game:
 
     def update(self):
         Timer.update()
-        #Timer.showFps()
+        Timer.showFps()
         screenUpdate()
         ObstacleManager.updateAll()
         Player.getInstance().update(Game.keyPressed)

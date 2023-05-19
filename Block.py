@@ -1,6 +1,7 @@
 from enum import Enum
 
 import Camera
+import Screen
 from Screen import *
 
 
@@ -35,7 +36,6 @@ class Block(pygame.sprite.Sprite):
 
     @staticmethod
     def createBlock(type, pos):
-
         if type == BlockType.GRASS:
             Block.grassLayout[pos[0]][pos[1]] = True
 
@@ -47,7 +47,8 @@ class Block(pygame.sprite.Sprite):
     @staticmethod
     def renderAll():
         for i in Block.allBlocks:
-            i.render()
+            if Camera.Camera.isOnScreen(i.rect):
+                i.render()
 
     def render(self):
         screen.blit(self.image, Camera.Camera.relativePosition(self.rect.topleft))

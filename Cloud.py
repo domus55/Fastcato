@@ -24,10 +24,11 @@ class Cloud():
         #0.5 - 2
         self.distance = randrange(50, 150) / 100
         self._setImage()
+        self.width = self.image.get_rect().size[0]
         self.posX = posX
-        self.posY = randrange(-50, 200)
+        self.posY = randrange(-50, 150)
         if self.distance > 1:
-            self.posY += randrange(50, 150)
+            self.posY += randrange(50, 200)
         self.speed = randrange(-60, 60) / 1000 * self.distance
 
         #print(f"Distance {self.distance}\tSpeed {self.speed}\tSize {self.image.get_rect().size}")
@@ -42,7 +43,6 @@ class Cloud():
     def update(self):
         self.posX += self.speed * Timer.deltaTime / 10
         if self.posX < -300 or self.posX > 16000:
-            print("a")
             self.speed *= -1
 
     def render(self):

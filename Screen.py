@@ -4,6 +4,7 @@ import Game
 screen = pygame.display.set_mode((1600, 900))
 
 
+
 def screenInitialize():
     pygame.display.set_caption('Cat Game')
     icon = pygame.image.load(f"images/gameIcon.png")
@@ -20,7 +21,6 @@ def screenUpdate():
             Game.Game.isRunning = False
 
     Game.Game.keyPressed = pygame.key.get_pressed()
-
 
 def screenRender():
     pygame.display.update()

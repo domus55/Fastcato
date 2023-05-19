@@ -1,3 +1,8 @@
+import pygame
+
+import Screen
+
+
 class Camera:
     LEFT_WALL = 0
 
@@ -11,8 +16,15 @@ class Camera:
         Camera.posX -= 800
         if Camera.posX < Camera.LEFT_WALL:
             Camera.posX = Camera.LEFT_WALL
-        pass
 
     @staticmethod
     def relativePosition(pos):
         return pos[0] - Camera.posX, pos[1] - Camera.posY
+
+    @staticmethod
+    def isOnScreen(rect):
+        if Camera.posX + 1600 < rect.left - rect.size[0] / 2:
+            return False
+        if Camera.posX > rect.right + rect.size[0] / 2:
+            return False
+        return True

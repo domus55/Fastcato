@@ -3,10 +3,11 @@ import time
 from random import randrange
 
 import Camera
+from Obstacles.Obstacle import Obstacle
 from Screen import screen
 
 
-class Headgehog(pygame.sprite.Sprite):
+class Headgehog(Obstacle):
     IDLE_ANIMATION = []
     _animationWasSetUp = False
 
@@ -43,9 +44,6 @@ class Headgehog(pygame.sprite.Sprite):
             flippedImage = pygame.transform.flip(Headgehog.IDLE_ANIMATION[i], True, False)
             Headgehog.IDLE_ANIMATION.append(flippedImage)
         Headgehog._animationWasSetUp = True
-
-    def render(self):
-        screen.blit(self.image, Camera.Camera.relativePosition(self.rect.topleft))
 
 
     def update(self):
