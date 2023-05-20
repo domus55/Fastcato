@@ -24,7 +24,7 @@ class Game:
 
     def update(self):
         Timer.update()
-        Timer.showFps()
+        #Timer.showFps()
         screenUpdate()
         ObstacleManager.updateAll()
         Player.getInstance().update(Game.keyPressed)

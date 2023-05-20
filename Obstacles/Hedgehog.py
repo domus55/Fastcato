@@ -26,6 +26,7 @@ class Headgehog(Obstacle):
         self._lastAnimationFrame = 0
         self._animationDeltaTime = randrange(10) / 10      #used to make other headgehog move differently then this one
         self._animationBooster = randrange(80, 120) / 100  # used so each animation will be at a little different speed
+        self._animationSpeed = 3 * self._animationBooster
 
     @staticmethod
     def _setUpAnimation():
@@ -49,10 +50,8 @@ class Headgehog(Obstacle):
     def update(self):
         self._animate()
 
-    _startingAnimationTime = time.time()
     def _animate(self):
-        animationSpeed = 3 * self._animationBooster
-        currentTime = int((time.time() + self._animationDeltaTime) * animationSpeed)
+        currentTime = int((time.time() + self._animationDeltaTime) * self._animationSpeed)
 
         if currentTime % 4 != self._lastAnimationFrame:
             self._lastAnimationFrame = currentTime % len(Headgehog.IDLE_ANIMATION)
