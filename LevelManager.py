@@ -66,6 +66,7 @@ class LevelManager:
                     FinishPoint.FinishPoint.instance = FinishPoint.FinishPoint((i, j))
 
         ObstacleManager.ObstacleManager.createObstacle(ObstacleManager.ObstacleType.HEADGEHOG, (2, 16))
+        ObstacleManager.ObstacleManager.createObstacle(ObstacleManager.ObstacleType.DOG, (4, 16))
 
         Block.Block.setBlocks()
         Player.Player.getInstance().restart()

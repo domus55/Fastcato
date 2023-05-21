@@ -186,7 +186,6 @@ class Player(pygame.sprite.Sprite):
 
             if i == 4 or i == 5:
                 numOfAnimationFrames = 4
-                print("a")
 
             for j in range(numOfAnimationFrames):
                 img = pygame.image.load(f"images/cat/idle{i+1}/{j + 1}.png")
@@ -257,7 +256,7 @@ class Player(pygame.sprite.Sprite):
     def _selectRandomIdleAnimation(self):
         #Thanks to this if statement there is 90% chance of getting standing animation
         rand = randrange(10)
-        if rand is 1:
+        if rand is not 1:
             randStandingAnimation = randrange(2)
             if self._prevVelocityX < 0:
                 self.currentIdleAnimation = self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_LEFT[randStandingAnimation]
@@ -265,15 +264,8 @@ class Player(pygame.sprite.Sprite):
                 self.currentIdleAnimation = self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_RIGHT[randStandingAnimation]
             return
 
-
         randAnimation = randrange(len(Player.ALL_IDLE_ANIMATIONS_RIGHT))
-        if self.currentIdleAnimation is not Player.ALL_IDLE_ANIMATIONS_LEFT[1] and self.currentIdleAnimation is not Player.ALL_IDLE_ANIMATIONS_RIGHT[1]:
-            if self._prevVelocityX < 0:
-                self.currentIdleAnimation = self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_LEFT[1]
-            else:
-                self.currentIdleAnimation = self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_RIGHT[1]
+        if self._prevVelocityX < 0:
+            self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_LEFT[randAnimation]
         else:
-            if self._prevVelocityX < 0:
-                self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_LEFT[randAnimation]
-            else:
-                self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_RIGHT[randAnimation]
+            self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_RIGHT[randAnimation]
