@@ -1,6 +1,7 @@
 import pygame
 
 import FinishPoint
+import MainMenu
 import Player
 import Block
 from Obstacles import ObstacleManager
@@ -26,7 +27,7 @@ class LevelManager:
 
     @staticmethod
     def Initialize():
-        LevelManager.currentLevel = 1
+        LevelManager.currentLevel = 0
         LevelManager.restartLevel()
 
     @staticmethod
@@ -44,16 +45,19 @@ class LevelManager:
         elif LevelManager.currentLevel == 2:
             LevelManager.currentLevelImg = LevelManager.LEVEL2
 
-        LevelManager.level1()
+        if LevelManager.currentLevel == 0:
+            Player.Player._instance = None
+            MainMenu.MainMenu.open()
+        else:
+            LevelManager.loadLevel()
 
     @staticmethod
     def nextLevel():
         LevelManager.currentLevel += 1
-        FinishPoint.FinishPoint.instance = None
         LevelManager.restartLevel()
 
     @staticmethod
-    def level1():
+    def loadLevel():
         for i in range(100):
             for j in range(20):
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.GRASS:
