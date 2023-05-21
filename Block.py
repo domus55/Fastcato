@@ -52,9 +52,6 @@ class Block(pygame.sprite.Sprite):
             img = pygame.image.load(f"images/grass/{i+1}.png").convert_alpha()
             Block.IMG_GRASS.append(img)
 
-
-        print(len(Block.IMG_GRASS))
-
     @staticmethod
     def _setGrass():
         for i, block in enumerate(Block.grassLayout):

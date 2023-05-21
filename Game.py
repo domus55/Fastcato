@@ -5,6 +5,7 @@ from CloudManager import CloudManager
 from FinishPoint import FinishPoint
 from Block import Block
 from Camera import Camera
+from InGameMenu import InGameMenu
 from InnerTimer import Timer
 from LevelManager import LevelManager
 from MainMenu import MainMenu
@@ -30,6 +31,8 @@ class Game:
         EventHandler.update()
         if MainMenu.isOpen:
             MainMenu.update()
+        elif InGameMenu.isOpen:
+            InGameMenu.update(Game.keyPressed)
         else:
             ObstacleManager.updateAll()
             Player.getInstance().update(Game.keyPressed)
@@ -38,10 +41,11 @@ class Game:
             Background.getInstance().update()
             CloudManager.update()
 
-
     def render(self):
         if MainMenu.isOpen:
             MainMenu.render()
+        elif InGameMenu.isOpen:
+            InGameMenu.render()
         else:
             Background.getInstance().render()
             Player.getInstance().render()

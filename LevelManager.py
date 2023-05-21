@@ -1,5 +1,6 @@
 import pygame
 
+import CloudManager
 import FinishPoint
 import MainMenu
 import Player
@@ -27,7 +28,7 @@ class LevelManager:
 
     @staticmethod
     def Initialize():
-        LevelManager.currentLevel = 0
+        LevelManager.currentLevel = 1
         LevelManager.restartLevel()
 
     @staticmethod
