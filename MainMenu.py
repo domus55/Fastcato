@@ -25,10 +25,10 @@ class MainMenu:
     BACKGROUND1 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/background/1.png"), (1600, 900)).convert_alpha()
     BACKGROUND2 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/background/2.png"), (1600, 900)).convert_alpha()
 
-    colliderPlay = pygame.Rect(633, 220, 335, 96)
-    colliderLevels = pygame.Rect(633, 341, 335, 96)
-    colliderSettings = pygame.Rect(633, 462, 335, 96)
-    colliderExit = pygame.Rect(633, 583, 335, 96)
+    hitboxPlay = pygame.Rect(633, 220, 335, 96)
+    hitboxLevels = pygame.Rect(633, 341, 335, 96)
+    hitboxSettings = pygame.Rect(633, 462, 335, 96)
+    hitboxExit = pygame.Rect(633, 583, 335, 96)
 
     image = DEFAULT
 
@@ -37,7 +37,6 @@ class MainMenu:
     def open():
         MainMenu.isOpen = True
         CloudManager.CloudManager.initialize()
-        print("Main Menu load!")
 
     @staticmethod
     def update():
@@ -57,13 +56,13 @@ class MainMenu:
         if MainMenu.isOpen:
             mousePos = pygame.mouse.get_pos()
 
-            if MainMenu.colliderPlay.collidepoint(mousePos):
+            if MainMenu.hitboxPlay.collidepoint(mousePos):
                 MainMenu.image = MainMenu.PLAY
-            elif MainMenu.colliderLevels.collidepoint(mousePos):
+            elif MainMenu.hitboxLevels.collidepoint(mousePos):
                 MainMenu.image = MainMenu.LEVELS
-            elif MainMenu.colliderSettings.collidepoint(mousePos):
+            elif MainMenu.hitboxSettings.collidepoint(mousePos):
                 MainMenu.image = MainMenu.SETTINGS
-            elif MainMenu.colliderExit.collidepoint(mousePos):
+            elif MainMenu.hitboxExit.collidepoint(mousePos):
                 MainMenu.image = MainMenu.EXIT
 
     @staticmethod
@@ -71,14 +70,14 @@ class MainMenu:
         if MainMenu.isOpen:
             mousePos = pygame.mouse.get_pos()
 
-            if MainMenu.colliderPlay.collidepoint(mousePos) and MainMenu.image == MainMenu.PLAY:
+            if MainMenu.hitboxPlay.collidepoint(mousePos) and MainMenu.image == MainMenu.PLAY:
                 LevelManager.LevelManager.nextLevel()
                 MainMenu.isOpen = False
-            elif MainMenu.colliderLevels.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS:
+            elif MainMenu.hitboxLevels.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS:
                 print("Open levels")
-            elif MainMenu.colliderSettings.collidepoint(mousePos) and MainMenu.image == MainMenu.SETTINGS:
+            elif MainMenu.hitboxSettings.collidepoint(mousePos) and MainMenu.image == MainMenu.SETTINGS:
                 print("Open settings")
-            elif MainMenu.colliderExit.collidepoint(mousePos) and MainMenu.image == MainMenu.EXIT:
+            elif MainMenu.hitboxExit.collidepoint(mousePos) and MainMenu.image == MainMenu.EXIT:
                 Game.Game.isRunning = False
 
             MainMenu.image = MainMenu.DEFAULT
