@@ -42,6 +42,8 @@ class Player(pygame.sprite.Sprite):
         self.startingPosition = (100, 100)
         self.restart()
         self._prevVelocityX = 0 #it's used for animations
+        self._prevVelocityY = 0 #it's used for animations
+        self._isFacingRight = True
         self.currentIdleAnimation = None
         self._selectRandomIdleAnimation()
 
@@ -69,13 +71,16 @@ class Player(pygame.sprite.Sprite):
 
     def _move(self, keyPressed):
         self._prevVelocityX = self._velocityX #it's used for animations
+        self._prevVelocityY = self._velocityY #it's used for animations
         self._velocityX = 0
         self._velocityY += 0.2 * Timer.deltaTime / 10
 
         if keyPressed[pygame.K_a]:
             self._velocityX -= self.speed
+            self._isFacingRight = False
         if keyPressed[pygame.K_d]:
             self._velocityX += self.speed
+            self._isFacingRight = True
         if keyPressed[pygame.K_w] and self.canJump:
             self._velocityY = - self.speed * 3
             self.canJump = False
@@ -207,39 +212,39 @@ class Player(pygame.sprite.Sprite):
 
         if self._velocityY != 0:
             if abs(self._velocityY) < 2:
-                if self._velocityX > 0:
+                if self._isFacingRight:
                     self.image = Player.IMG_FLYING_RIGHT
                     return
-                elif self._velocityX < 0:
+                else:
                     self.image = Player.IMG_FLYING_LEFT
                     return
 
             elif self._velocityY > 0:
-                if self._velocityX > 0:
+                if self._isFacingRight:
                     self.image = Player.IMG_FALL_DOWN_RIGHT
                     return
-                elif self._velocityX < 0:
+                else:
                     self.image = Player.IMG_FALL_DOWN_LEFT
                     return
             else:
-                if self._velocityX > 0:
+                if self._isFacingRight:
                     self.image = Player.IMG_JUMP_UP_RIGHT
                     return
-                elif self._velocityX < 0:
+                else:
                     self.image = Player.IMG_JUMP_UP_LEFT
                     return
         else:
             if self._velocityX is 0:
-                if self._prevVelocityX is not 0:
+                if self._prevVelocityX is not 0 or (self._prevVelocityY is not 0 and self._velocityY is 0):
                     self._selectRandomIdleAnimation()
                 animationSpeed = 3.5
                 animation = self.currentIdleAnimation
 
-            elif self._velocityX > 0:
+            elif self._isFacingRight:
                 animationSpeed = 12
                 animation = Player.ANIMATION_WALK_RIGHT
 
-            elif self._velocityX < 0:
+            else:
                 animationSpeed = 12
                 animation = Player.ANIMATION_WALK_LEFT
 
@@ -258,14 +263,14 @@ class Player(pygame.sprite.Sprite):
         rand = randrange(10)
         if rand is not 1:
             randStandingAnimation = randrange(2)
-            if self._prevVelocityX < 0:
-                self.currentIdleAnimation = self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_LEFT[randStandingAnimation]
-            else:
+            if self._isFacingRight:
                 self.currentIdleAnimation = self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_RIGHT[randStandingAnimation]
+            else:
+                self.currentIdleAnimation = self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_LEFT[randStandingAnimation]
             return
 
         randAnimation = randrange(len(Player.ALL_IDLE_ANIMATIONS_RIGHT))
-        if self._prevVelocityX < 0:
-            self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_LEFT[randAnimation]
-        else:
+        if self._isFacingRight:
             self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_RIGHT[randAnimation]
+        else:
+            self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_LEFT[randAnimation]
