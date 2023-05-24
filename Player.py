@@ -34,7 +34,7 @@ class Player(pygame.sprite.Sprite):
         self._prevAnimationFrame = 0
         self.image = Player.ANIMATION_WALK_RIGHT[0]
         self.rect = self.image.get_rect()
-        self.collider = self.rect.scale_by(0.65, 0.35)
+        self.collider = self.rect.scale_by(0.5, 0.35)
         self._velocityX = 0
         self._velocityY = 0
         self.speed = 3
@@ -62,7 +62,7 @@ class Player(pygame.sprite.Sprite):
 
     def render(self):
         self.rect.bottomleft = self.collider.bottomleft
-        self.rect.centerx -= 15
+        self.rect.centerx -= 28
         screen.blit(self.image, Camera.Camera.relativePosition(self.rect.topleft))
         #pygame.draw.rect(screen, (255, 0, 0), self.collider)
 
