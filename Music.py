@@ -9,7 +9,6 @@ MUSIC_ENDED = pygame.USEREVENT + 1
 class Music:
     @staticmethod
     def start():
-        print("Play music!")
         NUMBER_OF_MUSICS = 5
         music = randrange(NUMBER_OF_MUSICS) + 1
         pygame.mixer.music.load(f"sounds/music/{music}.wav")

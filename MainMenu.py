@@ -36,6 +36,7 @@ class MainMenu:
     BACKGROUND1 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/background/1.png"), (1600, 900)).convert_alpha()
     BACKGROUND2 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/background/2.png"), (1600, 900)).convert_alpha()
 
+    pygame.mixer.init()
     CLICK_SOUND = pygame.mixer.Sound("sounds/click.wav")
 
     hitboxPlay = pygame.Rect(633, 220, 335, 96)

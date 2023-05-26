@@ -32,8 +32,6 @@ class Player(pygame.sprite.Sprite):
     ALL_IDLE_ANIMATIONS_RIGHT = []
     ALL_IDLE_ANIMATIONS_LEFT = []
 
-    pygame.mixer.init()
-
     _animationWasSetUp = False
 
     def __init__(self):
