@@ -5,11 +5,14 @@ import pygame.mixer
 
 import Block
 import GameInfo
+import InGameMenu
 import LevelManager
 import Camera
+import MainMenu
 from Obstacles import ObstacleManager
 from Screen import *
 from InnerTimer import *
+from threading import Timer
 
 
 class Player(pygame.sprite.Sprite):
@@ -19,7 +22,7 @@ class Player(pygame.sprite.Sprite):
     ANIMATION_WALK_LEFT = []
 
     SHADOW_AMOUNT = 4
-    IMG_SHADOW_RIGHT = None #pygame.Surface((100, 100))
+    IMG_SHADOW_RIGHT = None
     IMG_SHADOW_LEFT = None
 
     IMG_JUMP_UP_RIGHT = None
@@ -32,6 +35,10 @@ class Player(pygame.sprite.Sprite):
     ALL_IDLE_ANIMATIONS_RIGHT = []
     ALL_IDLE_ANIMATIONS_LEFT = []
 
+    #sounds
+    DASH_SOUND = pygame.mixer.Sound("sounds/dash.wav")
+    DASH_READY = pygame.mixer.Sound("sounds/dashReady.wav")
+
     _animationWasSetUp = False
 
     def __init__(self):
@@ -41,6 +48,7 @@ class Player(pygame.sprite.Sprite):
         self._prevAnimationFrame = 0
         self.image = Player.ANIMATION_WALK_RIGHT[0]
         self.rect = self.image.get_rect()
+
         #Movement
         self.collider = self.rect.scale_by(0.5, 0.35)
         self._velocityX = 0
@@ -99,12 +107,14 @@ class Player(pygame.sprite.Sprite):
     def restart(self):
         self.collider.center = self.startingPosition
         self.last_dash_time = time.time() - self._DASH_DELAY
+        Player.DASH_SOUND.set_volume(GameInfo.GameInfo.getSound())
+        Player.DASH_READY.set_volume(GameInfo.GameInfo.getSound())
 
     def _move(self, keyPressed):
         self._prevVelocityX = self._velocityX #it's used for animations
         self._prevVelocityY = self._velocityY #it's used for animations
         self._velocityX = 0
-        self._velocityY += 0.2 * Timer.deltaTime / 10
+        self._velocityY += 0.2 * InnerTime.deltaTime / 10
 
         if keyPressed[pygame.K_a]:
             self._velocityX -= self.speed
@@ -116,8 +126,8 @@ class Player(pygame.sprite.Sprite):
             self._velocityY = - self.speed * 3
             self.canJump = False
 
-        self.collider.centerx += self._velocityX * Timer.deltaTime / 10
-        self.collider.centery += self._velocityY * Timer.deltaTime / 10
+        self.collider.centerx += self._velocityX * InnerTime.deltaTime / 10
+        self.collider.centery += self._velocityY * InnerTime.deltaTime / 10
 
     def _dash(self, keyPressed):
         if keyPressed[pygame.K_LSHIFT] and time.time() > self.last_dash_time + self._DASH_DELAY:
@@ -137,7 +147,16 @@ class Player(pygame.sprite.Sprite):
                     self.shadowImagesPos[i] = pygame.Rect((self.rect.topleft), (0, 0))
                     self.shadowImagesPos[i].centerx += self._DASH_DISTANCE * i/Player.SHADOW_AMOUNT - self._DASH_DISTANCE
 
+            Player.DASH_SOUND.play()
+            t = Timer(self._DASH_DELAY, self._dashReadySound)
+            t.start()
             self.last_dash_time = time.time()
+
+    def _dashReadySound(self):
+        if MainMenu.MainMenu.isOpen:
+            return
+        else:
+            Player.DASH_READY.play()
 
     def _returnShadowAlpha(self, i):
         alpha = 250 - (i / Player.SHADOW_AMOUNT) * 250

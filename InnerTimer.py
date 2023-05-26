@@ -1,6 +1,6 @@
 import datetime
 
-class Timer:
+class InnerTime:
     _prevTime = None
 
     # Time in ms from previous frame, it's used to update objects
@@ -8,12 +8,12 @@ class Timer:
 
     @staticmethod
     def update():
-        if Timer._prevTime is None:
-            Timer._prevTime = datetime.datetime.now()
-        Timer.deltaTime = ((datetime.datetime.now() - Timer._prevTime).microseconds) / 1000
-        if Timer.deltaTime > 250:
-            Timer.deltaTime = 0
-        Timer._prevTime = datetime.datetime.now()
+        if InnerTime._prevTime is None:
+            InnerTime._prevTime = datetime.datetime.now()
+        InnerTime.deltaTime = ((datetime.datetime.now() - InnerTime._prevTime).microseconds) / 1000
+        if InnerTime.deltaTime > 250:
+            InnerTime.deltaTime = 0
+        InnerTime._prevTime = datetime.datetime.now()
 
 
     _framesThisSecond = 0
@@ -21,10 +21,10 @@ class Timer:
 
     @staticmethod
     def showFps():
-        if Timer._lastSecond == datetime.datetime.now().second:
-            Timer._framesThisSecond += 1
+        if InnerTime._lastSecond == datetime.datetime.now().second:
+            InnerTime._framesThisSecond += 1
         else:
-            Timer._lastSecond = datetime.datetime.now().second
-            if Timer._framesThisSecond is not 0:
-                print(f"FPS: {Timer._framesThisSecond}")
-            Timer._framesThisSecond = 0
+            InnerTime._lastSecond = datetime.datetime.now().second
+            if InnerTime._framesThisSecond is not 0:
+                print(f"FPS: {InnerTime._framesThisSecond}")
+            InnerTime._framesThisSecond = 0

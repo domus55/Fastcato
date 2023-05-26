@@ -5,7 +5,7 @@ import pygame
 import Camera
 import LevelManager
 import Player
-from InnerTimer import Timer
+from InnerTimer import InnerTime
 from Screen import screen
 
 
@@ -41,7 +41,7 @@ class Cloud():
             Cloud.IMGAGES.append(img.convert_alpha())
 
     def update(self):
-        self.posX += self.speed * Timer.deltaTime / 10
+        self.posX += self.speed * InnerTime.deltaTime / 10
         if self.posX < -300 or self.posX > 16000:
             self.speed *= -1
 

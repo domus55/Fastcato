@@ -7,7 +7,7 @@ from Block import Block
 from Camera import Camera
 from GameInfo import GameInfo
 from InGameMenu import InGameMenu
-from InnerTimer import Timer
+from InnerTimer import InnerTime
 from LevelManager import LevelManager
 from MainMenu import MainMenu
 from Music import Music
@@ -30,14 +30,14 @@ class Game:
         CloudManager.initialize()
 
     def update(self):
-        Timer.update()
+        InnerTime.update()
         #Timer.showFps()
         EventHandler.update()
         if MainMenu.isOpen:
             MainMenu.update()
-        elif InGameMenu.isOpen:
-            InGameMenu.update(Game.keyPressed)
         else:
+            if InGameMenu.isOpen:
+                InGameMenu.update(Game.keyPressed)
             ObstacleManager.updateAll()
             Player.getInstance().update(Game.keyPressed)
             FinishPoint.update()
@@ -48,14 +48,14 @@ class Game:
     def render(self):
         if MainMenu.isOpen:
             MainMenu.render()
-        elif InGameMenu.isOpen:
-            InGameMenu.render()
         else:
             Background.getInstance().render()
             Player.getInstance().render()
             ObstacleManager.renderAll()
             FinishPoint.render()
             Block.renderAll()
+            if InGameMenu.isOpen:
+                InGameMenu.render()
         screenRender()
 
 
