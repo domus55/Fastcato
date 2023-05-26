@@ -18,6 +18,10 @@ class Player(pygame.sprite.Sprite):
     ANIMATION_WALK_RIGHT = []
     ANIMATION_WALK_LEFT = []
 
+    SHADOW_AMOUNT = 4
+    IMG_SHADOW_RIGHT = None #pygame.Surface((100, 100))
+    IMG_SHADOW_LEFT = None
+
     IMG_JUMP_UP_RIGHT = None
     IMG_JUMP_UP_LEFT = None
     IMG_FLYING_RIGHT = None
@@ -39,18 +43,30 @@ class Player(pygame.sprite.Sprite):
         self._prevAnimationFrame = 0
         self.image = Player.ANIMATION_WALK_RIGHT[0]
         self.rect = self.image.get_rect()
+        #Movement
         self.collider = self.rect.scale_by(0.5, 0.35)
         self._velocityX = 0
         self._velocityY = 0
         self.speed = 3
         self.canJump = False
         self.startingPosition = (100, 100)
-        self.restart()
+
+        #Dash
+        self._DASH_DELAY = 3 #in seconds
+        self._DASH_DISTANCE = 150
+        self._DASH_ANIMATION_TIME = 1  # in seconds
+        self.last_dash_time = time.time() - self._DASH_DELAY
+        self.shadowImagesPos = [pygame.Rect(0, 0, 0, 0)] * Player.SHADOW_AMOUNT
+        self._shadowFacingRight = True
+
+        #Animation
         self._prevVelocityX = 0 #it's used for animations
         self._prevVelocityY = 0 #it's used for animations
         self._isFacingRight = True
         self.currentIdleAnimation = None
         self._selectRandomIdleAnimation()
+
+        self.restart()
 
     @staticmethod
     def getInstance():
@@ -60,6 +76,7 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, keyPressed):
         self._move(keyPressed)
+        self._dash(keyPressed)
         self._isOutOfMap()
         self._collisionWithBlock()
         self._collisionWithObstacle()
@@ -69,10 +86,21 @@ class Player(pygame.sprite.Sprite):
         self.rect.bottomleft = self.collider.bottomleft
         self.rect.centerx -= 28
         screen.blit(self.image, Camera.Camera.relativePosition(self.rect.topleft))
+
+        if time.time() < self.last_dash_time + self._DASH_ANIMATION_TIME:
+            for i in range(Player.SHADOW_AMOUNT):
+                alpha = self._returnShadowAlpha(i)
+                if self._shadowFacingRight:
+                    Player.IMG_SHADOW_RIGHT.set_alpha(alpha)
+                    screen.blit(Player.IMG_SHADOW_RIGHT, Camera.Camera.relativePosition(self.shadowImagesPos[i].topleft))
+                else:
+                    Player.IMG_SHADOW_LEFT.set_alpha(alpha)
+                    screen.blit(Player.IMG_SHADOW_LEFT, Camera.Camera.relativePosition(self.shadowImagesPos[i].topleft))
         #pygame.draw.rect(screen, (255, 0, 0), self.collider)
 
     def restart(self):
         self.collider.center = self.startingPosition
+        self.last_dash_time = time.time() - self._DASH_DELAY
 
     def _move(self, keyPressed):
         self._prevVelocityX = self._velocityX #it's used for animations
@@ -92,6 +120,32 @@ class Player(pygame.sprite.Sprite):
 
         self.collider.centerx += self._velocityX * Timer.deltaTime / 10
         self.collider.centery += self._velocityY * Timer.deltaTime / 10
+
+    def _dash(self, keyPressed):
+        if keyPressed[pygame.K_LSHIFT] and time.time() > self.last_dash_time + self._DASH_DELAY:
+            #print(f"{time.time()}, {self._DASH_DELAY - self.last_dash_time}")
+
+            if self._isFacingRight:
+                self._shadowFacingRight = True
+                self.collider.centerx += self._DASH_DISTANCE
+                for i in range(Player.SHADOW_AMOUNT):
+                    self.shadowImagesPos[i] = pygame.Rect((self.rect.topleft), (0, 0))
+                    self.shadowImagesPos[i].centerx -= self._DASH_DISTANCE * i/Player.SHADOW_AMOUNT - self._DASH_DISTANCE
+
+            else:
+                self._shadowFacingRight = False
+                self.collider.centerx -= self._DASH_DISTANCE
+                for i in range(Player.SHADOW_AMOUNT):
+                    self.shadowImagesPos[i] = pygame.Rect((self.rect.topleft), (0, 0))
+                    self.shadowImagesPos[i].centerx += self._DASH_DISTANCE * i/Player.SHADOW_AMOUNT - self._DASH_DISTANCE
+
+            self.last_dash_time = time.time()
+
+    def _returnShadowAlpha(self, i):
+        alpha = 250 - (i / Player.SHADOW_AMOUNT) * 250
+        alpha *= 1 - (time.time() - self.last_dash_time) / self._DASH_ANIMATION_TIME
+        return int(alpha)
+
 
     def _isOutOfMap(self):
         #Stop on the left wall
@@ -188,7 +242,7 @@ class Player(pygame.sprite.Sprite):
         flippedImage = pygame.transform.flip(readyImg, True, False)
         Player.IMG_FALL_DOWN_LEFT = flippedImage.convert_alpha()
 
-        #idle animation1
+        #idle animations
         for i in range(6):
             idleAnimationRight = []
             idleAnimationLeft = []
@@ -207,6 +261,15 @@ class Player(pygame.sprite.Sprite):
 
             Player.ALL_IDLE_ANIMATIONS_RIGHT.append(idleAnimationRight)
             Player.ALL_IDLE_ANIMATIONS_LEFT.append(idleAnimationLeft)
+
+        #dash
+        dashImage = pygame.image.load(f"images/cat/dash.png").convert_alpha()
+        dashImage = pygame.transform.scale(dashImage, (SIZE, SIZE))
+
+        Player.IMG_SHADOW_RIGHT = dashImage
+
+        flippedImage = pygame.transform.flip(Player.IMG_SHADOW_RIGHT, True, False)
+        Player.IMG_SHADOW_LEFT = flippedImage
 
         Player._animationWasSetUp = True
 
@@ -261,7 +324,6 @@ class Player(pygame.sprite.Sprite):
             else:
                 self._prevAnimationFrame = currentTime % len(animation)
             self.image = animation[self._prevAnimationFrame]
-
 
     def _selectRandomIdleAnimation(self):
         #Thanks to this if statement there is 90% chance of getting standing animation

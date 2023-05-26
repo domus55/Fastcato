@@ -28,7 +28,7 @@ class LevelManager:
 
     @staticmethod
     def Initialize():
-        LevelManager.currentLevel = 0
+        LevelManager.currentLevel = 1
         LevelManager.restartLevel()
 
     @staticmethod
