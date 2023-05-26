@@ -4,6 +4,7 @@ import CloudManager
 import Game
 import GameInfo
 import LevelManager
+import Music
 import Screen
 
 '''You may find it strange that there are no button graphics. 
@@ -35,6 +36,8 @@ class MainMenu:
     BACKGROUND1 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/background/1.png"), (1600, 900)).convert_alpha()
     BACKGROUND2 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/background/2.png"), (1600, 900)).convert_alpha()
 
+    CLICK_SOUND = pygame.mixer.Sound("sounds/click.wav")
+
     hitboxPlay = pygame.Rect(633, 220, 335, 96)
     hitboxLevels = pygame.Rect(633, 341, 335, 96)
     hitboxSettings = pygame.Rect(633, 462, 335, 96)
@@ -53,6 +56,7 @@ class MainMenu:
     @staticmethod
     def open():
         MainMenu.isOpen = True
+        MainMenu.CLICK_SOUND.set_volume(GameInfo.GameInfo.getSound())
         CloudManager.CloudManager.initialize()
 
     @staticmethod
@@ -68,9 +72,9 @@ class MainMenu:
         Screen.screen.blit(MainMenu.BACKGROUND2, (0, 0))
         Screen.screen.blit(MainMenu.image, (600, 187))
         if MainMenu.inSettings:
-            for i in range(GameInfo.GameInfo.getSound()):
+            for i in range(GameInfo.GameInfo._sound):
                 Screen.screen.blit(MainMenu.SETTINGS_ACTIVE_BAR, (788 + i * 19, 334))
-            for i in range(GameInfo.GameInfo.getMusic()):
+            for i in range(GameInfo.GameInfo._music):
                 Screen.screen.blit(MainMenu.SETTINGS_ACTIVE_BAR, (788 + i * 19, 424))
         #pygame.draw.rect(Screen.screen, (255, 0, 0), MainMenu.hitboxSoundUp)
 
@@ -82,23 +86,32 @@ class MainMenu:
             if MainMenu.inSettings:
                 if MainMenu.hitboxSettingBack.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS_BACK
+                    MainMenu.CLICK_SOUND.play()
                 elif MainMenu.hitboxSoundUp.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS_SOUND_UP
+                    MainMenu.CLICK_SOUND.play()
                 elif MainMenu.hitboxSoundDown.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS_SOUND_DOWN
+                    MainMenu.CLICK_SOUND.play()
                 elif MainMenu.hitboxMusicUp.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS_MUSIC_UP
+                    MainMenu.CLICK_SOUND.play()
                 elif MainMenu.hitboxMusicDown.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS_MUSIC_DOWN
+                    MainMenu.CLICK_SOUND.play()
             else:
                 if MainMenu.hitboxPlay.collidepoint(mousePos):
                     MainMenu.image = MainMenu.PLAY
+                    MainMenu.CLICK_SOUND.play()
                 elif MainMenu.hitboxLevels.collidepoint(mousePos):
                     MainMenu.image = MainMenu.LEVELS
+                    MainMenu.CLICK_SOUND.play()
                 elif MainMenu.hitboxSettings.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS
+                    MainMenu.CLICK_SOUND.play()
                 elif MainMenu.hitboxExit.collidepoint(mousePos):
                     MainMenu.image = MainMenu.EXIT
+                    MainMenu.CLICK_SOUND.play()
 
     @staticmethod
     def mouseButtonUp():
@@ -119,6 +132,9 @@ class MainMenu:
                 elif MainMenu.hitboxMusicDown.collidepoint(mousePos) and MainMenu.image == MainMenu.SETTINGS_MUSIC_DOWN:
                     GameInfo.GameInfo.musicDown()
                 MainMenu.image = MainMenu.SETTINGS_DEFAULT
+                MainMenu.CLICK_SOUND.set_volume(GameInfo.GameInfo.getSound())
+                Music.Music.adjustVolume()
+                GameInfo.GameInfo.save()
             else:
                 if MainMenu.hitboxPlay.collidepoint(mousePos) and MainMenu.image == MainMenu.PLAY:
                     LevelManager.LevelManager.nextLevel()
@@ -133,6 +149,8 @@ class MainMenu:
                     Game.Game.isRunning = False
 
                 MainMenu.image = MainMenu.DEFAULT
+
+
 
 
 

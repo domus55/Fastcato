@@ -24,8 +24,25 @@ class GameInfo:
 
     @staticmethod
     def getSound():
-        return GameInfo._sound
+        return GameInfo._sound/6
 
     @staticmethod
     def getMusic():
-        return GameInfo._music
+        return GameInfo._music/6
+
+    @staticmethod
+    def save():
+        with open('game_settings.txt', 'w') as f:
+            f.write(f"{GameInfo._sound}\n{GameInfo._music}")
+
+    @staticmethod
+    def load():
+        with open('game_settings.txt') as f:
+            try:
+                GameInfo._sound = int(f.readline())
+                GameInfo._music = int(f.readline())
+            except:
+                GameInfo._sound = 6
+                GameInfo._music = 6
+                GameInfo.save()
+

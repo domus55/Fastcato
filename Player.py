@@ -1,7 +1,10 @@
 import time
 from random import randrange
 
+import pygame.mixer
+
 import Block
+import GameInfo
 import LevelManager
 import Camera
 from Obstacles import ObstacleManager
@@ -24,6 +27,8 @@ class Player(pygame.sprite.Sprite):
 
     ALL_IDLE_ANIMATIONS_RIGHT = []
     ALL_IDLE_ANIMATIONS_LEFT = []
+
+    pygame.mixer.init()
 
     _animationWasSetUp = False
 

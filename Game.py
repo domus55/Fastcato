@@ -5,10 +5,12 @@ from CloudManager import CloudManager
 from FinishPoint import FinishPoint
 from Block import Block
 from Camera import Camera
+from GameInfo import GameInfo
 from InGameMenu import InGameMenu
 from InnerTimer import Timer
 from LevelManager import LevelManager
 from MainMenu import MainMenu
+from Music import Music
 from Obstacles.ObstacleManager import ObstacleManager
 from Player import Player
 from Screen import screen, screenRender, screenInitialize
@@ -21,6 +23,8 @@ class Game:
     def __init__(self):
         self._maxFps = 10005
         self._clock = clock = pygame.time.Clock()
+        GameInfo.load()
+        Music.start()
         LevelManager.Initialize()
         screenInitialize()
         CloudManager.initialize()
