@@ -16,8 +16,6 @@ class InGameMenu:
     RESTART = pygame.transform.scale(pygame.image.load("images/gui/inGameMenu/restartActive.png"), (400, 405)).convert_alpha()
     EXIT = pygame.transform.scale(pygame.image.load("images/gui/inGameMenu/exitActive.png"), (400, 405)).convert_alpha()
 
-    CLICK_SOUND = pygame.mixer.Sound("sounds/click.wav")
-
     hitboxResume = pygame.Rect(633, 280, 335, 96)
     hitboxRestart = pygame.Rect(633, 401, 335, 96)
     hitboxExit = pygame.Rect(633, 522, 335, 96)
@@ -27,7 +25,7 @@ class InGameMenu:
     @staticmethod
     def open():
         InGameMenu.isOpen = not InGameMenu.isOpen
-        MainMenu.CLICK_SOUND.set_volume(GameInfo.GameInfo.getSound())
+        MainMenu.SOUND_CLICK.set_volume(GameInfo.GameInfo.getSound())
 
     @staticmethod
     def update(keyPressed):
@@ -46,13 +44,13 @@ class InGameMenu:
 
             if InGameMenu.hitboxResume.collidepoint(mousePos):
                 InGameMenu.image = InGameMenu.RESUME
-                MainMenu.CLICK_SOUND.play()
+                MainMenu.SOUND_CLICK.play()
             elif InGameMenu.hitboxRestart.collidepoint(mousePos):
                 InGameMenu.image = InGameMenu.RESTART
-                MainMenu.CLICK_SOUND.play()
+                MainMenu.SOUND_CLICK.play()
             elif InGameMenu.hitboxExit.collidepoint(mousePos):
                 InGameMenu.image = InGameMenu.EXIT
-                MainMenu.CLICK_SOUND.play()
+                MainMenu.SOUND_CLICK.play()
 
     @staticmethod
     def mouseButtonUp():

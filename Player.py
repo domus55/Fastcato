@@ -4,6 +4,7 @@ from random import randrange
 import pygame.mixer
 
 import Block
+import Deadline
 import GameInfo
 import InGameMenu
 import LevelManager
@@ -109,6 +110,7 @@ class Player(pygame.sprite.Sprite):
         self.last_dash_time = time.time() - self._DASH_DELAY
         Player.DASH_SOUND.set_volume(GameInfo.GameInfo.getSound())
         Player.DASH_READY.set_volume(GameInfo.GameInfo.getSound())
+        Deadline.Deadline.stop()
 
     def _move(self, keyPressed):
         self._prevVelocityX = self._velocityX #it's used for animations

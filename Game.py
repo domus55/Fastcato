@@ -2,6 +2,7 @@ import pygame
 
 import EventHandler
 from CloudManager import CloudManager
+from Deadline import Deadline
 from FinishPoint import FinishPoint
 from Block import Block
 from Camera import Camera
@@ -44,6 +45,7 @@ class Game:
             Camera.update(Player.getInstance()) #must be called after player update
             Background.getInstance().update()
             CloudManager.update()
+            Deadline.update(Game.keyPressed)
 
     def render(self):
         if MainMenu.isOpen:
@@ -54,6 +56,7 @@ class Game:
             ObstacleManager.renderAll()
             FinishPoint.render()
             Block.renderAll()
+            Deadline.render()
             if InGameMenu.isOpen:
                 InGameMenu.render()
         screenRender()

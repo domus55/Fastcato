@@ -37,8 +37,7 @@ class MainMenu:
     BACKGROUND2 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/background/2.png"), (1600, 900)).convert_alpha()
 
     #Sounds
-    pygame.mixer.init()
-    CLICK_SOUND = pygame.mixer.Sound("sounds/click.wav")
+    SOUND_CLICK = pygame.mixer.Sound("sounds/click.wav")
 
     hitboxPlay = pygame.Rect(633, 220, 335, 96)
     hitboxLevels = pygame.Rect(633, 341, 335, 96)
@@ -58,7 +57,7 @@ class MainMenu:
     @staticmethod
     def open():
         MainMenu.isOpen = True
-        MainMenu.CLICK_SOUND.set_volume(GameInfo.GameInfo.getSound())
+        MainMenu.SOUND_CLICK.set_volume(GameInfo.GameInfo.getSound())
         CloudManager.CloudManager.initialize()
 
     @staticmethod
@@ -88,32 +87,32 @@ class MainMenu:
             if MainMenu.inSettings:
                 if MainMenu.hitboxSettingBack.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS_BACK
-                    MainMenu.CLICK_SOUND.play()
+                    MainMenu.SOUND_CLICK.play()
                 elif MainMenu.hitboxSoundUp.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS_SOUND_UP
-                    MainMenu.CLICK_SOUND.play()
+                    MainMenu.SOUND_CLICK.play()
                 elif MainMenu.hitboxSoundDown.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS_SOUND_DOWN
-                    MainMenu.CLICK_SOUND.play()
+                    MainMenu.SOUND_CLICK.play()
                 elif MainMenu.hitboxMusicUp.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS_MUSIC_UP
-                    MainMenu.CLICK_SOUND.play()
+                    MainMenu.SOUND_CLICK.play()
                 elif MainMenu.hitboxMusicDown.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS_MUSIC_DOWN
-                    MainMenu.CLICK_SOUND.play()
+                    MainMenu.SOUND_CLICK.play()
             else:
                 if MainMenu.hitboxPlay.collidepoint(mousePos):
                     MainMenu.image = MainMenu.PLAY
-                    MainMenu.CLICK_SOUND.play()
+                    MainMenu.SOUND_CLICK.play()
                 elif MainMenu.hitboxLevels.collidepoint(mousePos):
                     MainMenu.image = MainMenu.LEVELS
-                    MainMenu.CLICK_SOUND.play()
+                    MainMenu.SOUND_CLICK.play()
                 elif MainMenu.hitboxSettings.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS
-                    MainMenu.CLICK_SOUND.play()
+                    MainMenu.SOUND_CLICK.play()
                 elif MainMenu.hitboxExit.collidepoint(mousePos):
                     MainMenu.image = MainMenu.EXIT
-                    MainMenu.CLICK_SOUND.play()
+                    MainMenu.SOUND_CLICK.play()
 
     @staticmethod
     def mouseButtonUp():
@@ -134,7 +133,7 @@ class MainMenu:
                 elif MainMenu.hitboxMusicDown.collidepoint(mousePos) and MainMenu.image == MainMenu.SETTINGS_MUSIC_DOWN:
                     GameInfo.GameInfo.musicDown()
                 MainMenu.image = MainMenu.SETTINGS_DEFAULT
-                MainMenu.CLICK_SOUND.set_volume(GameInfo.GameInfo.getSound())
+                MainMenu.SOUND_CLICK.set_volume(GameInfo.GameInfo.getSound())
                 Music.Music.adjustVolume()
                 GameInfo.GameInfo.save()
             else:
