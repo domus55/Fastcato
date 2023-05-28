@@ -1,4 +1,5 @@
 import pygame
+import pygame.freetype
 
 import CloudManager
 import Game
@@ -18,6 +19,8 @@ I can handle all click event in here getting rid of unnecessary mess
 class MainMenu:
     isOpen = False
     inSettings = False
+    inLevels = False
+    levelsPage = 0
 
     DEFAULT = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/default.png"), (400, 525)).convert_alpha()
     PLAY = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/playActive.png"), (400, 525)).convert_alpha()
@@ -33,23 +36,43 @@ class MainMenu:
     SETTINGS_MUSIC_DOWN = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/settings/musicDown.png"), (400, 525)).convert_alpha()
     SETTINGS_ACTIVE_BAR = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/settings/activeBar.png"), (15, 45)).convert_alpha()
 
+    LEVELS_DEFAULT = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/levels/default.png"), (400, 525)).convert_alpha()
+    LEVELS_BACK = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/levels/back.png"), (400, 525)).convert_alpha()
+    LEVELS_NEXT = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/levels/next.png"), (400, 525)).convert_alpha()
+    LEVELS_PREV = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/levels/prev.png"), (400, 525)).convert_alpha()
+    LEVELS_1 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/levels/1.png"), (400, 525)).convert_alpha()
+    LEVELS_2 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/levels/2.png"), (400, 525)).convert_alpha()
+    LEVELS_3 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/levels/3.png"), (400, 525)).convert_alpha()
+
     BACKGROUND1 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/background/1.png"), (1600, 900)).convert_alpha()
     BACKGROUND2 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/background/2.png"), (1600, 900)).convert_alpha()
+
+    FONT = pygame.freetype.Font("fonts/mainMenu.ttf", 28)
+    FONT_COLOR = (182, 137, 98)
 
     #Sounds
     SOUND_CLICK = pygame.mixer.Sound("sounds/click.wav")
 
+    #main hitboxes
     hitboxPlay = pygame.Rect(633, 220, 335, 96)
     hitboxLevels = pygame.Rect(633, 341, 335, 96)
     hitboxSettings = pygame.Rect(633, 462, 335, 96)
     hitboxExit = pygame.Rect(633, 583, 335, 96)
 
+    #settings hitboxes
     hitboxSettingBack = pygame.Rect(633, 583, 335, 96)
-
     hitboxSoundUp = pygame.Rect(944, 320, 25, 74)
     hitboxSoundDown = pygame.Rect(918, 320, 25, 74)
     hitboxMusicUp = pygame.Rect(944, 411, 25, 74)
     hitboxMusicDown = pygame.Rect(918, 411, 25, 74)
+
+    #levels hitboxes
+    hitboxLevelsBack = pygame.Rect(633, 583, 272, 96)
+    hitboxLevelsPrev = pygame.Rect(918, 583, 25, 96)
+    hitboxLevelsNext = pygame.Rect(944, 583, 25, 96)
+    hitboxLevels1 = pygame.Rect(633, 313, 335, 64)
+    hitboxLevels2 = pygame.Rect(633, 404, 335, 64)
+    hitboxLevels3 = pygame.Rect(633, 494, 335, 64)
 
     image = DEFAULT
 
@@ -72,18 +95,31 @@ class MainMenu:
         CloudManager.CloudManager.renderAfterMountains()
         Screen.screen.blit(MainMenu.BACKGROUND2, (0, 0))
         Screen.screen.blit(MainMenu.image, (600, 187))
+
         if MainMenu.inSettings:
             for i in range(GameInfo.GameInfo._sound):
                 Screen.screen.blit(MainMenu.SETTINGS_ACTIVE_BAR, (788 + i * 19, 334))
             for i in range(GameInfo.GameInfo._music):
                 Screen.screen.blit(MainMenu.SETTINGS_ACTIVE_BAR, (788 + i * 19, 424))
-        #pygame.draw.rect(Screen.screen, (255, 0, 0), MainMenu.hitboxSoundUp)
+        if MainMenu.inLevels:
+            for i in range(3):
+                lvl = MainMenu.levelsPage*3+i+1
+                posY = 329 + i * 91
+
+                if eval("MainMenu.LEVELS_" + str(i+1)) is MainMenu.image:
+                    posY += 8
+
+                MainMenu.FONT.render_to(Screen.screen, (650, posY), str(lvl), MainMenu.FONT_COLOR)
+                MainMenu.FONT.render_to(Screen.screen, (811, posY), GameInfo.GameInfo.strLevelTime(lvl), MainMenu.FONT_COLOR)
+
+        #pygame.draw.rect(Screen.screen, (255, 0, 0), MainMenu.hitboxLevelsBack)
 
     @staticmethod
     def mouseButtonDown():
         if MainMenu.isOpen:
             mousePos = pygame.mouse.get_pos()
 
+            #in settings
             if MainMenu.inSettings:
                 if MainMenu.hitboxSettingBack.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS_BACK
@@ -100,6 +136,32 @@ class MainMenu:
                 elif MainMenu.hitboxMusicDown.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS_MUSIC_DOWN
                     MainMenu.SOUND_CLICK.play()
+            #in levels
+            elif MainMenu.inLevels:
+                if MainMenu.hitboxLevelsBack.collidepoint(mousePos):
+                    MainMenu.image = MainMenu.LEVELS_BACK
+                    MainMenu.SOUND_CLICK.play()
+                if MainMenu.hitboxLevelsPrev.collidepoint(mousePos):
+                    if MainMenu.levelsPage > 0:
+                        MainMenu.image = MainMenu.LEVELS_PREV
+                        MainMenu.SOUND_CLICK.play()
+                if MainMenu.hitboxLevelsNext.collidepoint(mousePos):
+                    if MainMenu.levelsPage < 2:
+                        MainMenu.image = MainMenu.LEVELS_NEXT
+                        MainMenu.SOUND_CLICK.play()
+                if MainMenu.hitboxLevels1.collidepoint(mousePos):
+                    if GameInfo.GameInfo.levelTime[MainMenu.levelsPage * 3] != 0.0 and GameInfo.GameInfo.levelTime[MainMenu.levelsPage * 3] <= 60.0:
+                        MainMenu.image = MainMenu.LEVELS_1
+                        MainMenu.SOUND_CLICK.play()
+                if MainMenu.hitboxLevels2.collidepoint(mousePos):
+                    if GameInfo.GameInfo.levelTime[MainMenu.levelsPage * 3 + 1] != 0.0 and GameInfo.GameInfo.levelTime[MainMenu.levelsPage * 3 + 1] <= 60.0:
+                        MainMenu.image = MainMenu.LEVELS_2
+                        MainMenu.SOUND_CLICK.play()
+                if MainMenu.hitboxLevels3.collidepoint(mousePos):
+                    if GameInfo.GameInfo.levelTime[MainMenu.levelsPage * 3 + 2] != 0.0 and GameInfo.GameInfo.levelTime[MainMenu.levelsPage * 3 + 2] <= 60.0:
+                        MainMenu.image = MainMenu.LEVELS_3
+                        MainMenu.SOUND_CLICK.play()
+            #in main
             else:
                 if MainMenu.hitboxPlay.collidepoint(mousePos):
                     MainMenu.image = MainMenu.PLAY
@@ -119,6 +181,7 @@ class MainMenu:
         if MainMenu.isOpen:
             mousePos = pygame.mouse.get_pos()
 
+            #in settings
             if MainMenu.inSettings:
                 if MainMenu.hitboxSettingBack.collidepoint(mousePos) and MainMenu.image == MainMenu.SETTINGS_BACK:
                     MainMenu.inSettings = False
@@ -135,13 +198,44 @@ class MainMenu:
                 MainMenu.image = MainMenu.SETTINGS_DEFAULT
                 MainMenu.SOUND_CLICK.set_volume(GameInfo.GameInfo.getSound())
                 Music.Music.adjustVolume()
-                GameInfo.GameInfo.save()
+                GameInfo.GameInfo.saveSettings()
+            #in levels
+            elif MainMenu.inLevels:
+                if MainMenu.hitboxLevelsBack.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS_BACK:
+                    MainMenu.inLevels = False
+                    MainMenu.image = MainMenu.DEFAULT
+                    return
+                elif MainMenu.hitboxLevelsPrev.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS_PREV:
+                    MainMenu.levelsPage -= 1
+                elif MainMenu.hitboxLevelsNext.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS_NEXT:
+                    MainMenu.levelsPage += 1
+                elif MainMenu.hitboxLevels1.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS_1:
+                    LevelManager.LevelManager.currentLevel = MainMenu.levelsPage * 3 + 1
+                    LevelManager.LevelManager.restartLevel()
+                    MainMenu.isOpen = False
+                elif MainMenu.hitboxLevels2.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS_2:
+                    LevelManager.LevelManager.currentLevel = MainMenu.levelsPage * 3 + 2
+                    LevelManager.LevelManager.restartLevel()
+                    MainMenu.isOpen = False
+                elif MainMenu.hitboxLevels3.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS_3:
+                    LevelManager.LevelManager.currentLevel = MainMenu.levelsPage * 3 + 3
+                    LevelManager.LevelManager.restartLevel()
+                    MainMenu.isOpen = False
+                MainMenu.image = MainMenu.LEVELS_DEFAULT
+            #in main
             else:
                 if MainMenu.hitboxPlay.collidepoint(mousePos) and MainMenu.image == MainMenu.PLAY:
-                    LevelManager.LevelManager.nextLevel()
-                    MainMenu.isOpen = False
+                    for i in reversed(range(GameInfo.GameInfo.NUMBER_OF_LEVELS)):
+                        if GameInfo.GameInfo.levelTime[i] != 0.0 and GameInfo.GameInfo.levelTime[i] <= 60.0:
+                            LevelManager.LevelManager.currentLevel = i + 1
+                            LevelManager.LevelManager.restartLevel()
+                            MainMenu.isOpen = False
+                            MainMenu.image = MainMenu.DEFAULT
+                            return
                 elif MainMenu.hitboxLevels.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS:
-                    print("Open levels")
+                    MainMenu.inLevels = True
+                    MainMenu.image = MainMenu.LEVELS_DEFAULT
+                    return
                 elif MainMenu.hitboxSettings.collidepoint(mousePos) and MainMenu.image == MainMenu.SETTINGS:
                     MainMenu.inSettings = True
                     MainMenu.image = MainMenu.SETTINGS_DEFAULT

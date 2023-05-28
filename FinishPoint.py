@@ -1,6 +1,8 @@
 import pygame
 
 import Camera
+import Deadline
+import GameInfo
 import LevelManager
 import Player
 from Screen import screen
@@ -26,4 +28,11 @@ class FinishPoint(pygame.sprite.Sprite):
     def update():
         if FinishPoint.instance is not None:
             if FinishPoint.instance.rect.colliderect(Player.Player.getInstance().collider):
-                LevelManager.LevelManager.nextLevel()
+                if GameInfo.GameInfo.levelTime[LevelManager.LevelManager.currentLevel] == 0.0 or\
+                        GameInfo.GameInfo.levelTime[LevelManager.LevelManager.currentLevel] > Deadline.Deadline.time():
+                    GameInfo.GameInfo.levelTime[LevelManager.LevelManager.currentLevel] = Deadline.Deadline.time()
+                    GameInfo.GameInfo.saveSave()
+                if Deadline.Deadline.time() <= 60:
+                    LevelManager.LevelManager.nextLevel()
+                else:
+                    LevelManager.LevelManager.restartLevel()

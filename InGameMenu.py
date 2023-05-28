@@ -5,7 +5,7 @@ import Game
 import GameInfo
 import LevelManager
 import Screen
-from MainMenu import MainMenu
+import MainMenu
 
 
 class InGameMenu:
@@ -25,7 +25,7 @@ class InGameMenu:
     @staticmethod
     def open():
         InGameMenu.isOpen = not InGameMenu.isOpen
-        MainMenu.SOUND_CLICK.set_volume(GameInfo.GameInfo.getSound())
+        MainMenu.MainMenu.SOUND_CLICK.set_volume(GameInfo.GameInfo.getSound())
 
     @staticmethod
     def update(keyPressed):
@@ -44,13 +44,13 @@ class InGameMenu:
 
             if InGameMenu.hitboxResume.collidepoint(mousePos):
                 InGameMenu.image = InGameMenu.RESUME
-                MainMenu.SOUND_CLICK.play()
+                MainMenu.MainMenu.SOUND_CLICK.play()
             elif InGameMenu.hitboxRestart.collidepoint(mousePos):
                 InGameMenu.image = InGameMenu.RESTART
-                MainMenu.SOUND_CLICK.play()
+                MainMenu.MainMenu.SOUND_CLICK.play()
             elif InGameMenu.hitboxExit.collidepoint(mousePos):
                 InGameMenu.image = InGameMenu.EXIT
-                MainMenu.SOUND_CLICK.play()
+                MainMenu.MainMenu.SOUND_CLICK.play()
 
     @staticmethod
     def mouseButtonUp():
@@ -63,8 +63,8 @@ class InGameMenu:
                 LevelManager.LevelManager.restartLevel()
                 InGameMenu.isOpen = False
             elif InGameMenu.hitboxExit.collidepoint(mousePos) and InGameMenu.image == InGameMenu.EXIT:
+                MainMenu.MainMenu.isOpen = True
                 InGameMenu.isOpen = False
-                MainMenu.isOpen = True
 
             InGameMenu.image = InGameMenu.DEFAULT
 

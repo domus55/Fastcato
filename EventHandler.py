@@ -1,8 +1,8 @@
 import pygame
 
 import Game
-import InGameMenu
 import MainMenu
+import InGameMenu
 import Music
 from Music import MUSIC_ENDED
 

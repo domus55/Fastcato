@@ -6,7 +6,7 @@ import Screen
 
 
 class Deadline:
-    _startTime = time.time() - 45
+    _startTime = time.time()
     _isRunning = False
     timeOut = False
 
@@ -34,10 +34,14 @@ class Deadline:
     @staticmethod
     def _start():
         Deadline.SOUND_TIMER.set_volume(GameInfo.GameInfo.getSound())
-        Deadline._startTime = time.time() - 45
+        Deadline._startTime = time.time()
         Deadline._isRunning = True
         Deadline.timeOut = False
         Deadline.color = (255, 255, 255)
+
+    @staticmethod
+    def time():
+        return time.time() - Deadline._startTime
 
     @staticmethod
     def stop():

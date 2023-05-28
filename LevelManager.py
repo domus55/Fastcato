@@ -1,7 +1,9 @@
 import pygame
 
 import CloudManager
+import Deadline
 import FinishPoint
+import GameInfo
 import MainMenu
 import Player
 import Block
@@ -9,10 +11,9 @@ from Obstacles import ObstacleManager
 
 
 class LevelManager:
-    LEVEL1 = pygame.image.load("images/levels/1.bmp")
-    LEVEL2 = pygame.image.load("images/levels/2.bmp")
+    IMG_LEVELS = []
 
-    #SPECIAL
+    #SPECIAL COLORS
     PLAYER_SPAWN = (255, 0, 0, 255)
     FINISH_LINE = (200, 200, 0, 255)
 
@@ -23,28 +24,21 @@ class LevelManager:
     HEADGEHOG = (200, 100, 100, 255)
 
     currentLevel = 1
-    currentLevelImg = LEVEL1
+    currentLevelImg = pygame.image.load("images/levels/1.bmp")
     player = None
 
     @staticmethod
     def Initialize():
-        LevelManager.currentLevel = 1
+        LevelManager.currentLevel = 0
+        LevelManager._loadImages()
         LevelManager.restartLevel()
-
-    @staticmethod
-    def update():
-        pass
 
     @staticmethod
     def restartLevel():
         Player.Player.getInstance().restart()
         Block.Block.allBlocks.clear()
         ObstacleManager.ObstacleManager.allObstacles.clear()
-
-        if LevelManager.currentLevel == 1:
-            LevelManager.currentLevelImg = LevelManager.LEVEL1
-        elif LevelManager.currentLevel == 2:
-            LevelManager.currentLevelImg = LevelManager.LEVEL2
+        LevelManager.currentLevelImg = LevelManager.IMG_LEVELS[LevelManager.currentLevel]
 
         if LevelManager.currentLevel == 0:
             Player.Player._instance = None
@@ -76,5 +70,15 @@ class LevelManager:
         Block.Block.setBlocks()
         Player.Player.getInstance().restart()
 
+    @staticmethod
+    def _loadImages():
+        try:
+            LevelManager.IMG_LEVELS.append(None)
+            for i in range(GameInfo.GameInfo.NUMBER_OF_LEVELS):
+                #print(f"images/levels/{i+1}.bmp")
+                img = pygame.image.load(f"images/levels/{i+1}.bmp")
+                LevelManager.IMG_LEVELS.append(img)
+        except:
+            print("Not all levels *.bmp files are existing!")
 
 
