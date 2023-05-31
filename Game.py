@@ -2,6 +2,7 @@ import pygame
 
 import EventHandler
 from BirdCounter import BirdCounter
+from Buttons import Buttons
 from CloudManager import CloudManager
 from Deadline import Deadline
 from Bird import Bird
@@ -54,6 +55,7 @@ class Game:
             MainMenu.render()
         else:
             Background.getInstance().render()
+            Buttons.renderAll()
             Player.getInstance().render()
             ObstacleManager.renderAll()
             Bird.renderAll()

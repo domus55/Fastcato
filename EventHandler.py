@@ -1,5 +1,6 @@
 import pygame
 
+import Buttons
 import Game
 import MainMenu
 import InGameMenu
@@ -8,6 +9,8 @@ from Music import MUSIC_ENDED
 
 
 def update():
+
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             Game.Game.isRunning = False
@@ -21,5 +24,10 @@ def update():
             InGameMenu.InGameMenu.mouseButtonUp()
         if event.type == MUSIC_ENDED:
             Music.Music.start()
+        if event.type == pygame.KEYDOWN:
+            Buttons.Buttons.buttonDown(pygame.key.get_pressed())
+        if event.type == pygame.KEYUP:
+            Buttons.Buttons.buttonDown(pygame.key.get_pressed())
 
     Game.Game.keyPressed = pygame.key.get_pressed()
+

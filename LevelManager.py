@@ -1,6 +1,7 @@
 import pygame
 
 import BirdCounter
+import Buttons
 import Camera
 import CloudManager
 import Deadline
@@ -59,11 +60,13 @@ class LevelManager:
         Block.Block.allBlocks.clear()
         ObstacleManager.ObstacleManager.allObstacles.clear()
         Bird.Bird.allBirds.clear()
+        Buttons.Buttons.allButton.clear()
 
         try:
             LevelManager.currentLevelImg = LevelManager.IMG_LEVELS[LevelManager.currentLevel]
         except:
             LevelManager.currentLevelImg = LevelManager.IMG_LEVELS[1]
+            LevelManager.currentLevel = 1
 
         if LevelManager.currentLevel == 0:
             Player.Player._instance = None
@@ -93,6 +96,8 @@ class LevelManager:
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.FINISH_LINE:
                     Bird.Bird.create((i, j))
 
+        LevelManager._loadAdditionalThings()
+
         Camera.Camera.borderRight = LevelManager.currentLevelImg.get_width() * 50 - 100
         BirdCounter.BirdCounter.restart()
         Block.Block.setBlocks()
@@ -107,5 +112,17 @@ class LevelManager:
                 LevelManager.IMG_LEVELS.append(img)
         except:
             print("Not all levels *.bmp files are existing!")
+
+    @staticmethod
+    def _loadAdditionalThings():
+        if LevelManager.currentLevel is 1:
+            x = 325
+            y = 500
+            Buttons.Buttons.add(Buttons.Buttons.Type.W, (x, y - 43))
+            Buttons.Buttons.add(Buttons.Buttons.Type.A, (x - 45, y))
+            Buttons.Buttons.add(Buttons.Buttons.Type.S, (x, y))
+            Buttons.Buttons.add(Buttons.Buttons.Type.D, (x + 45, y))
+
+            Buttons.Buttons.add(Buttons.Buttons.Type.LSHIFT, (3650, 400))
 
 

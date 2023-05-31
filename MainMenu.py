@@ -246,7 +246,7 @@ class MainMenu:
                         if GameInfo.GameInfo.levelTime[i] != 0.0 and GameInfo.GameInfo.levelTime[i] <= 60.0:
                             LevelManager.LevelManager.currentLevel = i + 1
                             LevelManager.LevelManager.restartLevel()
-                            MainMenu.state =  MainMenu.State.closed
+                            MainMenu.state = MainMenu.State.closed
                             MainMenu.image = MainMenu.DEFAULT
                             return
                 elif MainMenu.hitboxLevels.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS:
