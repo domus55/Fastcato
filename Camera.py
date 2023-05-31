@@ -4,7 +4,7 @@ import Screen
 
 
 class Camera:
-    LEFT_WALL = 0
+    LEFT_WALL = 50
     DELTA_X = 500
     SMOOTHNESS = 60
 

@@ -23,6 +23,7 @@ class LevelManager:
 
     #ENITIES
     HEADGEHOG = (200, 100, 100, 255)
+    DOG = (200, 120, 100, 255)
 
     currentLevel = 1
     currentLevelImg = pygame.image.load("images/levels/1.bmp")
@@ -71,7 +72,7 @@ class LevelManager:
 
     @staticmethod
     def loadLevel():
-        for i in range(100):
+        for i in range(LevelManager.currentLevelImg.get_width()):
             for j in range(20):
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.GRASS:
                     Block.Block.createBlock(Block.BlockType.GRASS, (i, j))
@@ -79,11 +80,12 @@ class LevelManager:
                     Player.Player.getInstance().startingPosition = (i * 50, j * 50)
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.HEADGEHOG:
                     ObstacleManager.ObstacleManager.createObstacle(ObstacleManager.ObstacleType.HEADGEHOG, (i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.DOG:
+                    ObstacleManager.ObstacleManager.createObstacle(ObstacleManager.ObstacleType.DOG, (i, j))
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.FINISH_LINE:
                     Bird.Bird.create((i, j))
 
-        ObstacleManager.ObstacleManager.createObstacle(ObstacleManager.ObstacleType.HEADGEHOG, (2, 16))
-        ObstacleManager.ObstacleManager.createObstacle(ObstacleManager.ObstacleType.DOG, (7, 16))
+        #ObstacleManager.ObstacleManager.createObstacle(ObstacleManager.ObstacleType.DOG, (7, 16))
 
         BirdCounter.BirdCounter.restart()
         Block.Block.setBlocks()

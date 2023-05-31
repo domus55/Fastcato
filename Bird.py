@@ -179,8 +179,6 @@ class Bird(pygame.sprite.Sprite):
                 else:
                     Bird.SOUNDS_SCARE_PIGEON2.play()
 
-
-
             if playerCenter[0] > birdCenter[0]:
                 self.fliesRight = False
             else:
