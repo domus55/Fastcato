@@ -4,7 +4,8 @@ import Screen
 
 
 class Camera:
-    LEFT_WALL = 50
+    borderLeft = 50
+    borderRight = 1000
     DELTA_X = 500
     SMOOTHNESS = 60
 
@@ -34,8 +35,11 @@ class Camera:
 
         Camera.posX += cameraShift
 
-        if Camera.posX < Camera.LEFT_WALL:
-            Camera.posX = Camera.LEFT_WALL
+        if Camera.posX < Camera.borderLeft:
+            Camera.posX = Camera.borderLeft
+
+        if Camera.posX > Camera.borderRight - 1600:
+            Camera.posX = Camera.borderRight - 1600
 
     @staticmethod
     def relativePosition(pos):

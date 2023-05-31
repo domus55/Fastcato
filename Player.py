@@ -168,9 +168,12 @@ class Player(pygame.sprite.Sprite):
 
 
     def _isOutOfMap(self):
-        #Stop on the left wall
-        if self.collider.centerx < Camera.Camera.LEFT_WALL:
-            self.collider.centerx = Camera.Camera.LEFT_WALL
+        #Stop on the map borders
+        if self.collider.centerx < Camera.Camera.borderLeft:
+            self.collider.centerx = Camera.Camera.borderLeft
+
+        if self.collider.centerx > Camera.Camera.borderRight:
+            self.collider.centerx = Camera.Camera.borderRight
 
         #Fell out of the map
         if self.collider.centery > 1000:

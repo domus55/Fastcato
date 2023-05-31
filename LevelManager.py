@@ -1,6 +1,7 @@
 import pygame
 
 import BirdCounter
+import Camera
 import CloudManager
 import Deadline
 import Bird
@@ -92,6 +93,7 @@ class LevelManager:
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.FINISH_LINE:
                     Bird.Bird.create((i, j))
 
+        Camera.Camera.borderRight = LevelManager.currentLevelImg.get_width() * 50 - 100
         BirdCounter.BirdCounter.restart()
         Block.Block.setBlocks()
         Player.Player.getInstance().restart()
