@@ -35,7 +35,7 @@ class Game:
         InnerTime.update()
         #Timer.showFps()
         EventHandler.update()
-        if MainMenu.isOpen:
+        if MainMenu.state is not MainMenu.state.closed:
             MainMenu.update()
         else:
             if InGameMenu.isOpen:
@@ -50,7 +50,7 @@ class Game:
             Deadline.update(Game.keyPressed)
 
     def render(self):
-        if MainMenu.isOpen:
+        if MainMenu.state is not MainMenu.state.closed:
             MainMenu.render()
         else:
             Background.getInstance().render()

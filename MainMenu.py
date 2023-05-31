@@ -1,5 +1,6 @@
 import pygame
 import pygame.freetype
+from enum import Enum
 
 import CloudManager
 import Game
@@ -16,10 +17,17 @@ assuming that user will never click more than one button at once. Thanks to that
 I can handle all click event in here getting rid of unnecessary mess
 '''
 
+
+
+
 class MainMenu:
-    isOpen = False
-    inSettings = False
-    inLevels = False
+    class State(Enum):
+        closed = 0
+        inMain = 1
+        inLevels = 2
+        inSettings = 3
+
+    state = State.inMain
     levelsPage = 0
 
     DEFAULT = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/default.png"), (400, 525)).convert_alpha()
@@ -79,7 +87,7 @@ class MainMenu:
 
     @staticmethod
     def open():
-        MainMenu.isOpen = True
+        MainMenu.state = MainMenu.State.inMain
         MainMenu.SOUND_CLICK.set_volume(GameInfo.GameInfo.getSound())
         CloudManager.CloudManager.initialize()
 
@@ -96,12 +104,12 @@ class MainMenu:
         Screen.screen.blit(MainMenu.BACKGROUND2, (0, 0))
         Screen.screen.blit(MainMenu.image, (600, 187))
 
-        if MainMenu.inSettings:
+        if MainMenu.state is MainMenu.State.inSettings:
             for i in range(GameInfo.GameInfo._sound):
                 Screen.screen.blit(MainMenu.SETTINGS_ACTIVE_BAR, (788 + i * 19, 334))
             for i in range(GameInfo.GameInfo._music):
                 Screen.screen.blit(MainMenu.SETTINGS_ACTIVE_BAR, (788 + i * 19, 424))
-        if MainMenu.inLevels:
+        if MainMenu.state is MainMenu.State.inLevels:
             for i in range(3):
                 lvl = MainMenu.levelsPage*3+i+1
                 posY = 329 + i * 91
@@ -116,11 +124,11 @@ class MainMenu:
 
     @staticmethod
     def mouseButtonDown():
-        if MainMenu.isOpen:
+        if MainMenu.state is not MainMenu.State.closed:
             mousePos = pygame.mouse.get_pos()
 
             #in settings
-            if MainMenu.inSettings:
+            if MainMenu.state is MainMenu.State.inSettings:
                 if MainMenu.hitboxSettingBack.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS_BACK
                     MainMenu.SOUND_CLICK.play()
@@ -137,7 +145,7 @@ class MainMenu:
                     MainMenu.image = MainMenu.SETTINGS_MUSIC_DOWN
                     MainMenu.SOUND_CLICK.play()
             #in levels
-            elif MainMenu.inLevels:
+            elif MainMenu.state is MainMenu.State.inLevels:
                 if MainMenu.hitboxLevelsBack.collidepoint(mousePos):
                     MainMenu.image = MainMenu.LEVELS_BACK
                     MainMenu.SOUND_CLICK.play()
@@ -178,13 +186,13 @@ class MainMenu:
 
     @staticmethod
     def mouseButtonUp():
-        if MainMenu.isOpen:
+        if MainMenu.state is not MainMenu.State.closed:
             mousePos = pygame.mouse.get_pos()
 
             #in settings
-            if MainMenu.inSettings:
+            if MainMenu.state is MainMenu.State.inSettings:
                 if MainMenu.hitboxSettingBack.collidepoint(mousePos) and MainMenu.image == MainMenu.SETTINGS_BACK:
-                    MainMenu.inSettings = False
+                    MainMenu.state = MainMenu.State.inMain
                     MainMenu.image = MainMenu.DEFAULT
                     return
                 elif MainMenu.hitboxSoundUp.collidepoint(mousePos) and MainMenu.image == MainMenu.SETTINGS_SOUND_UP:
@@ -200,9 +208,9 @@ class MainMenu:
                 Music.Music.adjustVolume()
                 GameInfo.GameInfo.saveSettings()
             #in levels
-            elif MainMenu.inLevels:
+            elif MainMenu.state is MainMenu.State.inLevels:
                 if MainMenu.hitboxLevelsBack.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS_BACK:
-                    MainMenu.inLevels = False
+                    MainMenu.state = MainMenu.State.inMain
                     MainMenu.image = MainMenu.DEFAULT
                     return
                 elif MainMenu.hitboxLevelsPrev.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS_PREV:
@@ -210,17 +218,26 @@ class MainMenu:
                 elif MainMenu.hitboxLevelsNext.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS_NEXT:
                     MainMenu.levelsPage += 1
                 elif MainMenu.hitboxLevels1.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS_1:
+                    MainMenu.state = MainMenu.State.inMain
+                    MainMenu.image = MainMenu.DEFAULT
                     LevelManager.LevelManager.currentLevel = MainMenu.levelsPage * 3 + 1
                     LevelManager.LevelManager.restartLevel()
-                    MainMenu.isOpen = False
+                    MainMenu.state = MainMenu.State.closed
+                    return
                 elif MainMenu.hitboxLevels2.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS_2:
+                    MainMenu.state = MainMenu.State.inMain
+                    MainMenu.image = MainMenu.DEFAULT
                     LevelManager.LevelManager.currentLevel = MainMenu.levelsPage * 3 + 2
                     LevelManager.LevelManager.restartLevel()
-                    MainMenu.isOpen = False
+                    MainMenu.state = MainMenu.State.closed
+                    return
                 elif MainMenu.hitboxLevels3.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS_3:
+                    MainMenu.state = MainMenu.State.inMain
+                    MainMenu.image = MainMenu.DEFAULT
                     LevelManager.LevelManager.currentLevel = MainMenu.levelsPage * 3 + 3
                     LevelManager.LevelManager.restartLevel()
-                    MainMenu.isOpen = False
+                    MainMenu.state = MainMenu.State.closed
+                    return
                 MainMenu.image = MainMenu.LEVELS_DEFAULT
             #in main
             else:
@@ -229,15 +246,15 @@ class MainMenu:
                         if GameInfo.GameInfo.levelTime[i] != 0.0 and GameInfo.GameInfo.levelTime[i] <= 60.0:
                             LevelManager.LevelManager.currentLevel = i + 1
                             LevelManager.LevelManager.restartLevel()
-                            MainMenu.isOpen = False
+                            MainMenu.state =  MainMenu.State.closed
                             MainMenu.image = MainMenu.DEFAULT
                             return
                 elif MainMenu.hitboxLevels.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS:
-                    MainMenu.inLevels = True
+                    MainMenu.state = MainMenu.State.inLevels
                     MainMenu.image = MainMenu.LEVELS_DEFAULT
                     return
                 elif MainMenu.hitboxSettings.collidepoint(mousePos) and MainMenu.image == MainMenu.SETTINGS:
-                    MainMenu.inSettings = True
+                    MainMenu.state = MainMenu.State.inSettings
                     MainMenu.image = MainMenu.SETTINGS_DEFAULT
                     return
                 elif MainMenu.hitboxExit.collidepoint(mousePos) and MainMenu.image == MainMenu.EXIT:

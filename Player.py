@@ -155,7 +155,7 @@ class Player(pygame.sprite.Sprite):
             self.last_dash_time = time.time()
 
     def _dashReadySound(self):
-        if MainMenu.MainMenu.isOpen:
+        if MainMenu.MainMenu.state is not MainMenu.MainMenu.State.closed:
             return
         else:
             Player.DASH_READY.play()

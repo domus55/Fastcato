@@ -29,9 +29,13 @@ class Dog(Obstacle):
         self.hitboxOffset = (-10, 25)
         self.hitbox.centerx += self.hitboxOffset[0]
         self.hitbox.centery += self.hitboxOffset[1]
-        self.walkDistance = walkDistance
         self._isFacingRight = True if walkDistance > 0 else False
-        self.startX = pos[0] * 50
+        if not self._isFacingRight:
+            self.startX = pos[0] * 50 + walkDistance
+            self.walkDistance = walkDistance * -1
+        else:
+            self.startX = pos[0] * 50
+            self.walkDistance = walkDistance
         self.WALK_SPEED = 2.75
         self.idleStartTime = time.time()
         self.IDLE_TIME = 1 #in sec

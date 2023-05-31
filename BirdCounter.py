@@ -61,8 +61,6 @@ class BirdCounter:
             surfaceWidth = 99 + stringLen * 21
             BirdCounter._FONT_BACKGROUND = pygame.Surface((surfaceWidth, 44))
             BirdCounter._FONT_BACKGROUND.set_alpha(100)
-            print(stringLen)
-            print(surfaceWidth)
 
 
 

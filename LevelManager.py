@@ -9,6 +9,8 @@ import MainMenu
 import Player
 import Block
 from Obstacles import ObstacleManager
+from Obstacles.Dog import Dog
+from Obstacles.Hedgehog import Hedgehog
 
 
 class LevelManager:
@@ -57,7 +59,10 @@ class LevelManager:
         ObstacleManager.ObstacleManager.allObstacles.clear()
         Bird.Bird.allBirds.clear()
 
-        LevelManager.currentLevelImg = LevelManager.IMG_LEVELS[LevelManager.currentLevel]
+        try:
+            LevelManager.currentLevelImg = LevelManager.IMG_LEVELS[LevelManager.currentLevel]
+        except:
+            LevelManager.currentLevelImg = LevelManager.IMG_LEVELS[1]
 
         if LevelManager.currentLevel == 0:
             Player.Player._instance = None
@@ -79,13 +84,13 @@ class LevelManager:
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.PLAYER_SPAWN:
                     Player.Player.getInstance().startingPosition = (i * 50, j * 50)
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.HEADGEHOG:
-                    ObstacleManager.ObstacleManager.createObstacle(ObstacleManager.ObstacleType.HEADGEHOG, (i, j))
+                    obj = Hedgehog((i, j))
+                    ObstacleManager.ObstacleManager.addObstackle(obj)
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.DOG:
-                    ObstacleManager.ObstacleManager.createObstacle(ObstacleManager.ObstacleType.DOG, (i, j))
+                    obj = Dog((i, j))
+                    ObstacleManager.ObstacleManager.addObstackle(obj)
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.FINISH_LINE:
                     Bird.Bird.create((i, j))
-
-        #ObstacleManager.ObstacleManager.createObstacle(ObstacleManager.ObstacleType.DOG, (7, 16))
 
         BirdCounter.BirdCounter.restart()
         Block.Block.setBlocks()

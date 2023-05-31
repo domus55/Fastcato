@@ -63,7 +63,7 @@ class InGameMenu:
                 LevelManager.LevelManager.restartLevel()
                 InGameMenu.isOpen = False
             elif InGameMenu.hitboxExit.collidepoint(mousePos) and InGameMenu.image == InGameMenu.EXIT:
-                MainMenu.MainMenu.isOpen = True
+                MainMenu.MainMenu.open()
                 InGameMenu.isOpen = False
 
             InGameMenu.image = InGameMenu.DEFAULT
