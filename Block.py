@@ -122,4 +122,6 @@ class Block(pygame.sprite.Sprite):
                     b = Block(img, (i, j))
                     Block.allBlocks.append(b)
 
+        Block.grassLayout = [[0 for col in range(21)] for row in range(200)]
+
 

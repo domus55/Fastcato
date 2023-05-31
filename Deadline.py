@@ -15,6 +15,7 @@ class Deadline:
     GAME_FONT = pygame.freetype.Font("fonts/timer.ttf", 50)
     color = (255, 255, 255)
     _FONT_BACKGROUND = pygame.Surface((165, 44))
+    #_FONT_BACKGROUND = pygame.Surface((165, 165))
     _FONT_BACKGROUND.set_alpha(100)
 
     pygame.mixer.init()
@@ -74,12 +75,13 @@ class Deadline:
         strr += str(ms)
 
         #set font color
-        if seconds >= 50 and seconds < 55:
-            a = 255 - (deltaTime - 50) * 51
-            Deadline.color = (255, 255, a)
-        elif seconds >= 55:
-            a = (deltaTime - 55) * 51
-            Deadline.color = (255, 255 - a, 0)
+        if minutes is 0:
+            if seconds >= 50 and seconds < 55:
+                a = 255 - (deltaTime - 50) * 51
+                Deadline.color = (255, 255, a)
+            elif seconds >= 55:
+                a = (deltaTime - 55) * 51
+                Deadline.color = (255, 255 - a, 0)
 
         if minutes >= 1 and not Deadline.timeOut:
             Deadline.color = (255, 0, 0)

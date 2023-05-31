@@ -1,8 +1,9 @@
 import pygame
 
+import BirdCounter
 import CloudManager
 import Deadline
-import FinishPoint
+import Bird
 import GameInfo
 import MainMenu
 import Player
@@ -28,16 +29,33 @@ class LevelManager:
     player = None
 
     @staticmethod
-    def Initialize():
+    def initialize():
         LevelManager.currentLevel = 0
         LevelManager._loadImages()
         LevelManager.restartLevel()
+
+    @staticmethod
+    def update():
+        #print("update")
+        if Bird.Bird.birdsOnMap() is 0:
+            #if new record, then save it
+            if GameInfo.GameInfo.levelTime[LevelManager.currentLevel] == 0.0 or \
+                    GameInfo.GameInfo.levelTime[LevelManager.currentLevel] > Deadline.Deadline.time():
+                GameInfo.GameInfo.levelTime[LevelManager.currentLevel] = Deadline.Deadline.time()
+                GameInfo.GameInfo.saveSave()
+            if Deadline.Deadline.time() <= 60:
+                LevelManager.nextLevel()
+            else:
+                LevelManager.restartLevel()
+
 
     @staticmethod
     def restartLevel():
         Player.Player.getInstance().restart()
         Block.Block.allBlocks.clear()
         ObstacleManager.ObstacleManager.allObstacles.clear()
+        Bird.Bird.allBirds.clear()
+
         LevelManager.currentLevelImg = LevelManager.IMG_LEVELS[LevelManager.currentLevel]
 
         if LevelManager.currentLevel == 0:
@@ -62,11 +80,12 @@ class LevelManager:
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.HEADGEHOG:
                     ObstacleManager.ObstacleManager.createObstacle(ObstacleManager.ObstacleType.HEADGEHOG, (i, j))
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.FINISH_LINE:
-                    FinishPoint.FinishPoint.instance = FinishPoint.FinishPoint((i, j))
+                    Bird.Bird.create((i, j))
 
         ObstacleManager.ObstacleManager.createObstacle(ObstacleManager.ObstacleType.HEADGEHOG, (2, 16))
         ObstacleManager.ObstacleManager.createObstacle(ObstacleManager.ObstacleType.DOG, (7, 16))
 
+        BirdCounter.BirdCounter.restart()
         Block.Block.setBlocks()
         Player.Player.getInstance().restart()
 
@@ -75,7 +94,6 @@ class LevelManager:
         try:
             LevelManager.IMG_LEVELS.append(None)
             for i in range(GameInfo.GameInfo.NUMBER_OF_LEVELS):
-                #print(f"images/levels/{i+1}.bmp")
                 img = pygame.image.load(f"images/levels/{i+1}.bmp")
                 LevelManager.IMG_LEVELS.append(img)
         except:

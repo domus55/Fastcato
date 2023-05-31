@@ -1,9 +1,10 @@
 import pygame
 
 import EventHandler
+from BirdCounter import BirdCounter
 from CloudManager import CloudManager
 from Deadline import Deadline
-from FinishPoint import FinishPoint
+from Bird import Bird
 from Block import Block
 from Camera import Camera
 from GameInfo import GameInfo
@@ -26,7 +27,7 @@ class Game:
         self._clock = clock = pygame.time.Clock()
         GameInfo.load()
         Music.start()
-        LevelManager.Initialize()
+        LevelManager.initialize()
         screenInitialize()
         CloudManager.initialize()
 
@@ -41,7 +42,8 @@ class Game:
                 InGameMenu.update(Game.keyPressed)
             ObstacleManager.updateAll()
             Player.getInstance().update(Game.keyPressed)
-            FinishPoint.update()
+            Bird.updateAll()
+            LevelManager.update()
             Camera.update(Player.getInstance()) #must be called after player update
             Background.getInstance().update()
             CloudManager.update()
@@ -54,9 +56,10 @@ class Game:
             Background.getInstance().render()
             Player.getInstance().render()
             ObstacleManager.renderAll()
-            FinishPoint.render()
+            Bird.renderAll()
             Block.renderAll()
             Deadline.render()
+            BirdCounter.render()
             if InGameMenu.isOpen:
                 InGameMenu.render()
         screenRender()
