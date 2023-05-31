@@ -38,7 +38,7 @@ class Game:
         if MainMenu.state is not MainMenu.state.closed:
             MainMenu.update()
         else:
-            if InGameMenu.isOpen:
+            if InGameMenu.state == InGameMenu.State.open:
                 InGameMenu.update(Game.keyPressed)
             ObstacleManager.updateAll()
             Player.getInstance().update(Game.keyPressed)
@@ -60,7 +60,7 @@ class Game:
             Block.renderAll()
             Deadline.render()
             BirdCounter.render()
-            if InGameMenu.isOpen:
+            if InGameMenu.state == InGameMenu.State.open:
                 InGameMenu.render()
         screenRender()
 
