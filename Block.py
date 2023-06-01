@@ -19,8 +19,8 @@ class Block(pygame.sprite.Sprite):
 
     def __init__(self, img, pos):
         super().__init__()
-        self.size = 50
-        self.image = pygame.transform.scale(img, (self.size, self.size))
+        SIZE = 50
+        self.image = pygame.transform.scale(img, (SIZE, SIZE))
         self.rect = self.image.get_rect()
         self.rect.center = pos[0] * 50, pos[1] * 50
 

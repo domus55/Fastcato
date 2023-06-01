@@ -71,6 +71,10 @@ class Bird(pygame.sprite.Sprite):
     def create(pos):
         obj = Bird(pos)
         Bird.allBirds.append(obj)
+        Bird.SOUNDS_SCARE_RAVEN1.set_volume(GameInfo.GameInfo.getSound())
+        Bird.SOUNDS_SCARE_RAVEN2.set_volume(GameInfo.GameInfo.getSound())
+        Bird.SOUNDS_SCARE_PIGEON1.set_volume(GameInfo.GameInfo.getSound())
+        Bird.SOUNDS_SCARE_PIGEON2.set_volume(GameInfo.GameInfo.getSound())
 
 
     @staticmethod

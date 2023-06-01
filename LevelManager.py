@@ -6,6 +6,7 @@ import Camera
 import CloudManager
 import Deadline
 import Bird
+import Decorations
 import GameInfo
 import MainMenu
 import Player
@@ -23,7 +24,13 @@ class LevelManager:
     FINISH_LINE = (200, 200, 0, 255)
 
     #BLOCKS
-    GRASS = (80, 40, 40, 255)
+    BLOCK_GRASS = (80, 40, 40, 255)
+
+    #DECORATIONS
+    TREE_BIG = (0, 80, 0, 255)
+    TREE_SMALL = (0, 140, 0, 255)
+    GRASS = (0, 255, 0, 255)
+    BUSH = (100, 200, 100, 255)
 
     #ENITIES
     HEADGEHOG = (200, 100, 100, 255)
@@ -61,6 +68,7 @@ class LevelManager:
         ObstacleManager.ObstacleManager.allObstacles.clear()
         Bird.Bird.allBirds.clear()
         Buttons.Buttons.allButton.clear()
+        Decorations.Decorations.allDecorations.clear()
 
         try:
             LevelManager.currentLevelImg = LevelManager.IMG_LEVELS[LevelManager.currentLevel]
@@ -83,7 +91,7 @@ class LevelManager:
     def loadLevel():
         for i in range(LevelManager.currentLevelImg.get_width()):
             for j in range(20):
-                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.GRASS:
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.BLOCK_GRASS:
                     Block.Block.createBlock(Block.BlockType.GRASS, (i, j))
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.PLAYER_SPAWN:
                     Player.Player.getInstance().startingPosition = (i * 50, j * 50)
@@ -95,6 +103,14 @@ class LevelManager:
                     ObstacleManager.ObstacleManager.addObstackle(obj)
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.FINISH_LINE:
                     Bird.Bird.create((i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.TREE_BIG:
+                    Decorations.Decorations.add(Decorations.Decorations.Type.TREE_BIG, (i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.TREE_SMALL:
+                    Decorations.Decorations.add(Decorations.Decorations.Type.TREE_SMALL, (i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.GRASS:
+                    Decorations.Decorations.add(Decorations.Decorations.Type.GRASS, (i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.BUSH:
+                    Decorations.Decorations.add(Decorations.Decorations.Type.BUSH, (i, j))
 
         LevelManager._loadAdditionalThings()
 
@@ -125,5 +141,7 @@ class LevelManager:
             Buttons.Buttons.add(Buttons.Buttons.Type.D, (x + 45, y))
 
             Buttons.Buttons.add(Buttons.Buttons.Type.LSHIFT, (3650, 400))
+
+            Decorations.Decorations.add(Decorations.Decorations.Type.TREE_SMALL, (108, 12))
 
 

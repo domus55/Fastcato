@@ -8,6 +8,7 @@ from Deadline import Deadline
 from Bird import Bird
 from Block import Block
 from Camera import Camera
+from Decorations import Decorations
 from GameInfo import GameInfo
 from InGameMenu import InGameMenu
 from InnerTimer import InnerTime
@@ -56,6 +57,7 @@ class Game:
         else:
             Background.getInstance().render()
             Buttons.renderAll()
+            Decorations.renderAll()
             Player.getInstance().render()
             ObstacleManager.renderAll()
             Bird.renderAll()
