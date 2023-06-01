@@ -13,6 +13,8 @@ class Decorations:
         TREE_BIG = 1
         BUSH = 2
         GRASS = 3
+        STONE_SMALL = 4
+        STONE_BIG = 5
 
     allDecorations = []
 
@@ -31,6 +33,12 @@ class Decorations:
     IMG_GRASS1 = pygame.transform.scale(pygame.image.load("images/decorations/grass1.png"), (40, 40)).convert_alpha()
     IMG_GRASS2 = pygame.transform.scale(pygame.image.load("images/decorations/grass2.png"), (40, 40)).convert_alpha()
     IMG_GRASS3 = pygame.transform.scale(pygame.image.load("images/decorations/grass3.png"), (40, 40)).convert_alpha()
+    IMG_STONE_SMALL1 = pygame.transform.scale(pygame.image.load("images/decorations/stoneSmall1.png"), (20, 20)).convert_alpha()
+    IMG_STONE_SMALL2 = pygame.transform.scale(pygame.image.load("images/decorations/stoneSmall2.png"), (40, 25)).convert_alpha()
+    IMG_STONE_SMALL3 = pygame.transform.scale(pygame.image.load("images/decorations/stoneSmall3.png"), (50, 40)).convert_alpha()
+    IMG_STONE_BIG1 = pygame.transform.scale(pygame.image.load("images/decorations/stoneBig1.png"), (65, 45)).convert_alpha()
+    IMG_STONE_BIG2 = pygame.transform.scale(pygame.image.load("images/decorations/stoneBig2.png"), (60, 50)).convert_alpha()
+    IMG_STONE_BIG3 = pygame.transform.scale(pygame.image.load("images/decorations/stoneBig3.png"), (140, 80)).convert_alpha()
 
 
     def __init__(self, type, pos):
@@ -43,6 +51,10 @@ class Decorations:
         elif type == Decorations.Type.BUSH:
             typeStr += str(pos[0] % 5 + 1)
         elif type == Decorations.Type.GRASS:
+            typeStr += str(pos[0] % 3 + 1)
+        elif type == Decorations.Type.STONE_SMALL:
+            typeStr += str(pos[0] % 3 + 1)
+        elif type == Decorations.Type.STONE_BIG:
             typeStr += str(pos[0] % 3 + 1)
 
         img = eval(typeStr)

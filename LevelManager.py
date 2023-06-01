@@ -31,6 +31,8 @@ class LevelManager:
     TREE_SMALL = (0, 140, 0, 255)
     GRASS = (0, 255, 0, 255)
     BUSH = (100, 200, 100, 255)
+    STONE_BIG = (150, 150, 150, 255)
+    STONE_SMALL = (200, 200, 200, 255)
 
     #ENITIES
     HEADGEHOG = (200, 100, 100, 255)
@@ -111,6 +113,10 @@ class LevelManager:
                     Decorations.Decorations.add(Decorations.Decorations.Type.GRASS, (i, j))
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.BUSH:
                     Decorations.Decorations.add(Decorations.Decorations.Type.BUSH, (i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.STONE_BIG:
+                    Decorations.Decorations.add(Decorations.Decorations.Type.STONE_BIG, (i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.STONE_SMALL:
+                    Decorations.Decorations.add(Decorations.Decorations.Type.STONE_SMALL, (i, j))
 
         LevelManager._loadAdditionalThings()
 
