@@ -41,10 +41,10 @@ class Game:
         else:
             if InGameMenu.state == InGameMenu.State.open:
                 InGameMenu.update(Game.keyPressed)
+            LevelManager.update()
             ObstacleManager.updateAll()
             Player.getInstance().update(Game.keyPressed)
             Bird.updateAll()
-            LevelManager.update()
             Camera.update(Player.getInstance()) #must be called after player update
             Background.getInstance().update()
             CloudManager.update()

@@ -107,6 +107,7 @@ class Player(pygame.sprite.Sprite):
 
     def restart(self):
         self.collider.center = self.startingPosition
+        self.rect.bottomleft = self.collider.bottomleft
         self._velocityY = 0
         self.last_dash_time = time.time() - self._DASH_DELAY
         Player.DASH_SOUND.set_volume(GameInfo.GameInfo.getSound())

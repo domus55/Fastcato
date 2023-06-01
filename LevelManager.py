@@ -99,9 +99,10 @@ class LevelManager:
         LevelManager._loadAdditionalThings()
 
         Camera.Camera.borderRight = LevelManager.currentLevelImg.get_width() * 50 - 100
+        Player.Player.getInstance().restart()
         BirdCounter.BirdCounter.restart()
         Block.Block.setBlocks()
-        Player.Player.getInstance().restart()
+
 
     @staticmethod
     def _loadImages():
