@@ -25,7 +25,7 @@ class Game:
     keyPressed = None
 
     def __init__(self):
-        self._maxFps = 10005
+        self._maxFps = 60
         self._clock = clock = pygame.time.Clock()
         GameInfo.load()
         Music.start()
@@ -35,7 +35,7 @@ class Game:
 
     def update(self):
         InnerTime.update()
-        #Timer.showFps()
+        #InnerTime.showFps()
         EventHandler.update()
         if MainMenu.state is not MainMenu.state.closed:
             MainMenu.update()

@@ -71,8 +71,10 @@ class Decorations:
     @staticmethod
     def renderAll():
         for i in Decorations.allDecorations:
-            i.render()
+            if Camera.Camera.isOnScreen(i.rect):
+                i.render()
 
     def render(self):
+
         screen.blit(self.image, Camera.Camera.relativePosition(self.rect.topleft))
 

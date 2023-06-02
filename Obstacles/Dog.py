@@ -3,6 +3,7 @@ import time
 from random import randrange
 
 import Camera
+import Deadline
 from InnerTimer import InnerTime
 from Obstacles.Obstacle import Obstacle
 from Screen import screen
@@ -36,7 +37,7 @@ class Dog(Obstacle):
         else:
             self.startX = pos[0] * 50
             self.walkDistance = walkDistance
-        self.WALK_SPEED = 2.75
+        self.WALK_SPEED = 4
         self.idleStartTime = time.time()
         self.IDLE_TIME = 1 #in sec
         self.isIdle = True
@@ -77,8 +78,13 @@ class Dog(Obstacle):
         self._animate()
         self._move()
         self.hitbox.center = self.rect.center
+        self.hitbox.centerx += self.hitboxOffset[0]
+        self.hitbox.centery += self.hitboxOffset[1]
 
     def _move(self):
+        if Deadline.Deadline.isRunning is False:
+            self.idleStartTime = time.time()
+
         if time.time() > self.idleStartTime + self.IDLE_TIME:
             self.isIdle = False
             distance = InnerTime.deltaTime * self.WALK_SPEED / 10
@@ -107,7 +113,7 @@ class Dog(Obstacle):
             else:
                 animation = Dog.IDLE_ANIMATION_LEFT
         else:
-            self._animationSpeed = 12
+            self._animationSpeed = 14
             if self._isFacingRight:
                 animation = Dog.WALK_ANIMATION_RIGHT
             else:

@@ -107,6 +107,7 @@ class Player(pygame.sprite.Sprite):
 
     def restart(self):
         self.collider.center = self.startingPosition
+        self.collider.centery -= 15
         self.rect.bottomleft = self.collider.bottomleft
         self._velocityY = 0
         self.last_dash_time = time.time() - self._DASH_DELAY
@@ -150,6 +151,21 @@ class Player(pygame.sprite.Sprite):
                 for i in range(Player.SHADOW_AMOUNT):
                     self.shadowImagesPos[i] = pygame.Rect((self.rect.topleft), (0, 0))
                     self.shadowImagesPos[i].centerx += self._DASH_DISTANCE * i/Player.SHADOW_AMOUNT - self._DASH_DISTANCE
+
+            #check if after dash is in any blocks
+            inBlock = True
+            while inBlock:
+                inBlock = False
+                for i in Block.Block.allBlocks:
+                    if self.collider.colliderect(i.rect):
+                        inBlock = True
+
+                if inBlock:
+                    self.collider.centery -= 1
+                    if self._isFacingRight:
+                        self.collider.centerx -= 5
+                    else:
+                        self.collider.centerx += 5
 
             Player.DASH_SOUND.play()
             t = Timer(self._DASH_DELAY, self._dashReadySound)

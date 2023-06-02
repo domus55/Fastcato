@@ -18,6 +18,8 @@ class Buttons:
     D_DOWN = pygame.transform.scale(pygame.image.load("images/gui/buttons/d2.png"), (42, 40)).convert_alpha()
     LSHIFT_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/shift1.png"), (93, 40)).convert_alpha()
     LSHIFT_DOWN = pygame.transform.scale(pygame.image.load("images/gui/buttons/shift2.png"), (93, 40)).convert_alpha()
+    DEATH_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/death.png"), (40, 40)).convert_alpha()
+    ATTENTION_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/attention.png"), (40, 40)).convert_alpha()
 
 
     class Type(Enum):
@@ -26,6 +28,8 @@ class Buttons:
         S = 3
         D = 4
         LSHIFT = 5
+        DEATH = 6
+        ATTENTION = 7
 
     allButton = []
 
@@ -59,7 +63,8 @@ class Buttons:
             i._setButtonImage(keyPressed)
 
     def _setButtonImage(self, keyPressed):
-
+        if self.type == Buttons.Type.DEATH or self.type == Buttons.Type.ATTENTION:
+            return
         if self.type == Buttons.Type.LSHIFT:
             typeStr = str(self.type)[5:]
         else:

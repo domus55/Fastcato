@@ -36,7 +36,7 @@ class LevelManager:
 
     #ENITIES
     HEADGEHOG = (200, 100, 100, 255)
-    DOG = (200, 120, 100, 255)
+    DOG = (200, 120)
 
     currentLevel = 1
     currentLevelImg = pygame.image.load("images/levels/1.bmp")
@@ -100,8 +100,10 @@ class LevelManager:
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.HEADGEHOG:
                     obj = Hedgehog((i, j))
                     ObstacleManager.ObstacleManager.addObstackle(obj)
-                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.DOG:
-                    obj = Dog((i, j))
+                if LevelManager.currentLevelImg.get_at((i, j))[:2] == LevelManager.DOG:
+                    distance = LevelManager.currentLevelImg.get_at((i, j))[2] - 100
+                    distance *= 50
+                    obj = Dog((i, j), distance)
                     ObstacleManager.ObstacleManager.addObstackle(obj)
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.FINISH_LINE:
                     Bird.Bird.create((i, j))
@@ -146,8 +148,18 @@ class LevelManager:
             Buttons.Buttons.add(Buttons.Buttons.Type.S, (x, y))
             Buttons.Buttons.add(Buttons.Buttons.Type.D, (x + 45, y))
 
-            Buttons.Buttons.add(Buttons.Buttons.Type.LSHIFT, (3650, 400))
+            Buttons.Buttons.add(Buttons.Buttons.Type.ATTENTION, (1105, 800))
+
+            Buttons.Buttons.add(Buttons.Buttons.Type.DEATH, (1725, 750))
+
+            Buttons.Buttons.add(Buttons.Buttons.Type.LSHIFT, (3600, 550))
+            Buttons.Buttons.add(Buttons.Buttons.Type.ATTENTION, (3625, 500))
+
+            Buttons.Buttons.add(Buttons.Buttons.Type.DEATH, (6075, 650))
 
             Decorations.Decorations.add(Decorations.Decorations.Type.TREE_SMALL, (108, 12))
+
+        if LevelManager.currentLevel is 3:
+            Buttons.Buttons.add(Buttons.Buttons.Type.LSHIFT, (1000, 750))
 
 

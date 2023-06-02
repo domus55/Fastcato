@@ -7,7 +7,7 @@ import Screen
 
 class Deadline:
     _startTime = time.time()
-    _isRunning = False
+    isRunning = False
     timeOut = False
 
     # Font
@@ -28,7 +28,7 @@ class Deadline:
 
     @staticmethod
     def _checkStart(keyPressed):
-        if not Deadline._isRunning:
+        if not Deadline.isRunning:
             if keyPressed[pygame.K_w] or keyPressed[pygame.K_a] or keyPressed[pygame.K_s] or keyPressed[pygame.K_d] or keyPressed[pygame.K_LSHIFT]:
                 Deadline._start()
 
@@ -36,7 +36,7 @@ class Deadline:
     def _start():
         Deadline.SOUND_TIMER.set_volume(GameInfo.GameInfo.getSound())
         Deadline._startTime = time.time()
-        Deadline._isRunning = True
+        Deadline.isRunning = True
         Deadline.timeOut = False
         Deadline.color = (255, 255, 255)
 
@@ -46,14 +46,14 @@ class Deadline:
 
     @staticmethod
     def stop():
-        Deadline._isRunning = False
+        Deadline.isRunning = False
         Deadline.color = (255, 255, 255)
 
     @staticmethod
     def render():
         strr = ""
         deltaTime = time.time() - Deadline._startTime
-        if not Deadline._isRunning:
+        if not Deadline.isRunning:
             deltaTime = 0
 
         seconds = int(deltaTime)
