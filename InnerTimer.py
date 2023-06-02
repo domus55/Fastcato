@@ -11,7 +11,7 @@ class InnerTime:
         if InnerTime._prevTime is None:
             InnerTime._prevTime = datetime.datetime.now()
         InnerTime.deltaTime = ((datetime.datetime.now() - InnerTime._prevTime).microseconds) / 1000
-        if InnerTime.deltaTime > 250:
+        if InnerTime.deltaTime > 125:
             InnerTime.deltaTime = 0
         InnerTime._prevTime = datetime.datetime.now()
 

@@ -25,7 +25,7 @@ class Game:
     keyPressed = None
 
     def __init__(self):
-        self._maxFps = 60
+        self._maxFps = 200
         self._clock = clock = pygame.time.Clock()
         GameInfo.load()
         Music.start()

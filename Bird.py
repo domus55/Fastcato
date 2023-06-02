@@ -165,7 +165,7 @@ class Bird(pygame.sprite.Sprite):
                 self._move()
 
     def _checkScared(self):
-        playerCenter = Player.Player.getInstance().rect.center
+        playerCenter = Player.Player.getInstance().collider.center
         birdCenter = self.rect.center
         dist = math.hypot(playerCenter[0] - birdCenter[0], playerCenter[1] - birdCenter[1])
         if dist < 150 and self._startFlying is None:

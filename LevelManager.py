@@ -40,7 +40,6 @@ class LevelManager:
 
     currentLevel = 1
     currentLevelImg = pygame.image.load("images/levels/1.bmp")
-    player = None
 
     @staticmethod
     def initialize():

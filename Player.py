@@ -48,10 +48,11 @@ class Player(pygame.sprite.Sprite):
             Player._setUpAnimation()
         self._prevAnimationFrame = 0
         self.image = Player.ANIMATION_WALK_RIGHT[0]
-        self.rect = self.image.get_rect()
+        self.pos = [0.0, 0.0] #top left
 
         #Movement
-        self.collider = self.rect.scale_by(0.5, 0.35)
+        self.collider = pygame.Rect(23, 32, 50, 35)
+        #print(self.collider)
         self._velocityX = 0
         self._velocityY = 0
         self.speed = 3
@@ -83,6 +84,7 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, keyPressed):
         self._move(keyPressed)
+        self.collider.topleft = self.pos
         self._dash(keyPressed)
         self._isOutOfMap()
         self._collisionWithBlock()
@@ -90,9 +92,9 @@ class Player(pygame.sprite.Sprite):
         self._animate()
 
     def render(self):
-        self.rect.bottomleft = self.collider.bottomleft
-        self.rect.centerx -= 28
-        screen.blit(self.image, Camera.Camera.relativePosition(self.rect.topleft))
+        self.collider.topleft = self.pos
+        #pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(Camera.Camera.relativePosition(self.collider.topleft), self.collider.size))
+        screen.blit(self.image, Camera.Camera.relativePosition((self.pos[0] - 25, self.pos[1] - 65)))
 
         if time.time() < self.last_dash_time + self._DASH_ANIMATION_TIME:
             for i in range(Player.SHADOW_AMOUNT):
@@ -105,10 +107,12 @@ class Player(pygame.sprite.Sprite):
                     screen.blit(Player.IMG_SHADOW_LEFT, Camera.Camera.relativePosition(self.shadowImagesPos[i].topleft))
         #pygame.draw.rect(screen, (255, 0, 0), self.collider)
 
+
+
     def restart(self):
-        self.collider.center = self.startingPosition
-        self.collider.centery -= 15
-        self.rect.bottomleft = self.collider.bottomleft
+        self.collider.center = self.startingPosition #it might be wrong, probably needs offset
+        self.pos = list(self.collider.topleft)
+        self.pos[1] += 10
         self._velocityY = 0
         self.last_dash_time = time.time() - self._DASH_DELAY
         Player.DASH_SOUND.set_volume(GameInfo.GameInfo.getSound())
@@ -131,25 +135,23 @@ class Player(pygame.sprite.Sprite):
             self._velocityY = - self.speed * 3
             self.canJump = False
 
-        self.collider.centerx += self._velocityX * InnerTime.deltaTime / 10
-        self.collider.centery += self._velocityY * InnerTime.deltaTime / 10
+        self.pos[0] += self._velocityX * InnerTime.deltaTime / 10.0
+        self.pos[1] += self._velocityY * InnerTime.deltaTime / 10.0
 
     def _dash(self, keyPressed):
         if keyPressed[pygame.K_LSHIFT] and time.time() > self.last_dash_time + self._DASH_DELAY:
-            #print(f"{time.time()}, {self._DASH_DELAY - self.last_dash_time}")
-
             if self._isFacingRight:
                 self._shadowFacingRight = True
                 self.collider.centerx += self._DASH_DISTANCE
                 for i in range(Player.SHADOW_AMOUNT):
-                    self.shadowImagesPos[i] = pygame.Rect((self.rect.topleft), (0, 0))
+                    self.shadowImagesPos[i] = pygame.Rect(self.pos, (0, 0))
                     self.shadowImagesPos[i].centerx -= self._DASH_DISTANCE * i/Player.SHADOW_AMOUNT - self._DASH_DISTANCE
 
             else:
                 self._shadowFacingRight = False
                 self.collider.centerx -= self._DASH_DISTANCE
                 for i in range(Player.SHADOW_AMOUNT):
-                    self.shadowImagesPos[i] = pygame.Rect((self.rect.topleft), (0, 0))
+                    self.shadowImagesPos[i] = pygame.Rect(self.pos, (0, 0))
                     self.shadowImagesPos[i].centerx += self._DASH_DISTANCE * i/Player.SHADOW_AMOUNT - self._DASH_DISTANCE
 
             #check if after dash is in any blocks
@@ -167,6 +169,7 @@ class Player(pygame.sprite.Sprite):
                     else:
                         self.collider.centerx += 5
 
+            self.pos = list(self.collider.topleft)
             Player.DASH_SOUND.play()
             t = Timer(self._DASH_DELAY, self._dashReadySound)
             t.start()
@@ -183,17 +186,17 @@ class Player(pygame.sprite.Sprite):
         alpha *= 1 - (time.time() - self.last_dash_time) / self._DASH_ANIMATION_TIME
         return int(alpha)
 
-
     def _isOutOfMap(self):
         #Stop on the map borders
-        if self.collider.centerx < Camera.Camera.borderLeft:
-            self.collider.centerx = Camera.Camera.borderLeft
+        PLAYER_WIDTH = 25
+        if self.pos[0] < Camera.Camera.borderLeft - PLAYER_WIDTH:
+            self.pos[0] = Camera.Camera.borderLeft - PLAYER_WIDTH
 
-        if self.collider.centerx > Camera.Camera.borderRight:
-            self.collider.centerx = Camera.Camera.borderRight
+        if self.pos[0] > Camera.Camera.borderRight - PLAYER_WIDTH:
+            self.pos[0] = Camera.Camera.borderRight - PLAYER_WIDTH
 
         #Fell out of the map
-        if self.collider.centery > 1000:
+        if self.pos[1] > 1000:
             LevelManager.LevelManager.restartLevel()
 
     def _collisionWithBlock(self):
@@ -203,8 +206,8 @@ class Player(pygame.sprite.Sprite):
             if self.collider.colliderect(i.rect):
                 halfBlockSize = i.rect.size[0] / 2, i.rect.size[1] / 2
 
-                deltaX = i.rect.centerx - (self.collider.centerx )
-                deltaY = i.rect.centery - (self.collider.centery )
+                deltaX = i.rect.centerx - self.collider.centerx
+                deltaY = i.rect.centery - self.collider.centery
                 intersectX = abs(deltaX) - (halfBlockSize[0] + self.collider.size[0] / 2)
                 intersectY = abs(deltaY) - (halfBlockSize[1] + self.collider.size[1] / 2)
 
@@ -230,12 +233,17 @@ class Player(pygame.sprite.Sprite):
                 self.collider.centerx += changePositionX
                 self.collider.centery += changePositionY
 
-                if(changePositionY < 0):
+                if abs(changePositionX) > 1:
+                    self.pos[0] = self.collider.left
+
+                if changePositionY is not 0:
+                    self.pos[1] = self.collider.top
+
+                if changePositionY < 0:
                     self.canJump = True
                     self._velocityY = 0
 
-
-                if (changePositionY > 0):
+                if changePositionY > 0:
                     self._velocityY = 0
 
     def _collisionWithObstacle(self):

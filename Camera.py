@@ -16,7 +16,7 @@ class Camera:
     @staticmethod
     def update(player):
         #TODO make camera movement smother
-        destination, _ = player.rect.center
+        destination, _ = player.collider.center
         cameraShift = 0
 
         if player._isFacingRight:
