@@ -37,7 +37,7 @@ class Game:
 
     def update(self):
         InnerTime.update()
-        #InnerTime.showFps()
+        InnerTime.showFps()
         EventHandler.update()
         if MainMenu.state is not MainMenu.state.closed:
             MainMenu.update()
@@ -72,7 +72,6 @@ class Game:
 
     def delay(self):
         self._clock.tick(self._maxFps)
-
 
     def exit(self):
         pygame.quit()

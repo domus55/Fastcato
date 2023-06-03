@@ -1,6 +1,7 @@
 import pygame
 
 import Screen
+from InnerTimer import InnerTime
 
 
 class Camera:
@@ -16,7 +17,7 @@ class Camera:
     @staticmethod
     def update(player):
         #TODO make camera movement smother
-        destination, _ = player.collider.center
+        destination, _ = player.pos
         cameraShift = 0
 
         if player._isFacingRight:
@@ -33,7 +34,7 @@ class Camera:
             else:
                 cameraShift = 0.2 if cameraShift > 0 else -0.2
 
-        Camera.posX += cameraShift
+        Camera.posX += cameraShift * InnerTime.deltaTime / 5
 
         if Camera.posX < Camera.borderLeft:
             Camera.posX = Camera.borderLeft
