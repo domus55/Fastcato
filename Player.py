@@ -39,6 +39,8 @@ class Player(pygame.sprite.Sprite):
     #sounds
     DASH_SOUND = pygame.mixer.Sound("sounds/dash.wav")
     DASH_READY = pygame.mixer.Sound("sounds/dashReady.wav")
+    SOUND_MEOW1 = pygame.mixer.Sound("sounds/meow1.wav")
+    SOUND_MEOW2 = pygame.mixer.Sound("sounds/meow2.wav")
 
     _animationWasSetUp = False
 
@@ -51,13 +53,12 @@ class Player(pygame.sprite.Sprite):
         self.pos = [0.0, 0.0] #top left
 
         #Movement
-        self.collider = pygame.Rect(23, 32, 50, 35)
-        #print(self.collider)
+        self.collider = pygame.Rect(0, 0, 50, 35)
         self._velocityX = 0
         self._velocityY = 0
         self.speed = 3
         self.canJump = False
-        self.startingPosition = (100, 500)
+        self.startingPosition = (0, 0)
 
         #Dash
         self._DASH_DELAY = 3 #in seconds
@@ -73,8 +74,6 @@ class Player(pygame.sprite.Sprite):
         self._isFacingRight = True
         self.currentIdleAnimation = None
         self._selectRandomIdleAnimation()
-
-        self.restart()
 
     @staticmethod
     def getInstance():
@@ -117,6 +116,8 @@ class Player(pygame.sprite.Sprite):
         self.last_dash_time = time.time() - self._DASH_DELAY
         Player.DASH_SOUND.set_volume(GameInfo.GameInfo.getSound())
         Player.DASH_READY.set_volume(GameInfo.GameInfo.getSound())
+        Player.SOUND_MEOW1.set_volume(GameInfo.GameInfo.getSound())
+        Player.SOUND_MEOW2.set_volume(GameInfo.GameInfo.getSound())
         Deadline.Deadline.stop()
 
     def _move(self, keyPressed):
@@ -197,6 +198,7 @@ class Player(pygame.sprite.Sprite):
 
         #Fell out of the map
         if self.pos[1] > 1000:
+            self._playMeowSound()
             LevelManager.LevelManager.restartLevel()
 
     def _collisionWithBlock(self):
@@ -249,6 +251,7 @@ class Player(pygame.sprite.Sprite):
     def _collisionWithObstacle(self):
         for i in ObstacleManager.ObstacleManager.allObstacles:
             if self.collider.colliderect(i.hitbox):
+                self._playMeowSound()
                 LevelManager.LevelManager.restartLevel()
 
     @staticmethod
@@ -389,3 +392,10 @@ class Player(pygame.sprite.Sprite):
             self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_RIGHT[randAnimation]
         else:
             self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_LEFT[randAnimation]
+
+    def _playMeowSound(self):
+        SOUND_CHANCE = 50  # percent
+        if randrange(1, 100) <= SOUND_CHANCE:
+            sound = randrange(2) + 1
+            eval("self.SOUND_MEOW" + str(sound) + ".play()")
+

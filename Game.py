@@ -1,3 +1,5 @@
+import time
+
 import pygame
 
 import EventHandler
@@ -25,7 +27,7 @@ class Game:
     keyPressed = None
 
     def __init__(self):
-        self._maxFps = 200
+        self._maxFps = 300
         self._clock = clock = pygame.time.Clock()
         GameInfo.load()
         Music.start()
@@ -48,7 +50,6 @@ class Game:
             Bird.updateAll()
             Camera.update(Player.getInstance()) #must be called after player update
             Background.getInstance().update()
-            CloudManager.update()
             Deadline.update(Game.keyPressed)
 
     def render(self):

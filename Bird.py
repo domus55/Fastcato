@@ -152,7 +152,7 @@ class Bird(pygame.sprite.Sprite):
         Bird._animationWasSetUp = True
 
     def _render(self):
-        if self.disappeared is False:
+        if self.disappeared is False and Camera.Camera.isOnScreen(self.rect):
             self.image.set_alpha(self.alpha)
             screen.blit(self.image, Camera.Camera.relativePosition(self.rect.topleft))
 

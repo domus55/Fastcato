@@ -64,7 +64,7 @@ class LevelManager:
 
     @staticmethod
     def restartLevel():
-        Player.Player.getInstance().restart()
+        #Player.Player.getInstance().restart()
         Block.Block.allBlocks.clear()
         ObstacleManager.ObstacleManager.allObstacles.clear()
         Bird.Bird.allBirds.clear()
