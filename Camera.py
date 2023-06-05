@@ -26,7 +26,8 @@ class Camera:
             cameraShift = (destination - 800 - Camera.posX) / Camera.SMOOTHNESS
 
         if abs(cameraShift) > 20:
-            cameraShift = (destination - 800 - Camera.posX)
+            cameraShift = 0
+            Camera.posX = destination - 800
 
         if abs(cameraShift) < 0.2:
             if abs(cameraShift) < 0.01:

@@ -38,6 +38,11 @@ class LevelManager:
     HEADGEHOG = (200, 100, 100, 255)
     DOG = (200, 120)
 
+    #SYMBOLS
+    DEATH = (180, 200, 180)
+    ATTENTION = (180, 215, 180)
+    STAR = (180, 230, 180)
+
     currentLevel = 1
     currentLevelImg = pygame.image.load("images/levels/1.bmp")
 
@@ -66,6 +71,7 @@ class LevelManager:
     def restartLevel():
         #Player.Player.getInstance().restart()
         Block.Block.allBlocks.clear()
+        Block.Block.allColliders.clear()
         ObstacleManager.ObstacleManager.allObstacles.clear()
         Bird.Bird.allBirds.clear()
         Buttons.Buttons.allButton.clear()
@@ -118,6 +124,13 @@ class LevelManager:
                     Decorations.Decorations.add(Decorations.Decorations.Type.STONE_BIG, (i, j))
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.STONE_SMALL:
                     Decorations.Decorations.add(Decorations.Decorations.Type.STONE_SMALL, (i, j))
+                #Symbols
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.DEATH:
+                    Buttons.Buttons.add(Buttons.Buttons.Type.DEATH, (i * 50 - 22, j * 50))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.ATTENTION:
+                    Buttons.Buttons.add(Buttons.Buttons.Type.ATTENTION, (i * 50 - 22, j * 50))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.STAR:
+                    Buttons.Buttons.add(Buttons.Buttons.Type.STAR, (i * 50 - 22, j * 50))
 
         LevelManager._loadAdditionalThings()
 
@@ -149,7 +162,7 @@ class LevelManager:
 
             Buttons.Buttons.add(Buttons.Buttons.Type.ATTENTION, (1105, 800))
 
-            Buttons.Buttons.add(Buttons.Buttons.Type.DEATH, (1725, 750))
+            #Buttons.Buttons.add(Buttons.Buttons.Type.DEATH, (1725, 750))
 
             Buttons.Buttons.add(Buttons.Buttons.Type.LSHIFT, (3600, 550))
             Buttons.Buttons.add(Buttons.Buttons.Type.ATTENTION, (3625, 500))

@@ -27,7 +27,7 @@ class MainMenu:
         inLevels = 2
         inSettings = 3
 
-    state = State.inMain
+    state = State.closed
     levelsPage = 0
 
     DEFAULT = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/default.png"), (400, 525)).convert_alpha()

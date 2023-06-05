@@ -89,6 +89,8 @@ class Player(pygame.sprite.Sprite):
         self._collisionWithBlock()
         self._collisionWithObstacle()
         self._animate()
+        #if Deadline.Deadline.time() > 15:
+        #    print(self.pos[0])
 
     def render(self):
         self.collider.topleft = self.pos
@@ -147,6 +149,7 @@ class Player(pygame.sprite.Sprite):
                 for i in range(Player.SHADOW_AMOUNT):
                     self.shadowImagesPos[i] = pygame.Rect(self.pos, (0, 0))
                     self.shadowImagesPos[i].centerx -= self._DASH_DISTANCE * i/Player.SHADOW_AMOUNT - self._DASH_DISTANCE
+                    self.shadowImagesPos[i].centery -= 70
 
             else:
                 self._shadowFacingRight = False
@@ -154,6 +157,7 @@ class Player(pygame.sprite.Sprite):
                 for i in range(Player.SHADOW_AMOUNT):
                     self.shadowImagesPos[i] = pygame.Rect(self.pos, (0, 0))
                     self.shadowImagesPos[i].centerx += self._DASH_DISTANCE * i/Player.SHADOW_AMOUNT - self._DASH_DISTANCE
+                    self.shadowImagesPos[i].centery -= 70
 
             #check if after dash is in any blocks
             inBlock = True
@@ -204,12 +208,12 @@ class Player(pygame.sprite.Sprite):
     def _collisionWithBlock(self):
         self.canJump = False
 
-        for i in Block.Block.allBlocks:
-            if self.collider.colliderect(i.rect):
-                halfBlockSize = i.rect.size[0] / 2, i.rect.size[1] / 2
+        for i in Block.Block.allColliders:
+            if self.collider.colliderect(i):
+                halfBlockSize = i.size[0] / 2, i.size[1] / 2
 
-                deltaX = i.rect.centerx - self.collider.centerx
-                deltaY = i.rect.centery - self.collider.centery
+                deltaX = i.centerx - self.collider.centerx
+                deltaY = i.centery - self.collider.centery
                 intersectX = abs(deltaX) - (halfBlockSize[0] + self.collider.size[0] / 2)
                 intersectY = abs(deltaY) - (halfBlockSize[1] + self.collider.size[1] / 2)
 
