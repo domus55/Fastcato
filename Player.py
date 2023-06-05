@@ -123,25 +123,30 @@ class Player(pygame.sprite.Sprite):
         Deadline.Deadline.stop()
 
     def _move(self, keyPressed):
+
         self._prevVelocityX = self._velocityX #it's used for animations
         self._prevVelocityY = self._velocityY #it's used for animations
         self._velocityX = 0
         self._velocityY += 0.2 * InnerTime.deltaTime / 10
 
-        if keyPressed[pygame.K_a]:
-            self._velocityX -= self.speed
-            self._isFacingRight = False
-        if keyPressed[pygame.K_d]:
-            self._velocityX += self.speed
-            self._isFacingRight = True
-        if keyPressed[pygame.K_w] and self.canJump:
-            self._velocityY = - self.speed * 3
-            self.canJump = False
+        if keyPressed is not None:
+            if keyPressed[pygame.K_a]:
+                self._velocityX -= self.speed
+                self._isFacingRight = False
+            if keyPressed[pygame.K_d]:
+                self._velocityX += self.speed
+                self._isFacingRight = True
+            if keyPressed[pygame.K_w] and self.canJump:
+                self._velocityY = - self.speed * 3
+                self.canJump = False
 
         self.pos[0] += self._velocityX * InnerTime.deltaTime / 10.0
         self.pos[1] += self._velocityY * InnerTime.deltaTime / 10.0
 
     def _dash(self, keyPressed):
+        if keyPressed is None:
+            return
+
         if keyPressed[pygame.K_LSHIFT] and time.time() > self.last_dash_time + self._DASH_DELAY:
             if self._isFacingRight:
                 self._shadowFacingRight = True

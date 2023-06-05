@@ -28,6 +28,9 @@ class Deadline:
 
     @staticmethod
     def _checkStart(keyPressed):
+        if keyPressed is None:
+            return
+
         if not Deadline.isRunning:
             if keyPressed[pygame.K_w] or keyPressed[pygame.K_a] or keyPressed[pygame.K_s] or keyPressed[pygame.K_d] or keyPressed[pygame.K_LSHIFT]:
                 Deadline._start()

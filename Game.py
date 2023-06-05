@@ -44,6 +44,7 @@ class Game:
         else:
             if InGameMenu.state == InGameMenu.State.open:
                 InGameMenu.update(Game.keyPressed)
+                Game.keyPressed = None
             LevelManager.update()
             ObstacleManager.updateAll()
             Player.getInstance().update(Game.keyPressed)
