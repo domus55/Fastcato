@@ -101,3 +101,33 @@ class Deadline:
 
         Screen.screen.blit(Deadline._FONT_BACKGROUND, (45, 45))
         Deadline.GAME_FONT.render_to(Screen.screen, (50, 50), strr, Deadline.color)
+
+    @staticmethod
+    def strTime():
+        strr = ""
+        time = Deadline.time()
+
+        seconds = int(time)
+        minutes = seconds // 60
+        ms = int(time * 1000 % 1000)
+
+        seconds = seconds % 60
+        if minutes <= 9:
+            strr += '0'
+
+        strr += str(minutes)
+        strr += ':'
+
+        if seconds <= 9:
+            strr += '0'
+        strr += str(seconds)
+        strr += '.'
+
+        if ms <= 99:
+            strr += '0'
+            if ms <= 9:
+                strr += '0'
+
+        strr += str(ms)
+
+        return strr

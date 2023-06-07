@@ -19,6 +19,7 @@ from MainMenu import MainMenu
 from Music import Music
 from Obstacles.ObstacleManager import ObstacleManager
 from Player import Player
+from Result import Result
 from Screen import screen, screenRender, screenInitialize
 from Background import Background
 
@@ -45,6 +46,8 @@ class Game:
             if InGameMenu.state == InGameMenu.State.open:
                 InGameMenu.update(Game.keyPressed)
                 Game.keyPressed = None
+            if Result.state == Result.State.open:
+                Game.keyPressed = None
             LevelManager.update()
             ObstacleManager.updateAll()
             Player.getInstance().update(Game.keyPressed)
@@ -64,10 +67,13 @@ class Game:
             ObstacleManager.renderAll()
             Bird.renderAll()
             Block.renderAll()
-            Deadline.render()
-            BirdCounter.render()
+            if Result.state == Result.State.closed:
+                Deadline.render()
+                BirdCounter.render()
             if InGameMenu.state == InGameMenu.State.open:
                 InGameMenu.render()
+            elif Result.state == Result.State.open:
+                Result.render()
         screenRender()
 
 

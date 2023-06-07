@@ -11,6 +11,7 @@ import GameInfo
 import MainMenu
 import Player
 import Block
+import Result
 from Obstacles import ObstacleManager
 from Obstacles.Dog import Dog
 from Obstacles.Hedgehog import Hedgehog
@@ -56,15 +57,23 @@ class LevelManager:
     def update():
         #print("update")
         if Bird.Bird.birdsOnMap() is 0:
+            newRecord = False
+            if GameInfo.GameInfo.levelTime[LevelManager.currentLevel] > Deadline.Deadline.time():
+                newRecord = True
+
             #if new record, then save it
             if GameInfo.GameInfo.levelTime[LevelManager.currentLevel] == 0.0 or \
-                    GameInfo.GameInfo.levelTime[LevelManager.currentLevel] > Deadline.Deadline.time():
+                    newRecord:
                 GameInfo.GameInfo.levelTime[LevelManager.currentLevel] = Deadline.Deadline.time()
                 GameInfo.GameInfo.saveSave()
-            if Deadline.Deadline.time() <= 60:
-                LevelManager.nextLevel()
-            else:
-                LevelManager.restartLevel()
+
+            if Result.Result.state == Result.Result.State.closed:
+                Result.Result.open(Deadline.Deadline.strTime(), newRecord)
+
+            #if Deadline.Deadline.time() <= 60:
+            #    LevelManager.nextLevel()
+            #else:
+            #    LevelManager.restartLevel()
 
 
     @staticmethod
