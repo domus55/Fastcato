@@ -9,40 +9,61 @@ from Screen import *
 
 class BlockType(Enum):
     GRASS = 1
+    GRASS_BACKGROUND = 2
 
 
 class Block(pygame.sprite.Sprite):
     allBlocks = []
+    allBackgroundBlocks = []
     allColliders = []
     grassLayout = [[0 for col in range(21)] for row in range(1000)]
+    grassBackgroundLayout = [[0 for col2 in range(21)] for row2 in range(1000)]
 
     IMG_GRASS = []
     IMG_CENTER_GRASS = []  # images of grass which is surrounded by other blocks
 
     _loadedImages = False
 
-    def __init__(self, img, pos):
+    def __init__(self, img, pos, isBackground = False):
         super().__init__()
         SIZE = 50
         self.image = pygame.transform.scale(img, (SIZE, SIZE))
         self.rect = self.image.get_rect()
         self.rect.center = pos[0] * 50, pos[1] * 50
+        self.backgroundColor = pygame.Surface(self.image.get_size()).convert_alpha()
+        if isBackground:
+            c = 180
+            self.backgroundColor.fill((c, c, c))
+            self.image.blit(self.backgroundColor, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
     @staticmethod
     def createBlock(type, pos):
         if type == BlockType.GRASS:
             Block.grassLayout[pos[0]][pos[1]] = True
+        if type == BlockType.GRASS_BACKGROUND:
+            Block.grassBackgroundLayout[pos[0]][pos[1]] = True
 
     @staticmethod
     def setBlocks():
         if not Block._loadedImages:
             Block._loadImages()
-        Block._setImages()
+        Block._setImages(BlockType.GRASS)
         Block._setColliders()
+        Block.grassLayout = [[sum(x) for x in zip(Block.grassLayout[i], Block.grassBackgroundLayout[i])] for i in range(len(Block.grassLayout))]
+        Block._setImages(BlockType.GRASS_BACKGROUND)
         Block.grassLayout = [[0 for col in range(21)] for row in range(1000)]
+        Block.grassBackgroundLayout = [[0 for col2 in range(21)] for row2 in range(1000)]
 
     @staticmethod
-    def renderAll():
+    def renderBackground():
+        for i in Block.allBackgroundBlocks:
+            if Camera.Camera.isOnScreen(i.rect):
+
+
+                i.render()
+
+    @staticmethod
+    def renderBlocks():
         for i in Block.allBlocks:
             if Camera.Camera.isOnScreen(i.rect):
                 i.render()
@@ -68,7 +89,7 @@ class Block(pygame.sprite.Sprite):
         Block._loadedImages = True
 
     @staticmethod
-    def _setImages():
+    def _setImages(type):
         for i, block in enumerate(Block.grassLayout):
             for j, exists in enumerate(block):
                 if exists:
@@ -133,8 +154,12 @@ class Block(pygame.sprite.Sprite):
                             elif Block.grassLayout[i - 1][j] and not Block.grassLayout[i + 1][j]:
                                 img = Block.IMG_GRASS[12]
 
-                    b = Block(img, (i, j))
-                    Block.allBlocks.append(b)
+                    if type == BlockType.GRASS:
+                        b = Block(img, (i, j))
+                        Block.allBlocks.append(b)
+                    if type == BlockType.GRASS_BACKGROUND:
+                        b = Block(img, (i, j), True)
+                        Block.allBackgroundBlocks.append(b)
 
 
 

@@ -20,7 +20,7 @@ class Hedgehog(Obstacle):
         self.rect = self.image.get_rect()
         self.rect.center = pos[0] * 50, pos[1] * 50 + 12
         self.hitbox = pygame.Rect(self.rect)
-        HITBOX_DOWNSIZE = 0.65
+        HITBOX_DOWNSIZE = 0.64
         self.hitbox.size = (HITBOX_DOWNSIZE * self.hitbox.size[0],  HITBOX_DOWNSIZE * self.hitbox.size[1])
         self.hitbox.center = self.rect.center
         self.hitbox.centery += 5

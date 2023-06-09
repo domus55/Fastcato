@@ -26,6 +26,7 @@ class LevelManager:
 
     #BLOCKS
     BLOCK_GRASS = (80, 40, 40, 255)
+    BLOCK_GRASS_BACKGROUND = (50, 25, 25, 255)
 
     #DECORATIONS
     TREE_BIG = (0, 80, 0, 255)
@@ -49,7 +50,7 @@ class LevelManager:
 
     @staticmethod
     def initialize():
-        LevelManager.currentLevel = 0
+        LevelManager.currentLevel = 6
         LevelManager._loadImages()
         LevelManager.restartLevel()
 
@@ -68,12 +69,8 @@ class LevelManager:
                 GameInfo.GameInfo.saveSave()
 
             if Result.Result.state == Result.Result.State.closed:
-                Result.Result.open(Deadline.Deadline.strTime(), newRecord)
-
-            #if Deadline.Deadline.time() <= 60:
-            #    LevelManager.nextLevel()
-            #else:
-            #    LevelManager.restartLevel()
+                tooSlow = False if Deadline.Deadline.time() < 60 else True
+                Result.Result.open(Deadline.Deadline.strTime(), newRecord, tooSlow)
 
 
     @staticmethod
@@ -81,6 +78,7 @@ class LevelManager:
         #Player.Player.getInstance().restart()
         Block.Block.allBlocks.clear()
         Block.Block.allColliders.clear()
+        Block.Block.allBackgroundBlocks.clear()
         ObstacleManager.ObstacleManager.allObstacles.clear()
         Bird.Bird.allBirds.clear()
         Buttons.Buttons.allButton.clear()
@@ -109,6 +107,8 @@ class LevelManager:
             for j in range(20):
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.BLOCK_GRASS:
                     Block.Block.createBlock(Block.BlockType.GRASS, (i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.BLOCK_GRASS_BACKGROUND:
+                    Block.Block.createBlock(Block.BlockType.GRASS_BACKGROUND, (i, j))
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.PLAYER_SPAWN:
                     Player.Player.getInstance().startingPosition = (i * 50, j * 50)
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.HEADGEHOG:
@@ -180,7 +180,26 @@ class LevelManager:
 
             Decorations.Decorations.add(Decorations.Decorations.Type.TREE_SMALL, (108, 12))
 
+
+        if LevelManager.currentLevel is 2:
+            Decorations.Decorations.add(Decorations.Decorations.Type.STONE_SMALL, (66, 16))
+            Decorations.Decorations.add(Decorations.Decorations.Type.STONE_SMALL, (70, 16))
+            Decorations.Decorations.add(Decorations.Decorations.Type.STONE_SMALL, (73, 16))
+            Decorations.Decorations.add(Decorations.Decorations.Type.STONE_SMALL, (74, 16))
+            Decorations.Decorations.add(Decorations.Decorations.Type.STONE_SMALL, (77, 16))
+
+            obj = Dog((76, 16), -700)
+            ObstacleManager.ObstacleManager.addObstackle(obj)
+
+
         if LevelManager.currentLevel is 3:
             Buttons.Buttons.add(Buttons.Buttons.Type.LSHIFT, (1000, 750))
+
+            obj = Hedgehog((24, 16))
+            ObstacleManager.ObstacleManager.addObstackle(obj)
+
+        if LevelManager.currentLevel is 5:
+            obj = Hedgehog((58, 12))
+            ObstacleManager.ObstacleManager.addObstackle(obj)
 
 

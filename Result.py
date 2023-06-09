@@ -31,13 +31,15 @@ class Result:
     FONT = pygame.freetype.Font("fonts/timer.ttf", 48)
     FONT_COLOR = (182, 137, 98)
     _time = ""
+    _tooSlow = False
     _isNewRecord = False
 
     image = DEFAULT
 
     @staticmethod
-    def open(time, isNewRecord):
+    def open(time, isNewRecord, tooSlow):
         Result._time = time
+        Result._tooSlow = tooSlow
         Result._isNewRecord = isNewRecord
         Result.state = Result.State.open
         InGameMenu.InGameMenu.state = InGameMenu.InGameMenu.State.closed
@@ -49,7 +51,8 @@ class Result:
         str1 = "Time: " + Result._time
         str2 = ""
         str2pos = 0
-        if Deadline.Deadline.time() > 60:
+        print(Deadline.Deadline.time())
+        if Result._tooSlow:
             str2 = "Too slow"
             str2pos = 721
         elif Result._isNewRecord:

@@ -61,12 +61,13 @@ class Game:
             MainMenu.render()
         else:
             Background.getInstance().render()
+            Block.renderBackground()
             Buttons.renderAll()
             Decorations.renderAll()
             Player.getInstance().render()
             ObstacleManager.renderAll()
             Bird.renderAll()
-            Block.renderAll()
+            Block.renderBlocks()
             if Result.state == Result.State.closed:
                 Deadline.render()
                 BirdCounter.render()
