@@ -23,7 +23,7 @@ class Camera:
         if player._isFacingRight:
             cameraShift = (destination - Camera.DELTA_X - Camera.posX) / Camera.SMOOTHNESS
         else:
-            cameraShift = (destination - 800 - Camera.posX) / Camera.SMOOTHNESS
+            cameraShift = (destination - 650 - Camera.posX) / Camera.SMOOTHNESS
 
         if abs(cameraShift) > 20:
             cameraShift = 0

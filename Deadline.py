@@ -38,7 +38,7 @@ class Deadline:
     @staticmethod
     def _start():
         Deadline.SOUND_TIMER.set_volume(GameInfo.GameInfo.getSound())
-        Deadline._startTime = time.time() - 50
+        Deadline._startTime = time.time()
         Deadline.isRunning = True
         Deadline.timeOut = False
         Deadline.color = (255, 255, 255)

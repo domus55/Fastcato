@@ -51,7 +51,6 @@ class Result:
         str1 = "Time: " + Result._time
         str2 = ""
         str2pos = 0
-        print(Deadline.Deadline.time())
         if Result._tooSlow:
             str2 = "Too slow"
             str2pos = 721

@@ -50,7 +50,7 @@ class LevelManager:
 
     @staticmethod
     def initialize():
-        LevelManager.currentLevel = 6
+        LevelManager.currentLevel = 0
         LevelManager._loadImages()
         LevelManager.restartLevel()
 
@@ -111,6 +111,7 @@ class LevelManager:
                     Block.Block.createBlock(Block.BlockType.GRASS_BACKGROUND, (i, j))
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.PLAYER_SPAWN:
                     Player.Player.getInstance().startingPosition = (i * 50, j * 50)
+                #Obstacles
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.HEADGEHOG:
                     obj = Hedgehog((i, j))
                     ObstacleManager.ObstacleManager.addObstackle(obj)
@@ -121,6 +122,7 @@ class LevelManager:
                     ObstacleManager.ObstacleManager.addObstackle(obj)
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.FINISH_LINE:
                     Bird.Bird.create((i, j))
+                #Decorations
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.TREE_BIG:
                     Decorations.Decorations.add(Decorations.Decorations.Type.TREE_BIG, (i, j))
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.TREE_SMALL:
@@ -169,9 +171,9 @@ class LevelManager:
             Buttons.Buttons.add(Buttons.Buttons.Type.S, (x, y))
             Buttons.Buttons.add(Buttons.Buttons.Type.D, (x + 45, y))
 
-            Buttons.Buttons.add(Buttons.Buttons.Type.ATTENTION, (1105, 800))
+            Buttons.Buttons.add(Buttons.Buttons.Type.TIP, (2100, 550))
 
-            #Buttons.Buttons.add(Buttons.Buttons.Type.DEATH, (1725, 750))
+            Buttons.Buttons.add(Buttons.Buttons.Type.ATTENTION, (1105, 800))
 
             Buttons.Buttons.add(Buttons.Buttons.Type.LSHIFT, (3600, 550))
             Buttons.Buttons.add(Buttons.Buttons.Type.ATTENTION, (3625, 500))
@@ -199,6 +201,21 @@ class LevelManager:
             ObstacleManager.ObstacleManager.addObstackle(obj)
 
         if LevelManager.currentLevel is 5:
+            Bird.Bird.create((64, 17))
+            Buttons.Buttons.add(Buttons.Buttons.Type.STAR, (64 * 50 - 22, 16 * 50))
+            obj = Dog((66, 17), 250)
+            ObstacleManager.ObstacleManager.addObstackle(obj)
+            obj = Hedgehog((73, 16))
+            ObstacleManager.ObstacleManager.addObstackle(obj)
+            Decorations.Decorations.add(Decorations.Decorations.Type.STONE_BIG, (69, 17))
+            Bird.Bird.create((191, 17))
+            Buttons.Buttons.add(Buttons.Buttons.Type.STAR, (191 * 50 - 22, 16 * 50))
+            obj = Hedgehog((222, 15))
+            ObstacleManager.ObstacleManager.addObstackle(obj)
+            obj = Dog((225, 16), 250)
+            ObstacleManager.ObstacleManager.addObstackle(obj)
+
+        if LevelManager.currentLevel is 6:
             obj = Hedgehog((58, 12))
             ObstacleManager.ObstacleManager.addObstackle(obj)
 

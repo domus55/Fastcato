@@ -1,8 +1,10 @@
+import os.path
+
 class GameInfo:
     _sound = 6   #from 0 - 6
     _music = 6   #from 0 - 6
 
-    NUMBER_OF_LEVELS = 9
+    NUMBER_OF_LEVELS = 6
 
     levelTime = [0.0] * (NUMBER_OF_LEVELS + 1)
 
@@ -44,6 +46,10 @@ class GameInfo:
         error = False
         GameInfo.levelTime[0] = 1
 
+        fileExists = os.path.exists('save.txt')
+        if not fileExists:
+            GameInfo.saveSave()
+
         with open('save.txt') as f:
             for i in range(GameInfo.NUMBER_OF_LEVELS):
                 try:
@@ -67,14 +73,14 @@ class GameInfo:
 
     @staticmethod
     def loadSettings():
-        with open('game_settings.txt') as f:
-            try:
+        try:
+            with open('game_settings.txt') as f:
                 GameInfo._sound = int(f.readline())
                 GameInfo._music = int(f.readline())
-            except:
-                GameInfo._sound = 6
-                GameInfo._music = 6
-                GameInfo.saveSettings()
+        except Exception:
+            GameInfo._sound = 6
+            GameInfo._music = 6
+            GameInfo.saveSettings()
 
     @staticmethod
     def strLevelTime(levelNr):

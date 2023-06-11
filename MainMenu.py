@@ -154,7 +154,7 @@ class MainMenu:
                         MainMenu.image = MainMenu.LEVELS_PREV
                         MainMenu.SOUND_CLICK.play()
                 if MainMenu.hitboxLevelsNext.collidepoint(mousePos):
-                    if MainMenu.levelsPage < 2:
+                    if MainMenu.levelsPage < 1:
                         MainMenu.image = MainMenu.LEVELS_NEXT
                         MainMenu.SOUND_CLICK.play()
                 if MainMenu.hitboxLevels1.collidepoint(mousePos):

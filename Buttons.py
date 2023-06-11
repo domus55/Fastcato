@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import IntEnum
 
 import pygame
 
@@ -21,17 +21,19 @@ class Buttons:
     DEATH_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/death.png"), (40, 40)).convert_alpha()
     ATTENTION_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/attention.png"), (40, 40)).convert_alpha()
     STAR_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/star.png"), (40, 40)).convert_alpha()
+    TIP_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/tip.png"), (200, 70)).convert_alpha()
 
 
-    class Type(Enum):
+    class Type(IntEnum):
         W = 1
         A = 2
         S = 3
         D = 4
         LSHIFT = 5
-        DEATH = 6
-        ATTENTION = 7
-        STAR = 8
+        DEATH = 101
+        ATTENTION = 102
+        STAR = 103
+        TIP = 104
 
     allButton = []
 
@@ -65,7 +67,7 @@ class Buttons:
             i._setButtonImage(keyPressed)
 
     def _setButtonImage(self, keyPressed):
-        if self.type == Buttons.Type.DEATH or self.type == Buttons.Type.ATTENTION or self.type == Buttons.Type.STAR:
+        if int(self.type) > 100:
             return
         if self.type == Buttons.Type.LSHIFT:
             typeStr = str(self.type)[5:]
