@@ -106,8 +106,6 @@ class Player(pygame.sprite.Sprite):
                     screen.blit(Player.IMG_SHADOW_LEFT, Camera.Camera.relativePosition(self.shadowImagesPos[i].topleft))
         #pygame.draw.rect(screen, (255, 0, 0), self.collider)
 
-
-
     def restart(self):
         self.collider.center = self.startingPosition #it might be wrong, probably needs offset
         self.pos = list(self.collider.topleft)
@@ -121,7 +119,6 @@ class Player(pygame.sprite.Sprite):
         Deadline.Deadline.stop()
 
     def _move(self, keyPressed):
-
         self._prevVelocityX = self._velocityX #it's used for animations
         self._prevVelocityY = self._velocityY #it's used for animations
         self._velocityX = 0
@@ -184,7 +181,7 @@ class Player(pygame.sprite.Sprite):
             self.last_dash_time = time.time()
 
     def _dashReadySound(self):
-        if MainMenu.MainMenu.state is not MainMenu.MainMenu.State.closed:
+        if MainMenu.MainMenu.state is not MainMenu.MainMenu.State.CLOSED:
             return
         else:
             Player.DASH_READY.play()
@@ -264,10 +261,9 @@ class Player(pygame.sprite.Sprite):
     @staticmethod
     def _setUpAnimation():
         SIZE = 100
-        NUMBER_OF_IMAGES = 4
 
         #walking
-        for i in range(NUMBER_OF_IMAGES):
+        for i in range(4):
             img = pygame.image.load(f"images/cat/walk/{i + 1}.png")
             readyImg = pygame.transform.scale(img, (SIZE, SIZE))
             Player.ANIMATION_WALK_RIGHT.append(readyImg.convert_alpha())

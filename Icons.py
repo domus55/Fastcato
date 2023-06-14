@@ -22,7 +22,6 @@ class Icons:
     STAR_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/star.png"), (40, 40)).convert_alpha()
     TIP_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/tip.png"), (200, 70)).convert_alpha()
 
-
     class Type(IntEnum):
         W = 1
         A = 2

@@ -13,16 +13,15 @@ from Screen import screen
 
 class Bird(pygame.sprite.Sprite):
     allBirds = []
-    IMG_BIRD = pygame.image.load("images/bird2/idle/1.png").convert()
-    DISAPPEARING_TIME = 2.5  # in sec
+    _DISAPPEARING_TIME = 2.5  # in sec
 
-    PIGEON_FLY_ANIMATION_RIGHT = []
-    PIGEON_FLY_ANIMATION_LEFT = []
-    PIGEON_IDLE_ANIMATION = []
+    _ANIMATION_PIGEON_FLY_RIGHT = []
+    _ANIMATION_PIGEON_FLY_LEFT = []
+    _ANIMATION_PIGEON_IDLE = []
 
-    CROW_FLY_ANIMATION_RIGHT = []
-    CROW_FLY_ANIMATION_LEFT = []
-    CROW_IDLE_ANIMATION = []
+    _ANIMATION_CROW_FLY_RIGHT = []
+    _ANIMATION_CROW_FLY_LEFT = []
+    _ANIMATION_CROW_IDLE = []
     _animationWasSetUp = False
 
     # Sounds
@@ -36,28 +35,26 @@ class Bird(pygame.sprite.Sprite):
         super().__init__()
         if not Bird._animationWasSetUp:
             Bird._setUpAnimation()
-        SIZE = 25
-        self.birdType = pos[0] % 2  # 0 - raven, 1 - pigeon
 
+        self.birdType = pos[0] % 2  # 0 = raven, 1 = pigeon
         if self.birdType is 0:
-            self.animationFlyRight = Bird.CROW_FLY_ANIMATION_RIGHT
-            self.animationFlyLeft = Bird.CROW_FLY_ANIMATION_LEFT
-            self.animationIdle = Bird.CROW_IDLE_ANIMATION
+            self.animationFlyRight = Bird._ANIMATION_CROW_FLY_RIGHT
+            self.animationFlyLeft = Bird._ANIMATION_CROW_FLY_LEFT
+            self.animationIdle = Bird._ANIMATION_CROW_IDLE
         else:
-            self.animationFlyRight = Bird.PIGEON_FLY_ANIMATION_RIGHT
-            self.animationFlyLeft = Bird.PIGEON_FLY_ANIMATION_LEFT
-            self.animationIdle = Bird.PIGEON_IDLE_ANIMATION
+            self.animationFlyRight = Bird._ANIMATION_PIGEON_FLY_RIGHT
+            self.animationFlyLeft = Bird._ANIMATION_PIGEON_FLY_LEFT
+            self.animationIdle = Bird._ANIMATION_PIGEON_IDLE
 
         self.image = self.animationIdle[0]
         self.rect = self.image.get_rect()
         self.rect.center = pos[0] * 50, pos[1] * 50 + 12
         self.posX = pos[0] * 50.0
         self.posY = pos[1] * 50.0 + 12
-
-        self.alpha = 255
-        self.disappeared = False  # true after alpha is set to 0
+        self._alpha = 255
+        self.disappeared = False  # true after _alpha is set to 0
         self._startFlying = None
-        self.fliesRight = True
+        self._fliesRight = True
         self._lastAnimationFrame = 0
         self._animationDeltaTime = randrange(10) / 10  # used to make other bird move differently then this one
         self._animationBooster = randrange(80, 120) / 100  # used so each animation will be at a little different speed
@@ -100,21 +97,21 @@ class Bird(pygame.sprite.Sprite):
         for i in range(NUMBER_OF_IMAGES):
             img = pygame.image.load(f"images/bird2/fly/{i + 1}.png")
             readyImg = pygame.transform.scale(img, (SIZE * 1.4, SIZE))
-            Bird.PIGEON_FLY_ANIMATION_RIGHT.append(readyImg.convert_alpha())
+            Bird._ANIMATION_PIGEON_FLY_RIGHT.append(readyImg.convert_alpha())
 
-        for i in range(len(Bird.PIGEON_FLY_ANIMATION_RIGHT)):
-            flippedImage = pygame.transform.flip(Bird.PIGEON_FLY_ANIMATION_RIGHT[i], True, False)
-            Bird.PIGEON_FLY_ANIMATION_LEFT.append(flippedImage)
+        for i in range(len(Bird._ANIMATION_PIGEON_FLY_RIGHT)):
+            flippedImage = pygame.transform.flip(Bird._ANIMATION_PIGEON_FLY_RIGHT[i], True, False)
+            Bird._ANIMATION_PIGEON_FLY_LEFT.append(flippedImage)
 
         # Crow
         for i in range(NUMBER_OF_IMAGES):
             img = pygame.image.load(f"images/bird1/fly/{i + 1}.png")
             readyImg = pygame.transform.scale(img, (SIZE * 1.4, SIZE))
-            Bird.CROW_FLY_ANIMATION_RIGHT.append(readyImg.convert_alpha())
+            Bird._ANIMATION_CROW_FLY_RIGHT.append(readyImg.convert_alpha())
 
-        for i in range(len(Bird.CROW_FLY_ANIMATION_RIGHT)):
-            flippedImage = pygame.transform.flip(Bird.CROW_FLY_ANIMATION_RIGHT[i], True, False)
-            Bird.CROW_FLY_ANIMATION_LEFT.append(flippedImage)
+        for i in range(len(Bird._ANIMATION_CROW_FLY_RIGHT)):
+            flippedImage = pygame.transform.flip(Bird._ANIMATION_CROW_FLY_RIGHT[i], True, False)
+            Bird._ANIMATION_CROW_FLY_LEFT.append(flippedImage)
 
         SIZE = 25
 
@@ -122,39 +119,39 @@ class Bird(pygame.sprite.Sprite):
         for i in range(4):
             img = pygame.image.load(f"images/bird2/idle/{i + 1}.png")
             readyImg = pygame.transform.scale(img, (SIZE * 1.4, SIZE))
-            Bird.PIGEON_IDLE_ANIMATION.append(readyImg.convert_alpha())
+            Bird._ANIMATION_PIGEON_IDLE.append(readyImg.convert_alpha())
 
-        for i in range(len(Bird.PIGEON_IDLE_ANIMATION)):
-            Bird.PIGEON_IDLE_ANIMATION.append(Bird.PIGEON_IDLE_ANIMATION[i])
+        for i in range(len(Bird._ANIMATION_PIGEON_IDLE)):
+            Bird._ANIMATION_PIGEON_IDLE.append(Bird._ANIMATION_PIGEON_IDLE[i])
 
-        for i in range(len(Bird.PIGEON_IDLE_ANIMATION)):
-            flippedImage = pygame.transform.flip(Bird.PIGEON_IDLE_ANIMATION[i], True, False)
-            Bird.PIGEON_IDLE_ANIMATION.append(flippedImage)
+        for i in range(len(Bird._ANIMATION_PIGEON_IDLE)):
+            flippedImage = pygame.transform.flip(Bird._ANIMATION_PIGEON_IDLE[i], True, False)
+            Bird._ANIMATION_PIGEON_IDLE.append(flippedImage)
 
         # Crow
         for i in range(4):
             img = pygame.image.load(f"images/bird1/idle/{i + 1}.png")
             readyImg = pygame.transform.scale(img, (SIZE * 1.4, SIZE))
-            Bird.CROW_IDLE_ANIMATION.append(readyImg.convert_alpha())
+            Bird._ANIMATION_CROW_IDLE.append(readyImg.convert_alpha())
 
-        for i in range(len(Bird.CROW_IDLE_ANIMATION)):
-            Bird.CROW_IDLE_ANIMATION.append(Bird.CROW_IDLE_ANIMATION[i])
+        for i in range(len(Bird._ANIMATION_CROW_IDLE)):
+            Bird._ANIMATION_CROW_IDLE.append(Bird._ANIMATION_CROW_IDLE[i])
 
-        for i in range(len(Bird.CROW_IDLE_ANIMATION)):
-            flippedImage = pygame.transform.flip(Bird.CROW_IDLE_ANIMATION[i], True, False)
-            Bird.CROW_IDLE_ANIMATION.append(flippedImage)
+        for i in range(len(Bird._ANIMATION_CROW_IDLE)):
+            flippedImage = pygame.transform.flip(Bird._ANIMATION_CROW_IDLE[i], True, False)
+            Bird._ANIMATION_CROW_IDLE.append(flippedImage)
 
         Bird._animationWasSetUp = True
 
     def _render(self):
         if self.disappeared is False and Camera.Camera.isOnScreen(self.rect):
-            self.image.set_alpha(self.alpha)
+            self.image.set_alpha(self._alpha)
             screen.blit(self.image, Camera.Camera.relativePosition(self.rect.topleft))
 
     def _update(self):
         if self.disappeared is False:
             self._checkScared()
-            self._setAlpha()
+            self._set_alpha()
             self._animate()
             if self._startFlying is not None:
                 self._move()
@@ -179,17 +176,17 @@ class Bird(pygame.sprite.Sprite):
                     Bird.SOUNDS_SCARE_PIGEON2.play()
 
             if playerCenter[0] > birdCenter[0]:
-                self.fliesRight = False
+                self.__fliesRight = False
             else:
-                self.fliesRight = True
+                self.__fliesRight = True
             if self.birdType is 0:
                 self.posY -= 12
 
-    def _setAlpha(self):
+    def _set_alpha(self):
         if self._startFlying is not None:
-            self.alpha = 255 - (time.time() - self._startFlying) / Bird.DISAPPEARING_TIME * 255
-            if self.alpha < 0:
-                self.alpha = 0
+            self._alpha = 255 - (time.time() - self._startFlying) / Bird._DISAPPEARING_TIME * 255
+            if self._alpha < 0:
+                self._alpha = 0
                 self.disappeared = True
                 BirdCounter.BirdCounter.catchedBird()
 
@@ -201,7 +198,7 @@ class Bird(pygame.sprite.Sprite):
             speedX = 1
             speedY = 1.25
 
-        if not self.fliesRight:
+        if not self.__fliesRight:
             speedX *= -1
 
         self.posX += speedX * InnerTime.deltaTime / 10
@@ -213,7 +210,7 @@ class Bird(pygame.sprite.Sprite):
             currentTime = int((time.time() + self._animationDeltaTime) * self._animationSpeed)
 
             if currentTime % 6 != self._lastAnimationFrame:
-                if self.fliesRight is True:
+                if self.__fliesRight is True:
                     self._lastAnimationFrame = currentTime % len(self.animationFlyRight)
                     self.image = self.animationFlyRight[self._lastAnimationFrame]
                 else:

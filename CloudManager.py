@@ -5,17 +5,16 @@ from Cloud import Cloud
 
 class CloudManager:
     _allClouds = []
-    numberOfClouds = 5
+    _numberOfClouds = 5
 
     @staticmethod
     def initialize():
         CloudManager._allClouds.clear()
-        CloudManager.numberOfClouds = 5 + randrange(100)
+        CloudManager._numberOfClouds = 5 + randrange(100)
 
-        for i in range(CloudManager.numberOfClouds):
+        for i in range(CloudManager._numberOfClouds):
             obj = Cloud(randrange(0, 16000))
             CloudManager._allClouds.append(obj)
-
 
     @staticmethod
     def update():
@@ -29,7 +28,6 @@ class CloudManager:
                 if CloudManager.isOnScreen(i):
                     i.render()
 
-
     @staticmethod
     def renderAfterMountains():
         for i in CloudManager._allClouds:
@@ -39,9 +37,9 @@ class CloudManager:
 
     @staticmethod
     def isOnScreen(cloud):
-        if 0 > cloud.getXPosision() + cloud.width:
+        if 0 > cloud.getXPosition() + cloud.width:
             return False
-        if 1600 < cloud.getXPosision() - cloud.width:
+        if 1600 < cloud.getXPosition() - cloud.width:
             return False
         return True
 

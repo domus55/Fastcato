@@ -18,7 +18,7 @@ from Music import Music
 from Obstacles.ObstacleManager import ObstacleManager
 from Player import Player
 from Result import Result
-from Screen import screen, screenRender, screenInitialize
+from Screen import screenRender, screenInitialize
 from Background import Background
 
 
@@ -28,7 +28,7 @@ class Game:
 
     def __init__(self):
         self._maxFps = 100
-        self._clock = clock = pygame.time.Clock()
+        self._clock = pygame.time.Clock()
         GameInfo.load()
         Music.start()
         LevelManager.initialize()
@@ -39,13 +39,13 @@ class Game:
         InnerTime.update()
         #InnerTime.showFps()
         EventHandler.update()
-        if MainMenu.state is not MainMenu.state.closed:
+        if MainMenu.state is not MainMenu.state.CLOSED:
             MainMenu.update()
         else:
-            if InGameMenu.state == InGameMenu.State.open:
+            if InGameMenu.state == InGameMenu.State.OPEN:
                 InGameMenu.update(Game.keyPressed)
                 Game.keyPressed = None
-            if Result.state == Result.State.open:
+            if Result.state == Result.State.OPEN:
                 Game.keyPressed = None
             LevelManager.update()
             ObstacleManager.updateAll()
@@ -56,7 +56,7 @@ class Game:
             Deadline.update(Game.keyPressed)
 
     def render(self):
-        if MainMenu.state is not MainMenu.state.closed:
+        if MainMenu.state is not MainMenu.state.CLOSED:
             MainMenu.render()
         else:
             Background.getInstance().render()
@@ -67,12 +67,12 @@ class Game:
             ObstacleManager.renderAll()
             Bird.renderAll()
             Block.renderBlocks()
-            if Result.state == Result.State.closed:
+            if Result.state == Result.State.CLOSED:
                 Deadline.render()
                 BirdCounter.render()
-            if InGameMenu.state == InGameMenu.State.open:
+            if InGameMenu.state == InGameMenu.State.OPEN:
                 InGameMenu.render()
-            elif Result.state == Result.State.open:
+            elif Result.state == Result.State.OPEN:
                 Result.render()
         screenRender()
 

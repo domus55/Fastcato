@@ -18,7 +18,7 @@ class Block(pygame.sprite.Sprite):
     grassBackgroundLayout = [[0 for col2 in range(21)] for row2 in range(1000)]
 
     IMG_GRASS = []
-    IMG_CENTER_GRASS = []  # images of grass which is surrounded by other blocks
+    _IMG_GRASS_CENTER = []  # images of grass which is surrounded by other blocks
 
     _loadedImages = False
 
@@ -82,7 +82,7 @@ class Block(pygame.sprite.Sprite):
             Block.IMG_GRASS.append(img)
         for i in range(4):
             img = pygame.image.load(f"images/grass/inside{i + 1}.png").convert()
-            Block.IMG_CENTER_GRASS.append(img)
+            Block._IMG_GRASS_CENTER.append(img)
 
         Block._loadedImages = True
 
@@ -206,7 +206,7 @@ class Block(pygame.sprite.Sprite):
         else:
 
             pseudoRandNum = (pow(i, 3) + pow(j, 2)) % 40
-            if pseudoRandNum < len(Block.IMG_CENTER_GRASS):
-                return Block.IMG_CENTER_GRASS[pseudoRandNum]
+            if pseudoRandNum < len(Block._IMG_GRASS_CENTER):
+                return Block._IMG_GRASS_CENTER[pseudoRandNum]
             else:
                 return Block.IMG_GRASS[5]

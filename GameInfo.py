@@ -47,7 +47,7 @@ class GameInfo:
 
         fileExists = os.path.exists('save.txt')
         if not fileExists:
-            GameInfo.saveSave()
+            GameInfo.saveTimes()
 
         with open('save.txt') as f:
             for i in range(GameInfo.NUMBER_OF_LEVELS):
@@ -57,10 +57,10 @@ class GameInfo:
                     GameInfo.levelTime[i + 1] = 0.0
                     error = True
         if error:
-            GameInfo.saveSave()
+            GameInfo.saveTimes()
 
     @staticmethod
-    def saveSave():
+    def saveTimes():
         with open('save.txt', 'w') as f:
             for i in range(GameInfo.NUMBER_OF_LEVELS):
                 f.write(f"{GameInfo.levelTime[i+1]}\n")

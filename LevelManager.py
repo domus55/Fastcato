@@ -54,7 +54,6 @@ class LevelManager:
 
     @staticmethod
     def update():
-        #print("update")
         if Bird.Bird.birdsOnMap() is 0:
             newRecord = False
             if GameInfo.GameInfo.levelTime[LevelManager.currentLevel] > Deadline.Deadline.time():
@@ -64,16 +63,15 @@ class LevelManager:
             if GameInfo.GameInfo.levelTime[LevelManager.currentLevel] == 0.0 or \
                     newRecord:
                 GameInfo.GameInfo.levelTime[LevelManager.currentLevel] = Deadline.Deadline.time()
-                GameInfo.GameInfo.saveSave()
+                GameInfo.GameInfo.saveTimes()
 
-            if Result.Result.state == Result.Result.State.closed:
+            if Result.Result.state == Result.Result.State.CLOSED:
                 tooSlow = False if Deadline.Deadline.time() < 60 else True
                 Result.Result.open(Deadline.Deadline.strTime(), newRecord, tooSlow)
 
 
     @staticmethod
     def restartLevel():
-        #Player.Player.getInstance().restart()
         Block.Block.allBlocks.clear()
         Block.Block.allColliders.clear()
         Block.Block.allBackgroundBlocks.clear()

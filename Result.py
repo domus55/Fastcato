@@ -11,10 +11,10 @@ import MainMenu
 
 class Result:
     class State(Enum):
-        closed = 0
-        open = 1
+        CLOSED = 0
+        OPEN = 1
 
-    state = State.closed
+    state = State.CLOSED
 
     DEFAULT = pygame.transform.scale(pygame.image.load("images/gui/result/default.png"), (400, 405)).convert_alpha()
     NEXT = pygame.transform.scale(pygame.image.load("images/gui/result/next.png"), (400, 405)).convert_alpha()
@@ -40,8 +40,8 @@ class Result:
         Result._time = time
         Result._tooSlow = tooSlow
         Result._isNewRecord = isNewRecord
-        Result.state = Result.State.open
-        InGameMenu.InGameMenu.state = InGameMenu.InGameMenu.State.closed
+        Result.state = Result.State.OPEN
+        InGameMenu.InGameMenu.state = InGameMenu.InGameMenu.State.CLOSED
         MainMenu.MainMenu.SOUND_CLICK.set_volume(GameInfo.GameInfo.getSound())
 
     @staticmethod
@@ -66,7 +66,7 @@ class Result:
 
     @staticmethod
     def mouseButtonDown():
-        if Result.state == Result.State.open:
+        if Result.state == Result.State.OPEN:
             mousePos = pygame.mouse.get_pos()
 
             if Result.hitboxNext.collidepoint(mousePos) and GameInfo.GameInfo.levelTime[LevelManager.LevelManager.currentLevel] < 60:
@@ -81,18 +81,18 @@ class Result:
 
     @staticmethod
     def mouseButtonUp():
-        if Result.state == Result.State.open:
+        if Result.state == Result.State.OPEN:
             mousePos = pygame.mouse.get_pos()
 
             if Result.hitboxNext.collidepoint(mousePos) and Result.image == Result.NEXT:
-                Result.state = Result.State.closed
+                Result.state = Result.State.CLOSED
                 LevelManager.LevelManager.nextLevel()
             elif Result.hitboxRestart.collidepoint(mousePos) and Result.image == Result.RESTART:
                 LevelManager.LevelManager.restartLevel()
-                Result.state = Result.State.closed
+                Result.state = Result.State.CLOSED
             elif Result.hitboxHome.collidepoint(mousePos) and Result.image == Result.HOME:
                 MainMenu.MainMenu.open()
-                Result.state = Result.State.closed
+                Result.state = Result.State.CLOSED
 
             Result.image = Result.DEFAULT
 

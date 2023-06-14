@@ -13,7 +13,7 @@ def update():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             Game.Game.isRunning = False
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE and MainMenu.MainMenu.state is MainMenu.MainMenu.state.closed:
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE and MainMenu.MainMenu.state is MainMenu.MainMenu.state.CLOSED:
             InGameMenu.InGameMenu.open()
         if event.type == pygame.MOUSEBUTTONDOWN:
             MainMenu.MainMenu.mouseButtonDown()
