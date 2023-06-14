@@ -1,13 +1,8 @@
-
-
-from Obstacles import Hedgehog, Dog
-
-
 class ObstacleManager:
     allObstacles = []
 
     @staticmethod
-    def addObstackle(obj):
+    def addObstacle(obj):
         if obj is not None:
             ObstacleManager.allObstacles.append(obj)
 

@@ -1,4 +1,4 @@
-from Game import *
+from Game import Game
 
 game = Game()
 while Game.isRunning:

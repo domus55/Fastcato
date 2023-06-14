@@ -2,13 +2,11 @@ import pygame
 import time
 from random import randrange
 
-import Camera
 from Obstacles.Obstacle import Obstacle
-from Screen import screen
 
 
 class Hedgehog(Obstacle):
-    IDLE_ANIMATION = []
+    _ANIMATION_IDLE = []
     _animationWasSetUp = False
 
     def __init__(self, pos):
@@ -16,7 +14,7 @@ class Hedgehog(Obstacle):
         if not Hedgehog._animationWasSetUp:
             Hedgehog._setUpAnimation()
 
-        self.image = Hedgehog.IDLE_ANIMATION[0]
+        self.image = Hedgehog._ANIMATION_IDLE[0]
         self.rect = self.image.get_rect()
         self.rect.center = pos[0] * 50, pos[1] * 50 + 12
         self.hitbox = pygame.Rect(self.rect)
@@ -37,14 +35,14 @@ class Hedgehog(Obstacle):
         for i in range(NUMBER_OF_IMAGES):
             img = pygame.image.load(f"images/hedgehog/idle/{i+1}.png")
             readyImg = pygame.transform.scale(img, (SIZE * 1.4, SIZE))
-            Hedgehog.IDLE_ANIMATION.append(readyImg.convert_alpha())
+            Hedgehog._ANIMATION_IDLE.append(readyImg.convert_alpha())
 
-        for i in range(len(Hedgehog.IDLE_ANIMATION)):
-            Hedgehog.IDLE_ANIMATION.append(Hedgehog.IDLE_ANIMATION[i])
+        for i in range(len(Hedgehog._ANIMATION_IDLE)):
+            Hedgehog._ANIMATION_IDLE.append(Hedgehog._ANIMATION_IDLE[i])
 
-        for i in range(len(Hedgehog.IDLE_ANIMATION)):
-            flippedImage = pygame.transform.flip(Hedgehog.IDLE_ANIMATION[i], True, False)
-            Hedgehog.IDLE_ANIMATION.append(flippedImage)
+        for i in range(len(Hedgehog._ANIMATION_IDLE)):
+            flippedImage = pygame.transform.flip(Hedgehog._ANIMATION_IDLE[i], True, False)
+            Hedgehog._ANIMATION_IDLE.append(flippedImage)
         Hedgehog._animationWasSetUp = True
 
 
@@ -55,5 +53,5 @@ class Hedgehog(Obstacle):
         currentTime = int((time.time() + self._animationDeltaTime) * self._animationSpeed)
 
         if currentTime % 4 != self._lastAnimationFrame:
-            self._lastAnimationFrame = currentTime % len(Hedgehog.IDLE_ANIMATION)
-            self.image = Hedgehog.IDLE_ANIMATION[self._lastAnimationFrame]
+            self._lastAnimationFrame = currentTime % len(Hedgehog._ANIMATION_IDLE)
+            self.image = Hedgehog._ANIMATION_IDLE[self._lastAnimationFrame]

@@ -1,12 +1,11 @@
 from enum import IntEnum
-
 import pygame
 
 import Camera
 from Screen import screen
 
 
-class Buttons:
+class Icons:
     #Images
     W_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/w1.png"), (42, 40)).convert_alpha()
     W_DOWN = pygame.transform.scale(pygame.image.load("images/gui/buttons/w2.png"), (42, 40)).convert_alpha()
@@ -40,17 +39,17 @@ class Buttons:
     def __init__(self, type, pos):
         self.pos = pos
         self.type = type
-        self.image = eval("Buttons." + str(type)[5:] + "_UP")
+        self.image = eval("Icons." + str(type)[5:] + "_UP")
         self.image.set_alpha(210)
 
     @staticmethod
     def add(type, pos):
-        obj = Buttons(type, pos)
-        Buttons.allButton.append(obj)
+        obj = Icons(type, pos)
+        Icons.allButton.append(obj)
 
     @staticmethod
     def renderAll():
-        for i in Buttons.allButton:
+        for i in Icons.allButton:
             i.render()
 
     def render(self):
@@ -58,25 +57,25 @@ class Buttons:
 
     @staticmethod
     def buttonDown(keyPressed):
-        for i in Buttons.allButton:
+        for i in Icons.allButton:
             i._setButtonImage(keyPressed)
 
     @staticmethod
     def buttonUp(keyPressed):
-        for i in Buttons.allButton:
+        for i in Icons.allButton:
             i._setButtonImage(keyPressed)
 
     def _setButtonImage(self, keyPressed):
         if int(self.type) > 100:
             return
-        if self.type == Buttons.Type.LSHIFT:
+        if self.type == Icons.Type.LSHIFT:
             typeStr = str(self.type)[5:]
         else:
             typeStr = (str(self.type)[5:]).lower()
 
         if eval("keyPressed[pygame.K_" + typeStr + "]"):
-            self.image = eval("Buttons." + str(self.type)[5:] + "_DOWN")
+            self.image = eval("Icons." + str(self.type)[5:] + "_DOWN")
         else:
-            self.image = eval("Buttons." + str(self.type)[5:] + "_UP")
+            self.image = eval("Icons." + str(self.type)[5:] + "_UP")
 
 

@@ -11,14 +11,11 @@ class Deadline:
     timeOut = False
 
     # Font
-    pygame.freetype.init()
-    GAME_FONT = pygame.freetype.Font("fonts/timer.ttf", 50)
-    color = (255, 255, 255)
+    _FONT = pygame.freetype.Font("fonts/timer.ttf", 50)
+    _color = (255, 255, 255)
     _FONT_BACKGROUND = pygame.Surface((165, 44))
-    #_FONT_BACKGROUND = pygame.Surface((165, 165))
     _FONT_BACKGROUND.set_alpha(100)
 
-    pygame.mixer.init()
     SOUND_TIMER = pygame.mixer.Sound("sounds/timer.wav")
 
 
@@ -41,7 +38,7 @@ class Deadline:
         Deadline._startTime = time.time()
         Deadline.isRunning = True
         Deadline.timeOut = False
-        Deadline.color = (255, 255, 255)
+        Deadline._color = (255, 255, 255)
 
     @staticmethod
     def time():
@@ -50,7 +47,7 @@ class Deadline:
     @staticmethod
     def stop():
         Deadline.isRunning = False
-        Deadline.color = (255, 255, 255)
+        Deadline._color = (255, 255, 255)
 
     @staticmethod
     def render():
@@ -77,17 +74,17 @@ class Deadline:
 
         strr += str(ms)
 
-        #set font color
+        #set font _color
         if minutes is 0:
             if seconds >= 50 and seconds < 55:
                 a = 255 - (deltaTime - 50) * 51
-                Deadline.color = (255, 255, a)
+                Deadline._color = (255, 255, a)
             elif seconds >= 55:
                 a = (deltaTime - 55) * 51
-                Deadline.color = (255, 255 - a, 0)
+                Deadline._color = (255, 255 - a, 0)
 
         if minutes >= 1 and not Deadline.timeOut:
-            Deadline.color = (255, 0, 0)
+            Deadline._color = (255, 0, 0)
             if Deadline.timeOut is False:
                 Deadline.SOUND_TIMER.play()
             Deadline.timeOut = True
@@ -95,12 +92,12 @@ class Deadline:
         #font size after 60 seconds
         if deltaTime > 60 and deltaTime < 60.3:
             if deltaTime < 60.15: #font is growing
-                Deadline.GAME_FONT.size = 50 + (deltaTime - 60) * 75
+                Deadline._FONT.size = 50 + (deltaTime - 60) * 75
             else: #font is shrinking
-                Deadline.GAME_FONT.size = 61.25 - (deltaTime - 60.15) * 75
+                Deadline._FONT.size = 61.25 - (deltaTime - 60.15) * 75
 
         Screen.screen.blit(Deadline._FONT_BACKGROUND, (45, 45))
-        Deadline.GAME_FONT.render_to(Screen.screen, (50, 50), strr, Deadline.color)
+        Deadline._FONT.render_to(Screen.screen, (50, 50), strr, Deadline._color)
 
     @staticmethod
     def strTime():

@@ -1,10 +1,7 @@
 from random import randrange
-
 import pygame
 
 import Camera
-import LevelManager
-import Player
 from InnerTimer import InnerTime
 from Screen import screen
 

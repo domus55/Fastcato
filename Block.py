@@ -1,9 +1,7 @@
 import copy
 from enum import Enum
-from random import randrange
 
 import Camera
-import Screen
 from Screen import *
 
 

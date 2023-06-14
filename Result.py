@@ -2,7 +2,6 @@ from enum import Enum
 import pygame
 import pygame.freetype
 
-import Deadline
 import GameInfo
 import InGameMenu
 import LevelManager

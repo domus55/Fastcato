@@ -1,15 +1,13 @@
 import time
 from random import randrange
-
 import pygame.mixer
 
 import Block
-import Deadline
 import GameInfo
-import InGameMenu
 import LevelManager
 import Camera
 import MainMenu
+from HUD import Deadline
 from Obstacles import ObstacleManager
 from Screen import *
 from InnerTimer import *

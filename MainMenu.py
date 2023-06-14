@@ -16,10 +16,6 @@ and whenever user clicks a button - image changes. I use 4 images with clicked b
 assuming that user will never click more than one button at once. Thanks to that
 I can handle all click event in here getting rid of unnecessary mess
 '''
-
-
-
-
 class MainMenu:
     class State(Enum):
         closed = 0

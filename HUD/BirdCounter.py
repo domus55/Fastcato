@@ -1,5 +1,4 @@
 import time
-
 import pygame
 import pygame.freetype
 
@@ -7,12 +6,16 @@ import Bird
 import GameInfo
 import Screen
 
+
 class BirdCounter:
     IMG = pygame.transform.scale(pygame.image.load("images/gui/bird.png"), (35, 33)).convert_alpha()
-    _FONT = pygame.freetype.Font("fonts/timer.ttf", 50)
+
+    pygame.freetype.init()
     color = (255, 255, 255)
+    _FONT = pygame.freetype.Font("fonts/timer.ttf", 50)
     _FONT_BACKGROUND = pygame.Surface((135, 44))
 
+    pygame.mixer.init()
     SOUND = pygame.mixer.Sound("sounds/bird.wav")
 
     allBirds = 0

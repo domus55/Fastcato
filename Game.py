@@ -1,17 +1,15 @@
-import time
-
 import pygame
 
 import EventHandler
-from BirdCounter import BirdCounter
-from Buttons import Buttons
+from Icons import Icons
 from CloudManager import CloudManager
-from Deadline import Deadline
 from Bird import Bird
 from Block import Block
 from Camera import Camera
 from Decorations import Decorations
 from GameInfo import GameInfo
+from HUD.BirdCounter import BirdCounter
+from HUD.Deadline import Deadline
 from InGameMenu import InGameMenu
 from InnerTimer import InnerTime
 from LevelManager import LevelManager
@@ -22,6 +20,7 @@ from Player import Player
 from Result import Result
 from Screen import screen, screenRender, screenInitialize
 from Background import Background
+
 
 class Game:
     isRunning = True
@@ -62,7 +61,7 @@ class Game:
         else:
             Background.getInstance().render()
             Block.renderBackground()
-            Buttons.renderAll()
+            Icons.renderAll()
             Decorations.renderAll()
             Player.getInstance().render()
             ObstacleManager.renderAll()
@@ -76,7 +75,6 @@ class Game:
             elif Result.state == Result.State.open:
                 Result.render()
         screenRender()
-
 
     def delay(self):
         self._clock.tick(self._maxFps)

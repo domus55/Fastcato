@@ -1,6 +1,3 @@
-import pygame
-
-import Screen
 from InnerTimer import InnerTime
 
 

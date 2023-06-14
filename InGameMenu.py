@@ -1,9 +1,6 @@
 from enum import Enum
-
 import pygame
 
-import CloudManager
-import Game
 import GameInfo
 import LevelManager
 import Screen
@@ -73,6 +70,3 @@ class InGameMenu:
                 InGameMenu.state = InGameMenu.State.closed
 
             InGameMenu.image = InGameMenu.DEFAULT
-
-
-

@@ -1,6 +1,4 @@
 from enum import Enum
-from random import randrange
-
 import pygame
 
 import Camera

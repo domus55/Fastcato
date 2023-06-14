@@ -2,19 +2,17 @@ import pygame
 import time
 from random import randrange
 
-import Camera
-import Deadline
+from HUD import Deadline
 from InnerTimer import InnerTime
 from Obstacles.Obstacle import Obstacle
-from Screen import screen
 
 
 class Dog(Obstacle):
-    IDLE_ANIMATION_RIGHT = []
-    IDLE_ANIMATION_LEFT = []
+    _ANIMATION_IDLE_RIGHT = []
+    _ANIMATION_IDLE_LEFT = []
 
-    WALK_ANIMATION_RIGHT = []
-    WALK_ANIMATION_LEFT = []
+    _ANIMATION_WALK_RIGHT = []
+    _ANIMATION_WALK_LEFT = []
     _animationWasSetUp = False
 
     def __init__(self, pos, walkDistance = 400):
@@ -22,7 +20,7 @@ class Dog(Obstacle):
         if not Dog._animationWasSetUp:
             Dog._setUpAnimation()
 
-        self.image = Dog.IDLE_ANIMATION_RIGHT[0]
+        self.image = Dog._ANIMATION_IDLE_RIGHT[0]
         self.rect = self.image.get_rect()
         self.rect.center = pos[0] * 50, pos[1] * 50 - 20
         self.hitbox = self.rect.scale_by(0.55, 0.35)
@@ -49,27 +47,26 @@ class Dog(Obstacle):
     @staticmethod
     def _setUpAnimation():
         SIZE = 90
-        NUMBER_OF_IMAGES = 4
 
         #idle
-        for i in range(NUMBER_OF_IMAGES):
+        for i in range(4):
             img = pygame.image.load(f"images/dog/idle/{i+1}.png")
             readyImg = pygame.transform.scale(img, (SIZE * 1.4, SIZE))
-            Dog.IDLE_ANIMATION_RIGHT.append(readyImg.convert_alpha())
+            Dog._ANIMATION_IDLE_RIGHT.append(readyImg.convert_alpha())
 
-        for i in range(len(Dog.IDLE_ANIMATION_RIGHT)):
-            flippedImage = pygame.transform.flip(Dog.IDLE_ANIMATION_RIGHT[i], True, False)
-            Dog.IDLE_ANIMATION_LEFT.append(flippedImage)
+        for i in range(len(Dog._ANIMATION_IDLE_RIGHT)):
+            flippedImage = pygame.transform.flip(Dog._ANIMATION_IDLE_RIGHT[i], True, False)
+            Dog._ANIMATION_IDLE_LEFT.append(flippedImage)
 
         #walk
         for i in range(6):
             img = pygame.image.load(f"images/dog/walk/{i+1}.png")
             readyImg = pygame.transform.scale(img, (SIZE * 1.4, SIZE))
-            Dog.WALK_ANIMATION_RIGHT.append(readyImg.convert_alpha())
+            Dog._ANIMATION_WALK_RIGHT.append(readyImg.convert_alpha())
 
-        for i in range(len(Dog.WALK_ANIMATION_RIGHT)):
-            flippedImage = pygame.transform.flip(Dog.WALK_ANIMATION_RIGHT[i], True, False)
-            Dog.WALK_ANIMATION_LEFT.append(flippedImage)
+        for i in range(len(Dog._ANIMATION_WALK_RIGHT)):
+            flippedImage = pygame.transform.flip(Dog._ANIMATION_WALK_RIGHT[i], True, False)
+            Dog._ANIMATION_WALK_LEFT.append(flippedImage)
 
         Dog._animationWasSetUp = True
 
@@ -101,7 +98,6 @@ class Dog(Obstacle):
                 self.isIdle = True
                 self.idleStartTime = time.time()
 
-
     def _animate(self):
         currentTime = int((time.time() + self._animationDeltaTime) * self._animationSpeed)
 
@@ -109,15 +105,15 @@ class Dog(Obstacle):
         if self.isIdle:
             self._animationSpeed = 4
             if self._isFacingRight:
-                animation = Dog.IDLE_ANIMATION_RIGHT
+                animation = Dog._ANIMATION_IDLE_RIGHT
             else:
-                animation = Dog.IDLE_ANIMATION_LEFT
+                animation = Dog._ANIMATION_IDLE_LEFT
         else:
             self._animationSpeed = 14
             if self._isFacingRight:
-                animation = Dog.WALK_ANIMATION_RIGHT
+                animation = Dog._ANIMATION_WALK_RIGHT
             else:
-                animation = Dog.WALK_ANIMATION_LEFT
+                animation = Dog._ANIMATION_WALK_LEFT
 
 
         if currentTime % 4 != self._lastAnimationFrame:

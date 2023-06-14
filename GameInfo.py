@@ -5,7 +5,6 @@ class GameInfo:
     _music = 6   #from 0 - 6
 
     NUMBER_OF_LEVELS = 6
-
     levelTime = [0.0] * (NUMBER_OF_LEVELS + 1)
 
     @staticmethod
