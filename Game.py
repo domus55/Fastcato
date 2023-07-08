@@ -1,6 +1,8 @@
 import pygame
 
 import EventHandler
+from CatSmall import CatSmall
+from Credits import Credits
 from Icons import Icons
 from CloudManager import CloudManager
 from Bird import Bird
@@ -35,6 +37,7 @@ class Game:
         screenInitialize()
         CloudManager.initialize()
 
+
     def update(self):
         InnerTime.update()
         #InnerTime.showFps()
@@ -50,8 +53,9 @@ class Game:
             LevelManager.update()
             ObstacleManager.updateAll()
             Player.getInstance().update(Game.keyPressed)
+            CatSmall.getInstance().update()
             Bird.updateAll()
-            Camera.update(Player.getInstance()) #must be called after player update
+            Camera.update(Player.getInstance())  # must be called after player update
             Background.getInstance().update()
             Deadline.update(Game.keyPressed)
 
@@ -60,13 +64,18 @@ class Game:
             MainMenu.render()
         else:
             Background.getInstance().render()
+            if LevelManager.currentLevel == 7:
+                Credits.renderText()
             Block.renderBackground()
             Icons.renderAll()
             Decorations.renderAll()
             Player.getInstance().render()
+            CatSmall.getInstance().render()
             ObstacleManager.renderAll()
             Bird.renderAll()
             Block.renderBlocks()
+            if LevelManager.currentLevel == 7:
+                Credits.renderFade()
             if Result.state == Result.State.CLOSED:
                 Deadline.render()
                 BirdCounter.render()

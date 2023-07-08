@@ -4,18 +4,17 @@ import pygame.freetype
 
 import Bird
 import GameInfo
+import LevelManager
 import Screen
 
 
 class BirdCounter:
     IMG = pygame.transform.scale(pygame.image.load("images/gui/bird.png"), (35, 33)).convert_alpha()
 
-    pygame.freetype.init()
     color = (255, 255, 255)
     _FONT = pygame.freetype.Font("fonts/timer.ttf", 50)
     _FONT_BACKGROUND = pygame.Surface((135, 44))
 
-    pygame.mixer.init()
     SOUND = pygame.mixer.Sound("sounds/bird.wav")
 
     allBirds = 0
@@ -24,6 +23,8 @@ class BirdCounter:
 
     @staticmethod
     def render():
+        if LevelManager.LevelManager.currentLevel == 7:  # Don't display on last level
+            return
         deltaTime = time.time() - BirdCounter.lastCatchTime
 
         # font size after catching bird

@@ -65,7 +65,7 @@ class InGameMenu:
 
             if InGameMenu.hitboxResume.collidepoint(mousePos) and InGameMenu.image == InGameMenu.RESUME:
                 InGameMenu.state = InGameMenu.State.CLOSED
-            elif InGameMenu.hitboxRestart.collidepoint(mousePos) and InGameMenu.image == InGameMenu.RESTART:
+            elif InGameMenu.hitboxRestart.collidepoint(mousePos) and InGameMenu.image == InGameMenu.RESTART and LevelManager.LevelManager.currentLevel != 7:
                 LevelManager.LevelManager.restartLevel()
                 InGameMenu.state = InGameMenu.State.CLOSED
             elif InGameMenu.hitboxExit.collidepoint(mousePos) and InGameMenu.image == InGameMenu.EXIT:

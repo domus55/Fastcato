@@ -13,6 +13,8 @@ class Decorations:
         GRASS = 3
         STONE_SMALL = 4
         STONE_BIG = 5
+        BALLOON = 6
+        CAKE = 7
 
     allDecorations = []
 
@@ -37,10 +39,14 @@ class Decorations:
     IMG_STONE_BIG1 = pygame.transform.scale(pygame.image.load("images/decorations/stoneBig1.png"), (65, 45)).convert_alpha()
     IMG_STONE_BIG2 = pygame.transform.scale(pygame.image.load("images/decorations/stoneBig2.png"), (60, 50)).convert_alpha()
     IMG_STONE_BIG3 = pygame.transform.scale(pygame.image.load("images/decorations/stoneBig3.png"), (140, 80)).convert_alpha()
+    IMG_BALLOON1 = pygame.transform.scale(pygame.image.load("images/decorations/balloon1.png"), (100, 100)).convert_alpha()
+    IMG_BALLOON2 = pygame.transform.scale(pygame.image.load("images/decorations/balloon2.png"), (100, 100)).convert_alpha()
+    IMG_BALLOON3 = pygame.transform.scale(pygame.image.load("images/decorations/balloon3.png"), (100, 100)).convert_alpha()
+    IMG_BALLOON4 = pygame.transform.scale(pygame.image.load("images/decorations/balloon4.png"), (100, 100)).convert_alpha()
+    IMG_CAKE = pygame.transform.scale(pygame.image.load("images/decorations/cake.png"), (124, 124)).convert_alpha()
 
 
     def __init__(self, type, pos):
-        SIZE = 100
         typeStr = "Decorations.IMG_" + str(type)[5:]
         if type == Decorations.Type.TREE_SMALL:
             typeStr += str(pos[0] % 4 + 1)
@@ -53,6 +59,8 @@ class Decorations:
         elif type == Decorations.Type.STONE_SMALL:
             typeStr += str(pos[0] % 3 + 1)
         elif type == Decorations.Type.STONE_BIG:
+            typeStr += str(pos[0] % 3 + 1)
+        elif type == Decorations.Type.BALLOON:
             typeStr += str(pos[0] % 3 + 1)
 
         img = eval(typeStr)
@@ -73,6 +81,4 @@ class Decorations:
                 i.render()
 
     def render(self):
-
         screen.blit(self.image, Camera.Camera.relativePosition(self.rect.topleft))
-

@@ -2,6 +2,7 @@ import time
 import pygame.freetype
 
 import GameInfo
+import LevelManager
 import Screen
 
 
@@ -25,7 +26,7 @@ class Deadline:
 
     @staticmethod
     def _checkStart(keyPressed):
-        if keyPressed is None:
+        if keyPressed is None or LevelManager.LevelManager.currentLevel == 7:
             return
 
         if not Deadline.isRunning:
@@ -50,7 +51,13 @@ class Deadline:
         Deadline._color = (255, 255, 255)
 
     @staticmethod
+    def restart():
+        Deadline._startTime = time.time()
+
+    @staticmethod
     def render():
+        if LevelManager.LevelManager.currentLevel == 7:  # Don't display on last level
+            return
         strr = ""
         deltaTime = time.time() - Deadline._startTime
         if not Deadline.isRunning:
@@ -95,6 +102,8 @@ class Deadline:
                 Deadline._FONT.size = 50 + (deltaTime - 60) * 75
             else: #font is shrinking
                 Deadline._FONT.size = 61.25 - (deltaTime - 60.15) * 75
+        else:
+            Deadline._FONT.size = 50
 
         Screen.screen.blit(Deadline._FONT_BACKGROUND, (45, 45))
         Deadline._FONT.render_to(Screen.screen, (50, 50), strr, Deadline._color)

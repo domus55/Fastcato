@@ -51,10 +51,12 @@ class MainMenu:
     BACKGROUND1 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/background/1.png"), (1600, 900)).convert_alpha()
     BACKGROUND2 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/background/2.png"), (1600, 900)).convert_alpha()
 
+    pygame.freetype.init()
     FONT = pygame.freetype.Font("fonts/mainMenu.ttf", 28)
     FONT_COLOR = (182, 137, 98)
 
     #Sounds
+    pygame.mixer.init()
     SOUND_CLICK = pygame.mixer.Sound("sounds/click.wav")
 
     #main hitboxes

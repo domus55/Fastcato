@@ -1,5 +1,7 @@
 import pygame
 
+import CatSmall
+import Credits
 import Icons
 import Camera
 import Bird
@@ -33,6 +35,7 @@ class LevelManager:
     BUSH = (100, 200, 100, 255)
     STONE_BIG = (150, 150, 150, 255)
     STONE_SMALL = (200, 200, 200, 255)
+    BALLOON = (255, 0, 200, 255)
 
     #ENITIES
     HEADGEHOG = (200, 100, 100, 255)
@@ -79,6 +82,7 @@ class LevelManager:
         Bird.Bird.allBirds.clear()
         Icons.Icons.allButton.clear()
         Decorations.Decorations.allDecorations.clear()
+        Deadline.Deadline.restart()
 
         try:
             LevelManager.currentLevelImg = LevelManager.IMG_LEVELS[LevelManager.currentLevel]
@@ -131,6 +135,8 @@ class LevelManager:
                     Decorations.Decorations.add(Decorations.Decorations.Type.STONE_BIG, (i, j))
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.STONE_SMALL:
                     Decorations.Decorations.add(Decorations.Decorations.Type.STONE_SMALL, (i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.BALLOON:
+                    Decorations.Decorations.add(Decorations.Decorations.Type.BALLOON, (i, j))
                 #Icons
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.DEATH:
                     Icons.Icons.add(Icons.Icons.Type.DEATH, (i * 50 - 22, j * 50))
@@ -139,19 +145,17 @@ class LevelManager:
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.STAR:
                     Icons.Icons.add(Icons.Icons.Type.STAR, (i * 50 - 22, j * 50))
 
-        LevelManager._loadAdditionalThings()
-
         Camera.Camera.borderRight = LevelManager.currentLevelImg.get_width() * 50 - 100
         Player.Player.getInstance().restart()
         BirdCounter.BirdCounter.restart()
+        LevelManager._loadAdditionalThings()
         Block.Block.setBlocks()
-
 
     @staticmethod
     def _loadImages():
         try:
             LevelManager.IMG_LEVELS.append(None)
-            for i in range(GameInfo.GameInfo.NUMBER_OF_LEVELS):
+            for i in range(GameInfo.GameInfo.NUMBER_OF_LEVELS + 1):
                 img = pygame.image.load(f"images/levels/{i+1}.bmp")
                 LevelManager.IMG_LEVELS.append(img)
         except:
@@ -178,7 +182,6 @@ class LevelManager:
 
             Decorations.Decorations.add(Decorations.Decorations.Type.TREE_SMALL, (108, 12))
 
-
         if LevelManager.currentLevel is 2:
             Decorations.Decorations.add(Decorations.Decorations.Type.STONE_SMALL, (66, 16))
             Decorations.Decorations.add(Decorations.Decorations.Type.STONE_SMALL, (70, 16))
@@ -188,7 +191,6 @@ class LevelManager:
 
             obj = Dog((76, 16), -700)
             ObstacleManager.ObstacleManager.addObstacle(obj)
-
 
         if LevelManager.currentLevel is 3:
             Icons.Icons.add(Icons.Icons.Type.LSHIFT, (1000, 750))
@@ -214,5 +216,11 @@ class LevelManager:
         if LevelManager.currentLevel is 6:
             obj = Hedgehog((58, 12))
             ObstacleManager.ObstacleManager.addObstacle(obj)
+            Camera.Camera.borderRight -= 300
 
-
+        if LevelManager.currentLevel is 7:
+            CatSmall.CatSmall.getInstance().restart([1350, 675])
+            Decorations.Decorations.add(Decorations.Decorations.Type.CAKE, (17, 15))
+            Bird.Bird.create((15.47, 15))
+            Bird.Bird.create((18.52, 15))
+            Credits.Credits.restart()

@@ -2,12 +2,13 @@ import time
 from random import randrange
 import pygame.mixer
 
+import Bird
 import Block
 import GameInfo
 import LevelManager
 import Camera
 import MainMenu
-from HUD import Deadline
+from HUD import Deadline, BirdCounter
 from Obstacles import ObstacleManager
 from Screen import *
 from InnerTimer import *
@@ -19,6 +20,7 @@ class Player(pygame.sprite.Sprite):
 
     ANIMATION_WALK_RIGHT = []
     ANIMATION_WALK_LEFT = []
+    ANIMATION_MEOW_RIGHT = []
 
     SHADOW_AMOUNT = 4
     IMG_SHADOW_RIGHT = None
@@ -34,7 +36,7 @@ class Player(pygame.sprite.Sprite):
     ALL_IDLE_ANIMATIONS_RIGHT = []
     ALL_IDLE_ANIMATIONS_LEFT = []
 
-    #sounds
+    # sounds
     DASH_SOUND = pygame.mixer.Sound("sounds/dash.wav")
     DASH_READY = pygame.mixer.Sound("sounds/dashReady.wav")
     SOUND_MEOW1 = pygame.mixer.Sound("sounds/meow1.wav")
@@ -48,9 +50,9 @@ class Player(pygame.sprite.Sprite):
             Player._setUpAnimation()
         self._prevAnimationFrame = 0
         self.image = Player.ANIMATION_WALK_RIGHT[0]
-        self.pos = [0.0, 0.0] #top left
+        self.pos = [0.0, 0.0]  # top left
 
-        #Movement
+        # Movement
         self.collider = pygame.Rect(0, 0, 50, 35)
         self._velocityX = 0
         self._velocityY = 0
@@ -58,17 +60,18 @@ class Player(pygame.sprite.Sprite):
         self.canJump = False
         self.startingPosition = (0, 0)
 
-        #Dash
-        self._DASH_DELAY = 3 #in seconds
+        # Dash
+        self._DASH_DELAY = 3  # in seconds
         self._DASH_DISTANCE = 150
         self._DASH_ANIMATION_TIME = 1  # in seconds
         self.last_dash_time = time.time() - self._DASH_DELAY
         self.shadowImagesPos = [pygame.Rect(0, 0, 0, 0)] * Player.SHADOW_AMOUNT
         self._shadowFacingRight = True
 
-        #Animation
-        self._prevVelocityX = 0 #it's used for animations
-        self._prevVelocityY = 0 #it's used for animations
+        # Animation
+        self.meowStartTime = 0 #used to render lines when cat meows in _lastLevelAnimation
+        self._prevVelocityX = 0  # it's used for animations
+        self._prevVelocityY = 0  # it's used for animations
         self._isFacingRight = True
         self.currentIdleAnimation = None
         self._selectRandomIdleAnimation()
@@ -80,19 +83,24 @@ class Player(pygame.sprite.Sprite):
         return Player._instance
 
     def update(self, keyPressed):
-        self._move(keyPressed)
-        self.collider.topleft = self.pos
-        self._dash(keyPressed)
-        self._isOutOfMap()
+        if (LevelManager.LevelManager.currentLevel == 6 and BirdCounter.BirdCounter.birdsCatched == BirdCounter.BirdCounter.allBirds and Deadline.Deadline.time() < 60) or \
+                LevelManager.LevelManager.currentLevel == 7:
+            self._lastLevelAnimation()
+        else:
+            self._move(keyPressed)
+            self.collider.topleft = self.pos
+            self._dash(keyPressed)
+            self._isOutOfMap()
         self._collisionWithBlock()
         self._collisionWithObstacle()
         self._animate()
-        #if Deadline.Deadline.time() > 15:
+        # if Deadline.Deadline.time() > 15:
         #    print(self.pos[0])
 
     def render(self):
+        #self.pos[0] = 1200
         self.collider.topleft = self.pos
-        #pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(Camera.Camera.relativePosition(self.collider.topleft), self.collider.size))
+        # pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(Camera.Camera.relativePosition(self.collider.topleft), self.collider.size))
         screen.blit(self.image, Camera.Camera.relativePosition((self.pos[0] - 25, self.pos[1] - 65)))
 
         if time.time() < self.last_dash_time + self._DASH_ANIMATION_TIME:
@@ -100,14 +108,23 @@ class Player(pygame.sprite.Sprite):
                 alpha = self._returnShadowAlpha(i)
                 if self._shadowFacingRight:
                     Player.IMG_SHADOW_RIGHT.set_alpha(alpha)
-                    screen.blit(Player.IMG_SHADOW_RIGHT, Camera.Camera.relativePosition(self.shadowImagesPos[i].topleft))
+                    screen.blit(Player.IMG_SHADOW_RIGHT,
+                                Camera.Camera.relativePosition(self.shadowImagesPos[i].topleft))
                 else:
                     Player.IMG_SHADOW_LEFT.set_alpha(alpha)
                     screen.blit(Player.IMG_SHADOW_LEFT, Camera.Camera.relativePosition(self.shadowImagesPos[i].topleft))
-        #pygame.draw.rect(screen, (255, 0, 0), self.collider)
+
+        if self.meowStartTime > 0:
+            self.meowStartTime += InnerTime.deltaTime / 1000
+            if self.meowStartTime > 10:
+                self.meowStartTime = 0
+            if self.meowStartTime < 1:
+                screen.blit(self.ANIMATION_MEOW_RIGHT[int(self.meowStartTime * 3)], (1195, 735))
+
+        # pygame.draw.rect(screen, (255, 0, 0), self.collider)
 
     def restart(self):
-        self.collider.center = self.startingPosition #it might be wrong, probably needs offset
+        self.collider.center = self.startingPosition
         self.pos = list(self.collider.topleft)
         self.pos[1] += 10
         self._velocityY = 0
@@ -119,8 +136,8 @@ class Player(pygame.sprite.Sprite):
         Deadline.Deadline.stop()
 
     def _move(self, keyPressed):
-        self._prevVelocityX = self._velocityX #it's used for animations
-        self._prevVelocityY = self._velocityY #it's used for animations
+        self._prevVelocityX = self._velocityX  # it's used for animations
+        self._prevVelocityY = self._velocityY  # it's used for animations
         self._velocityX = 0
         self._velocityY += 0.2 * InnerTime.deltaTime / 10
 
@@ -131,7 +148,7 @@ class Player(pygame.sprite.Sprite):
             if keyPressed[pygame.K_d]:
                 self._velocityX += self.speed
                 self._isFacingRight = True
-            if keyPressed[pygame.K_w] and self.canJump:
+            if (keyPressed[pygame.K_w] or keyPressed[pygame.K_SPACE]) and self.canJump:
                 self._velocityY = - self.speed * 3
                 self.canJump = False
 
@@ -139,7 +156,7 @@ class Player(pygame.sprite.Sprite):
         self.pos[1] += self._velocityY * InnerTime.deltaTime / 10.0
 
     def _dash(self, keyPressed):
-        if keyPressed is None:
+        if keyPressed is None or Deadline.Deadline.time() < 0.25:
             return
 
         if keyPressed[pygame.K_LSHIFT] and time.time() > self.last_dash_time + self._DASH_DELAY:
@@ -148,7 +165,8 @@ class Player(pygame.sprite.Sprite):
                 self.collider.centerx += self._DASH_DISTANCE
                 for i in range(Player.SHADOW_AMOUNT):
                     self.shadowImagesPos[i] = pygame.Rect(self.pos, (0, 0))
-                    self.shadowImagesPos[i].centerx -= self._DASH_DISTANCE * i/Player.SHADOW_AMOUNT - self._DASH_DISTANCE
+                    self.shadowImagesPos[
+                        i].centerx -= self._DASH_DISTANCE * i / Player.SHADOW_AMOUNT - self._DASH_DISTANCE
                     self.shadowImagesPos[i].centery -= 70
 
             else:
@@ -156,10 +174,11 @@ class Player(pygame.sprite.Sprite):
                 self.collider.centerx -= self._DASH_DISTANCE
                 for i in range(Player.SHADOW_AMOUNT):
                     self.shadowImagesPos[i] = pygame.Rect(self.pos, (0, 0))
-                    self.shadowImagesPos[i].centerx += self._DASH_DISTANCE * i/Player.SHADOW_AMOUNT - self._DASH_DISTANCE
+                    self.shadowImagesPos[
+                        i].centerx += self._DASH_DISTANCE * i / Player.SHADOW_AMOUNT - self._DASH_DISTANCE
                     self.shadowImagesPos[i].centery -= 70
 
-            #check if after dash is in any blocks
+            # check if after dash is in any blocks
             inBlock = True
             while inBlock:
                 inBlock = False
@@ -192,7 +211,7 @@ class Player(pygame.sprite.Sprite):
         return int(alpha)
 
     def _isOutOfMap(self):
-        #Stop on the map borders
+        # Stop on the map borders
         PLAYER_WIDTH = 25
         if self.pos[0] < Camera.Camera.borderLeft - PLAYER_WIDTH:
             self.pos[0] = Camera.Camera.borderLeft - PLAYER_WIDTH
@@ -200,7 +219,7 @@ class Player(pygame.sprite.Sprite):
         if self.pos[0] > Camera.Camera.borderRight - PLAYER_WIDTH:
             self.pos[0] = Camera.Camera.borderRight - PLAYER_WIDTH
 
-        #Fell out of the map
+        # Fell out of the map
         if self.pos[1] > 1000:
             self._playMeowSound()
             LevelManager.LevelManager.restartLevel()
@@ -262,7 +281,7 @@ class Player(pygame.sprite.Sprite):
     def _setUpAnimation():
         SIZE = 100
 
-        #walking
+        # walking
         for i in range(4):
             img = pygame.image.load(f"images/cat/walk/{i + 1}.png")
             readyImg = pygame.transform.scale(img, (SIZE, SIZE))
@@ -272,7 +291,7 @@ class Player(pygame.sprite.Sprite):
             flippedImage = pygame.transform.flip(Player.ANIMATION_WALK_RIGHT[i], True, False)
             Player.ANIMATION_WALK_LEFT.append(flippedImage)
 
-        #jumping
+        # jumping
         img = pygame.image.load(f"images/cat/jumpUp.png")
         readyImg = pygame.transform.scale(img, (SIZE, SIZE))
         Player.IMG_JUMP_UP_RIGHT = readyImg.convert_alpha()
@@ -280,7 +299,7 @@ class Player(pygame.sprite.Sprite):
         flippedImage = pygame.transform.flip(readyImg, True, False)
         Player.IMG_JUMP_UP_LEFT = flippedImage.convert_alpha()
 
-        #flying
+        # flying
         img = pygame.image.load(f"images/cat/flying.png")
         readyImg = pygame.transform.scale(img, (SIZE, SIZE))
         Player.IMG_FLYING_RIGHT = readyImg.convert_alpha()
@@ -288,7 +307,7 @@ class Player(pygame.sprite.Sprite):
         flippedImage = pygame.transform.flip(readyImg, True, False)
         Player.IMG_FLYING_LEFT = flippedImage.convert_alpha()
 
-        #falling
+        # falling
         img = pygame.image.load(f"images/cat/fallDown.png")
         readyImg = pygame.transform.scale(img, (SIZE, SIZE))
         Player.IMG_FALL_DOWN_RIGHT = readyImg.convert_alpha()
@@ -296,7 +315,7 @@ class Player(pygame.sprite.Sprite):
         flippedImage = pygame.transform.flip(readyImg, True, False)
         Player.IMG_FALL_DOWN_LEFT = flippedImage.convert_alpha()
 
-        #idle animations
+        # idle animations
         for i in range(6):
             idleAnimationRight = []
             idleAnimationLeft = []
@@ -306,7 +325,7 @@ class Player(pygame.sprite.Sprite):
                 numOfAnimationFrames = 4
 
             for j in range(numOfAnimationFrames):
-                img = pygame.image.load(f"images/cat/idle{i+1}/{j + 1}.png")
+                img = pygame.image.load(f"images/cat/idle{i + 1}/{j + 1}.png")
                 readyImg = pygame.transform.scale(img, (SIZE, SIZE))
                 idleAnimationRight.append(readyImg.convert_alpha())
 
@@ -316,7 +335,7 @@ class Player(pygame.sprite.Sprite):
             Player.ALL_IDLE_ANIMATIONS_RIGHT.append(idleAnimationRight)
             Player.ALL_IDLE_ANIMATIONS_LEFT.append(idleAnimationLeft)
 
-        #dash
+        # dash
         dashImage = pygame.image.load(f"images/cat/dash.png").convert_alpha()
         dashImage = pygame.transform.scale(dashImage, (SIZE, SIZE))
 
@@ -324,6 +343,12 @@ class Player(pygame.sprite.Sprite):
 
         flippedImage = pygame.transform.flip(Player.IMG_SHADOW_RIGHT, True, False)
         Player.IMG_SHADOW_LEFT = flippedImage
+
+        # meow
+        for i in range(3):
+            img = pygame.image.load(f"images/cat/meow/{i + 1}.png")
+            readyImg = pygame.transform.scale(img, (50, 50))
+            Player.ANIMATION_MEOW_RIGHT.append(readyImg.convert_alpha())
 
         Player._animationWasSetUp = True
 
@@ -380,14 +405,14 @@ class Player(pygame.sprite.Sprite):
             self.image = animation[self._prevAnimationFrame]
 
     def _selectRandomIdleAnimation(self):
-        #Thanks to this if statement there is 90% chance of getting standing animation
+        # Thanks to this if statement there is 90% chance of getting standing animation
         rand = randrange(10)
         if rand is not 1:
             randStandingAnimation = randrange(2)
             if self._isFacingRight:
-                self.currentIdleAnimation = self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_RIGHT[randStandingAnimation]
+                self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_RIGHT[randStandingAnimation]
             else:
-                self.currentIdleAnimation = self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_LEFT[randStandingAnimation]
+                self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_LEFT[randStandingAnimation]
             return
 
         randAnimation = randrange(len(Player.ALL_IDLE_ANIMATIONS_RIGHT))
@@ -401,4 +426,57 @@ class Player(pygame.sprite.Sprite):
         if randrange(1, 100) <= SOUND_CHANCE:
             sound = randrange(2) + 1
             eval("self.SOUND_MEOW" + str(sound) + ".play()")
+
+    def _lastLevelAnimation(self):
+        if not hasattr(self, "animationStage"):
+            self.animationStage = 1
+
+        debug = False
+        self._isFacingRight = True
+        self._prevVelocityX = 0
+        self._prevVelocityY = 0
+        self._velocityX = 0
+        speed = self.speed * 0.6
+        time = Deadline.Deadline.time()
+
+        if debug:
+            time *= 4
+            speed *= 4
+
+        if LevelManager.LevelManager.currentLevel == 7:
+            if self.pos[0] < 300:  # Go
+                self.animationStage = 1
+            elif time < 8:  # Wait and see what is happening
+                if self.animationStage == 1:
+                    self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_RIGHT[1]
+                self.animationStage = 2
+            elif self.pos[0] < 1200 and self.animationStage <= 3:  # Scare birds and go to small cat
+                self.animationStage = 3
+            elif time < 16.5:                 # MEOW
+                self.animationStage = 4
+            elif self.pos[0] > 725:         # Go to the cake
+                self.animationStage = 5
+            else:                           # Party!
+                self.animationStage = 6
+
+            if self.animationStage == 1 or self.animationStage == 3:
+                self._velocityX = speed
+
+            if self.animationStage == 4:
+                if self.meowStartTime == 0:
+                    Player.SOUND_MEOW1.play()
+                    self.meowStartTime = 0.05
+
+            if self.animationStage == 5:
+                self._isFacingRight = False
+                self._velocityX = -speed
+
+        else:
+            # go right before on the level before finish level
+            self._velocityX = speed
+
+        self._velocityY += 0.2 * InnerTime.deltaTime / 10
+        self.pos[0] += self._velocityX * InnerTime.deltaTime / 10.0
+        self.pos[1] += self._velocityY * InnerTime.deltaTime / 10.0
+
 

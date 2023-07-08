@@ -36,7 +36,7 @@ class Bird(pygame.sprite.Sprite):
         if not Bird._animationWasSetUp:
             Bird._setUpAnimation()
 
-        self.birdType = pos[0] % 2  # 0 = raven, 1 = pigeon
+        self.birdType = int(pos[0]) % 2  # 0 = raven, 1 = pigeon
         if self.birdType is 0:
             self.animationFlyRight = Bird._ANIMATION_CROW_FLY_RIGHT
             self.animationFlyLeft = Bird._ANIMATION_CROW_FLY_LEFT
