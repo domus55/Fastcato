@@ -83,7 +83,7 @@ class Player(pygame.sprite.Sprite):
         return Player._instance
 
     def update(self, keyPressed):
-        if (LevelManager.LevelManager.currentLevel == 6 and BirdCounter.BirdCounter.birdsCatched == BirdCounter.BirdCounter.allBirds and Deadline.Deadline.time() < 60) or \
+        if (LevelManager.LevelManager.currentLevel == 6 and BirdCounter.BirdCounter.birdsCatched == BirdCounter.BirdCounter.allBirds and GameInfo.GameInfo.levelTime[6] < 60) or \
                 LevelManager.LevelManager.currentLevel == 7:
             self._lastLevelAnimation()
         else:
