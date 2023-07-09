@@ -24,6 +24,8 @@ class Bird(pygame.sprite.Sprite):
     _ANIMATION_CROW_IDLE = []
     _animationWasSetUp = False
 
+    _ICON = pygame.transform.scale(pygame.image.load("images/gui/buttons/attention.png"), (40, 40)).convert_alpha()
+
     # Sounds
     SOUNDS_SCARE_RAVEN1 = pygame.mixer.Sound("sounds/scareBird/raven/1.wav")
     SOUNDS_SCARE_RAVEN2 = pygame.mixer.Sound("sounds/scareBird/raven/2.wav")
@@ -31,7 +33,7 @@ class Bird(pygame.sprite.Sprite):
     SOUNDS_SCARE_PIGEON1 = pygame.mixer.Sound("sounds/scareBird/pigeon/1.wav")
     SOUNDS_SCARE_PIGEON2 = pygame.mixer.Sound("sounds/scareBird/pigeon/2.wav")
 
-    def __init__(self, pos):
+    def __init__(self, pos, hasIcon):
         super().__init__()
         if not Bird._animationWasSetUp:
             Bird._setUpAnimation()
@@ -51,6 +53,7 @@ class Bird(pygame.sprite.Sprite):
         self.rect.center = pos[0] * 50, pos[1] * 50 + 12
         self.posX = pos[0] * 50.0
         self.posY = pos[1] * 50.0 + 12
+        self._hasIcon = hasIcon
         self._alpha = 255
         self.disappeared = False  # true after _alpha is set to 0
         self._startFlying = None
@@ -61,8 +64,8 @@ class Bird(pygame.sprite.Sprite):
         self._animationSpeed = 10 * self._animationBooster
 
     @staticmethod
-    def create(pos):
-        obj = Bird(pos)
+    def create(pos, hasIcon = False):
+        obj = Bird(pos, hasIcon)
         Bird.allBirds.append(obj)
         Bird.SOUNDS_SCARE_RAVEN1.set_volume(GameInfo.GameInfo.getSound())
         Bird.SOUNDS_SCARE_RAVEN2.set_volume(GameInfo.GameInfo.getSound())
@@ -147,6 +150,12 @@ class Bird(pygame.sprite.Sprite):
         if self.disappeared is False and Camera.Camera.isOnScreen(self.rect):
             self.image.set_alpha(self._alpha)
             screen.blit(self.image, Camera.Camera.relativePosition(self.rect.topleft))
+
+            if self._hasIcon and self._alpha >= 45:
+                Bird._ICON.set_alpha(self._alpha - 45)
+                iconPosX, iconPosY = self.rect.topleft
+                iconPosY -= 50
+                screen.blit(Bird._ICON, Camera.Camera.relativePosition((iconPosX, iconPosY)))
 
     def _update(self):
         if self.disappeared is False:

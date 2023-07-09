@@ -22,7 +22,8 @@ class LevelManager:
 
     #SPECIAL COLORS
     PLAYER_SPAWN = (255, 0, 0, 255)
-    FINISH_LINE = (200, 200, 0, 255)
+    BIRD = (200, 200, 0, 255)
+    BIRD_WITH_ICON = (220, 200, 0, 255)
 
     #BLOCKS
     BLOCK_GRASS = (80, 40, 40, 255)
@@ -120,8 +121,10 @@ class LevelManager:
                     distance *= 50
                     obj = Dog((i, j), distance)
                     ObstacleManager.ObstacleManager.addObstacle(obj)
-                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.FINISH_LINE:
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.BIRD:
                     Bird.Bird.create((i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.BIRD_WITH_ICON:
+                    Bird.Bird.create((i, j), True)
                 #Decorations
                 if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.TREE_BIG:
                     Decorations.Decorations.add(Decorations.Decorations.Type.TREE_BIG, (i, j))
@@ -199,15 +202,13 @@ class LevelManager:
             ObstacleManager.ObstacleManager.addObstacle(obj)
 
         if LevelManager.currentLevel is 5:
-            Bird.Bird.create((64, 17))
-            Icons.Icons.add(Icons.Icons.Type.STAR, (64 * 50 - 22, 16 * 50))
+            Block.Block.createBlock(Block.BlockType.GRASS_BACKGROUND, (64, 17))
             obj = Dog((66, 17), 250)
             ObstacleManager.ObstacleManager.addObstacle(obj)
             obj = Hedgehog((73, 16))
             ObstacleManager.ObstacleManager.addObstacle(obj)
             Decorations.Decorations.add(Decorations.Decorations.Type.STONE_BIG, (69, 17))
-            Bird.Bird.create((191, 17))
-            Icons.Icons.add(Icons.Icons.Type.STAR, (191 * 50 - 22, 16 * 50))
+            Block.Block.createBlock(Block.BlockType.GRASS_BACKGROUND, (191, 17))
             obj = Hedgehog((222, 15))
             ObstacleManager.ObstacleManager.addObstacle(obj)
             obj = Dog((225, 16), 250)

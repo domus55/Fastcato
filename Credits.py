@@ -23,7 +23,7 @@ class Credits:
         Credits._started = True
         Credits.text.clear()
 
-        lines = "Creator\nDominik Palenik\n\nI hope you enjoyed\nThank you for playing".splitlines()
+        lines = "I hope you enjoyed\nThank you for playing\n\nCreator\nDominik Palenik".splitlines()
         for i, l in enumerate(lines):
             Credits.text.append(pygame.freetype.Font.render(Credits._FONT, l, Credits._color)[0])
 
