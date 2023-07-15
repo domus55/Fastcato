@@ -1,6 +1,7 @@
 import pygame
 
 import Camera
+import GameInfo
 from CloudManager import CloudManager
 from Screen import screen
 
@@ -11,6 +12,8 @@ class Background:
     def __init__(self):
         super().__init__()
         self.images = []
+        self.simplifiedImage = None
+        self.simplifiedImageWidth = 0
         self.imageWidth = []
         self._loadImages()
 
@@ -24,14 +27,18 @@ class Background:
         NUMBER_OF_IMAGES = 3
 
         for i in range(NUMBER_OF_IMAGES):
+            img = pygame.image.load(f"images/background/simplified.png")
+            self.simplifiedImage = pygame.transform.scale(img, (1600, 692)).convert()
+            self.simplifiedImageWidth = self.simplifiedImage.get_rect().width
+
             img = pygame.image.load(f"images/background/{i + 1}.png")
-            if i is 0:  # sky
+            if i == 0:  # sky
                 readyImg = pygame.transform.scale(img, (1600, 367))
                 self.images.append(readyImg.convert())
-            elif i is 1:  # mountain
+            elif i == 1:  # mountain
                 readyImg = pygame.transform.scale(img, (1600, 692))
                 self.images.append(readyImg.convert_alpha())
-            elif i is 2:  # forest
+            elif i == 2:  # forest
                 readyImg = pygame.transform.scale(img, (1600, 367))
                 self.images.append(readyImg.convert_alpha())
             else:
@@ -41,25 +48,30 @@ class Background:
             self.imageWidth.append(self.images[i].get_rect().width)
 
     def render(self):
-        for i in range(len(self.images)):
-            positionY = 0
-            movingSpeed = 0
-            if i is 0:  # Sky
-                screen.fill((118, 185, 227))
-            if i is 1:  # mountain
-                movingSpeed = 0.02
-                CloudManager.renderBeforeMountains()
-                positionY = 114
-            if i is 2:  # forest
-                movingSpeed = 0.1
-                positionY = 533
+        if GameInfo.GameInfo.BUILD_TYPE == GameInfo.BuildType.WEB:
+            screen.fill((0, 174, 255))
+            screen.blit(self.simplifiedImage, (0, 208))
+            CloudManager.renderAfterMountains()
+        else:
+            for i in range(len(self.images)):
+                positionY = 0
+                movingSpeed = 0
+                if i == 0:  # Sky
+                    screen.fill((118, 185, 227))
+                if i == 1:  # mountain
+                    movingSpeed = 0.02
+                    CloudManager.renderBeforeMountains()
+                    positionY = 114
+                if i == 2:  # forest
+                    movingSpeed = 0.1
+                    positionY = 533
 
-            positionX = ((-Camera.Camera.posX * movingSpeed) % self.imageWidth[i]) - self.imageWidth[i]
-            screen.blit(self.images[i], (positionX, positionY))
-            screen.blit(self.images[i], (positionX + self.imageWidth[i], positionY))
+                positionX = ((-Camera.Camera.posX * movingSpeed) % self.imageWidth[i]) - self.imageWidth[i]
+                screen.blit(self.images[i], (positionX, positionY))
+                screen.blit(self.images[i], (positionX + self.imageWidth[i], positionY))
 
-            if i is 2:
-                CloudManager.renderAfterMountains()
+                if i == 2:
+                    CloudManager.renderAfterMountains()
 
     def update(self):
         CloudManager.update()

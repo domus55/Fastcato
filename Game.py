@@ -1,3 +1,4 @@
+import Screen
 import pygame
 
 import EventHandler
@@ -10,6 +11,7 @@ from Block import Block
 from Camera import Camera
 from Decorations import Decorations
 from GameInfo import GameInfo
+from GameInfo import BuildType
 from HUD.BirdCounter import BirdCounter
 from HUD.Deadline import Deadline
 from InGameMenu import InGameMenu

@@ -1,5 +1,4 @@
 import pygame
-import pygame.freetype
 from enum import Enum
 
 import CloudManager
@@ -51,8 +50,8 @@ class MainMenu:
     BACKGROUND1 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/background/1.png"), (1600, 900)).convert_alpha()
     BACKGROUND2 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/background/2.png"), (1600, 900)).convert_alpha()
 
-    pygame.freetype.init()
-    FONT = pygame.freetype.Font("fonts/mainMenu.ttf", 28)
+    pygame.font.init()
+    FONT = pygame.font.Font("fonts/mainMenu.ttf", 28)
     FONT_COLOR = (182, 137, 98)
 
     #Sounds
@@ -115,8 +114,11 @@ class MainMenu:
                 if eval("MainMenu.LEVELS_" + str(i+1)) is MainMenu.image:
                     posY += 8
 
-                MainMenu.FONT.render_to(Screen.screen, (650, posY), str(lvl), MainMenu.FONT_COLOR)
-                MainMenu.FONT.render_to(Screen.screen, (811, posY), GameInfo.GameInfo.strLevelTime(lvl), MainMenu.FONT_COLOR)
+                surface1 = MainMenu.FONT.render(str(lvl), False, MainMenu.FONT_COLOR)
+                surface2 = MainMenu.FONT.render(GameInfo.GameInfo.strLevelTime(lvl), False, MainMenu.FONT_COLOR)
+
+                Screen.screen.blit(surface1, (650, posY))
+                Screen.screen.blit(surface2, (811, posY))
 
         #pygame.draw.rect(Screen.screen, (255, 0, 0), MainMenu.hitboxLevelsBack)
 

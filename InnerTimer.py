@@ -26,6 +26,6 @@ class InnerTime:
             InnerTime._framesThisSecond += 1
         else:
             InnerTime._lastSecond = datetime.datetime.now().second
-            if InnerTime._framesThisSecond is not 0:
+            if InnerTime._framesThisSecond != 0:
                 print(f"FPS: {InnerTime._framesThisSecond}")
             InnerTime._framesThisSecond = 0

@@ -23,7 +23,7 @@ class Dog(Obstacle):
         self.image = Dog._ANIMATION_IDLE_RIGHT[0]
         self.rect = self.image.get_rect()
         self.rect.center = pos[0] * 50, pos[1] * 50 - 20
-        self.hitbox = self.rect.scale_by(0.55, 0.35)
+        self.hitbox = pygame.Rect(0, 0, 68, 31)
         self.hitbox.center = self.rect.center
         self.hitboxOffset = (-10, 25)
         self.hitbox.centerx += self.hitboxOffset[0]

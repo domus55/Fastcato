@@ -1,9 +1,8 @@
-from enum import IntEnum
+from enum import Enum
 import pygame
 
 import Camera
 from Screen import screen
-
 
 class Icons:
     #Images
@@ -22,7 +21,7 @@ class Icons:
     STAR_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/star.png"), (40, 40)).convert_alpha()
     TIP_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/tip.png"), (200, 70)).convert_alpha()
 
-    class Type(IntEnum):
+    class Type(Enum):
         W = 1
         A = 2
         S = 3
@@ -65,7 +64,7 @@ class Icons:
             i._setButtonImage(keyPressed)
 
     def _setButtonImage(self, keyPressed):
-        if int(self.type) > 100:
+        if self.type.value > 100:
             return
         if self.type == Icons.Type.LSHIFT:
             typeStr = str(self.type)[5:]

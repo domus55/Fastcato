@@ -1,5 +1,5 @@
 import time
-import pygame.freetype
+import pygame
 
 import GameInfo
 import LevelManager
@@ -12,7 +12,7 @@ class Deadline:
     timeOut = False
 
     # Font
-    _FONT = pygame.freetype.Font("fonts/timer.ttf", 50)
+    _FONT = pygame.font.Font("fonts/timer.ttf", 50)
     _color = (255, 255, 255)
     _FONT_BACKGROUND = pygame.Surface((165, 44))
     _FONT_BACKGROUND.set_alpha(100)
@@ -81,8 +81,8 @@ class Deadline:
 
         strr += str(ms)
 
-        #set font _color
-        if minutes is 0:
+        # set font _color
+        if minutes == 0:
             if seconds >= 50 and seconds < 55:
                 a = 255 - (deltaTime - 50) * 51
                 Deadline._color = (255, 255, a)
@@ -99,14 +99,19 @@ class Deadline:
         #font size after 60 seconds
         if deltaTime > 60 and deltaTime < 60.3:
             if deltaTime < 60.15: #font is growing
-                Deadline._FONT.size = 50 + (deltaTime - 60) * 75
+                fontSize = 50 + (deltaTime - 60) * 75
             else: #font is shrinking
-                Deadline._FONT.size = 61.25 - (deltaTime - 60.15) * 75
+                fontSize = 61.25 - (deltaTime - 60.15) * 75
+
+            Deadline._FONT = pygame.font.Font("fonts/timer.ttf", int(fontSize))
         else:
-            Deadline._FONT.size = 50
+            if Deadline._FONT.size("a") != (22, 73):
+                Deadline._FONT = pygame.font.Font("fonts/timer.ttf", 50)
 
         Screen.screen.blit(Deadline._FONT_BACKGROUND, (45, 45))
-        Deadline._FONT.render_to(Screen.screen, (50, 50), strr, Deadline._color)
+
+        surface = Deadline._FONT.render(strr, False, Deadline._color)
+        Screen.screen.blit(surface, (50, 26))
 
     @staticmethod
     def strTime():

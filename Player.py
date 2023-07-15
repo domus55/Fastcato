@@ -152,8 +152,33 @@ class Player(pygame.sprite.Sprite):
                 self._velocityY = - self.speed * 3
                 self.canJump = False
 
-        self.pos[0] += self._velocityX * InnerTime.deltaTime / 10.0
-        self.pos[1] += self._velocityY * InnerTime.deltaTime / 10.0
+        deltaX = self._velocityX * InnerTime.deltaTime / 10.0
+        deltaY = self._velocityY * InnerTime.deltaTime / 10.0
+
+        # If user has less then 30FPS then, there is a chance that deltaY will be greater than 25 and it can lead to falling out of the map
+        # To prevent it in that case I move him only 15px(MAX_DELTA) and check collisions
+        # I repeat that until he is in right position
+        MAX_DELTA = 15
+        while abs(deltaX) > MAX_DELTA or abs(deltaY) > MAX_DELTA:
+            if abs(deltaX) > MAX_DELTA:
+                changeX = MAX_DELTA if deltaX > 0 else -MAX_DELTA
+            else:
+                changeX = deltaX
+            deltaX -= changeX
+            self.pos[0] += changeX
+
+            if abs(deltaY) > MAX_DELTA:
+                changeY = MAX_DELTA if deltaY > 0 else -MAX_DELTA
+            else:
+                changeY = deltaY
+            deltaY -= changeY
+            self.pos[1] += changeY
+
+            self.collider.topleft = self.pos
+            self._collisionWithBlock()
+
+        self.pos[0] += deltaX
+        self.pos[1] += deltaY
 
     def _dash(self, keyPressed):
         if keyPressed is None or Deadline.Deadline.time() < 0.25:
@@ -195,8 +220,9 @@ class Player(pygame.sprite.Sprite):
 
             self.pos = list(self.collider.topleft)
             Player.DASH_SOUND.play()
-            t = Timer(self._DASH_DELAY, self._dashReadySound)
-            t.start()
+            if GameInfo.GameInfo.BUILD_TYPE == GameInfo.BuildType.WINDOWS:
+                t = Timer(self._DASH_DELAY, self._dashReadySound)
+                t.start()
             self.last_dash_time = time.time()
 
     def _dashReadySound(self):
@@ -261,7 +287,7 @@ class Player(pygame.sprite.Sprite):
                 if abs(changePositionX) > 1:
                     self.pos[0] = self.collider.left
 
-                if changePositionY is not 0:
+                if changePositionY != 0:
                     self.pos[1] = self.collider.top
 
                 if changePositionY < 0:
@@ -357,7 +383,7 @@ class Player(pygame.sprite.Sprite):
         animation = Player.ANIMATION_WALK_RIGHT
         stopOnLastFrame = False
 
-        if self._velocityY != 0:
+        if self._velocityY != 0 and self._prevVelocityY != 0:
             if abs(self._velocityY) < 2:
                 if self._isFacingRight:
                     self.image = Player.IMG_FLYING_RIGHT
@@ -381,8 +407,10 @@ class Player(pygame.sprite.Sprite):
                     self.image = Player.IMG_JUMP_UP_LEFT
                     return
         else:
-            if self._velocityX is 0:
-                if self._prevVelocityX is not 0 or (self._prevVelocityY is not 0 and self._velocityY is 0):
+            if self._velocityX == 0:
+                if self._prevVelocityX != 0:
+                    self._selectRandomIdleAnimation()
+                if self._prevVelocityY != 0 and self._velocityY == 0 and GameInfo.GameInfo.BUILD_TYPE is not GameInfo.BuildType.WEB:
                     self._selectRandomIdleAnimation()
                 animationSpeed = 3.5
                 animation = self.currentIdleAnimation
@@ -407,7 +435,7 @@ class Player(pygame.sprite.Sprite):
     def _selectRandomIdleAnimation(self):
         # Thanks to this if statement there is 90% chance of getting standing animation
         rand = randrange(10)
-        if rand is not 1:
+        if rand != 1:
             randStandingAnimation = randrange(2)
             if self._isFacingRight:
                 self.currentIdleAnimation = Player.ALL_IDLE_ANIMATIONS_RIGHT[randStandingAnimation]

@@ -1,9 +1,16 @@
+from enum import Enum
 import os.path
+
+
+class BuildType(Enum):
+    WINDOWS = 0
+    WEB = 1
 
 class GameInfo:
     _sound = 6   #from 0 - 6
     _music = 6   #from 0 - 6
 
+    BUILD_TYPE = BuildType.WINDOWS
     NUMBER_OF_LEVELS = 6
     levelTime = [0.0] * (NUMBER_OF_LEVELS + 1)
 

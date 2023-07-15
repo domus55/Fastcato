@@ -2,6 +2,8 @@ import copy
 from enum import Enum
 
 import Camera
+import GameInfo
+import Screen
 from Screen import *
 
 
@@ -54,11 +56,10 @@ class Block(pygame.sprite.Sprite):
 
     @staticmethod
     def renderBackground():
-        for i in Block.allBackgroundBlocks:
-            if Camera.Camera.isOnScreen(i.rect):
-
-
-                i.render()
+        if GameInfo.GameInfo.BUILD_TYPE != GameInfo.BuildType.WEB:
+            for i in Block.allBackgroundBlocks:
+                if Camera.Camera.isOnScreen(i.rect):
+                    i.render()
 
     @staticmethod
     def renderBlocks():

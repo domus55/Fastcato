@@ -1,6 +1,5 @@
 from enum import Enum
 import pygame
-import pygame.freetype
 
 import GameInfo
 import InGameMenu
@@ -25,9 +24,7 @@ class Result:
     hitboxRestart = pygame.Rect(761, 537, 80, 80)
     hitboxNext = pygame.Rect(889, 537, 80, 80)
 
-
-
-    FONT = pygame.freetype.Font("fonts/timer.ttf", 48)
+    FONT = pygame.font.Font("fonts/timer.ttf", 48)
     FONT_COLOR = (182, 137, 98)
     _time = ""
     _tooSlow = False
@@ -57,8 +54,11 @@ class Result:
             str2 = "New record!"
             str2pos = 693
 
-        Result.FONT.render_to(Screen.screen, (647, 400), str1, Result.FONT_COLOR)
-        Result.FONT.render_to(Screen.screen, (str2pos, 460), str2, Result.FONT_COLOR)
+        surface1 = Result.FONT.render(str1, False, Result.FONT_COLOR)
+        surface2 = Result.FONT.render(str2, False, Result.FONT_COLOR)
+
+        Screen.screen.blit(surface1, (647, 400))
+        Screen.screen.blit(surface2, (str2pos, 460))
 
         #pygame.draw.rect(Screen.screen, (255, 0, 0), Result.hitboxNext)
         #pygame.draw.rect(Screen.screen, (255, 0, 0), Result.hitboxRestart)

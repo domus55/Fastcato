@@ -10,10 +10,8 @@ class Camera:
     posX = 0
     posY = 0
 
-
     @staticmethod
     def update(player):
-        #TODO make camera movement smother
         destination, _ = player.pos
         cameraShift = 0
 
@@ -27,7 +25,7 @@ class Camera:
             Camera.posX = destination - 800
 
         if abs(cameraShift) < 0.2:
-            if abs(cameraShift) < 0.01:
+            if abs(cameraShift) < 0.03:
                 cameraShift = 0
             else:
                 cameraShift = 0.2 if cameraShift > 0 else -0.2

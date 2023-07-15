@@ -39,7 +39,7 @@ class Bird(pygame.sprite.Sprite):
             Bird._setUpAnimation()
 
         self.birdType = int(pos[0]) % 2  # 0 = raven, 1 = pigeon
-        if self.birdType is 0:
+        if self.birdType == 0:
             self.animationFlyRight = Bird._ANIMATION_CROW_FLY_RIGHT
             self.animationFlyLeft = Bird._ANIMATION_CROW_FLY_LEFT
             self.animationIdle = Bird._ANIMATION_CROW_IDLE
@@ -171,15 +171,15 @@ class Bird(pygame.sprite.Sprite):
         dist = math.hypot(playerCenter[0] - birdCenter[0], playerCenter[1] - birdCenter[1])
         if dist < 150 and self._startFlying is None:
             self._startFlying = time.time()
-            if self.birdType is 0:
+            if self.birdType == 0:
                 randSound = randrange(2)
-                if randSound is 0:
+                if randSound == 0:
                     Bird.SOUNDS_SCARE_RAVEN1.play()
                 else:
                     Bird.SOUNDS_SCARE_RAVEN2.play()
             else:
                 randSound = randrange(2)
-                if randSound is 0:
+                if randSound == 0:
                     Bird.SOUNDS_SCARE_PIGEON1.play()
                 else:
                     Bird.SOUNDS_SCARE_PIGEON2.play()
@@ -188,7 +188,7 @@ class Bird(pygame.sprite.Sprite):
                 self.__fliesRight = False
             else:
                 self.__fliesRight = True
-            if self.birdType is 0:
+            if self.birdType == 0:
                 self.posY -= 12
 
     def _set_alpha(self):
@@ -200,7 +200,7 @@ class Bird(pygame.sprite.Sprite):
                 BirdCounter.BirdCounter.catchedBird()
 
     def _move(self):
-        if self.birdType is 0:
+        if self.birdType == 0:
             speedX = 1.35
             speedY = 0.5
         else:

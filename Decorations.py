@@ -1,4 +1,6 @@
 from enum import Enum
+
+import GameInfo
 import pygame
 
 import Camera
@@ -71,6 +73,10 @@ class Decorations:
 
     @staticmethod
     def add(type, pos):
+        # Don't render trees if game is in WEB, then we can get around +25% FPS
+        if GameInfo.GameInfo.BUILD_TYPE == GameInfo.BuildType.WEB:
+            if type == Decorations.Type.TREE_SMALL or type == Decorations.Type.TREE_BIG:
+                type = Decorations.Type.BUSH
         obj = Decorations(type, pos)
         Decorations.allDecorations.append(obj)
 

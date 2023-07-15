@@ -58,12 +58,12 @@ class LevelManager:
 
     @staticmethod
     def update():
-        if Bird.Bird.birdsOnMap() is 0:
+        if Bird.Bird.birdsOnMap() == 0:
             newRecord = False
             if GameInfo.GameInfo.levelTime[LevelManager.currentLevel] > Deadline.Deadline.time():
                 newRecord = True
 
-            #if new record, then save it
+            # if new record, then save it
             if GameInfo.GameInfo.levelTime[LevelManager.currentLevel] == 0.0 or \
                     newRecord:
                 GameInfo.GameInfo.levelTime[LevelManager.currentLevel] = Deadline.Deadline.time()
@@ -166,7 +166,7 @@ class LevelManager:
 
     @staticmethod
     def _loadAdditionalThings():
-        if LevelManager.currentLevel is 1:
+        if LevelManager.currentLevel == 1:
             x = 325
             y = 500
             Icons.Icons.add(Icons.Icons.Type.W, (x, y - 43))
@@ -185,7 +185,7 @@ class LevelManager:
 
             Decorations.Decorations.add(Decorations.Decorations.Type.TREE_SMALL, (108, 12))
 
-        if LevelManager.currentLevel is 2:
+        if LevelManager.currentLevel == 2:
             Decorations.Decorations.add(Decorations.Decorations.Type.STONE_SMALL, (66, 16))
             Decorations.Decorations.add(Decorations.Decorations.Type.STONE_SMALL, (70, 16))
             Decorations.Decorations.add(Decorations.Decorations.Type.STONE_SMALL, (73, 16))
@@ -195,13 +195,13 @@ class LevelManager:
             obj = Dog((76, 16), -700)
             ObstacleManager.ObstacleManager.addObstacle(obj)
 
-        if LevelManager.currentLevel is 3:
+        if LevelManager.currentLevel == 3:
             Icons.Icons.add(Icons.Icons.Type.LSHIFT, (1000, 750))
 
             obj = Hedgehog((24, 16))
             ObstacleManager.ObstacleManager.addObstacle(obj)
 
-        if LevelManager.currentLevel is 5:
+        if LevelManager.currentLevel == 5:
             Block.Block.createBlock(Block.BlockType.GRASS_BACKGROUND, (64, 17))
             obj = Dog((66, 17), 250)
             ObstacleManager.ObstacleManager.addObstacle(obj)
@@ -214,12 +214,12 @@ class LevelManager:
             obj = Dog((225, 16), 250)
             ObstacleManager.ObstacleManager.addObstacle(obj)
 
-        if LevelManager.currentLevel is 6:
+        if LevelManager.currentLevel == 6:
             obj = Hedgehog((58, 12))
             ObstacleManager.ObstacleManager.addObstacle(obj)
             Camera.Camera.borderRight -= 300
 
-        if LevelManager.currentLevel is 7:
+        if LevelManager.currentLevel == 7:
             CatSmall.CatSmall.getInstance().restart([1350, 675])
             Decorations.Decorations.add(Decorations.Decorations.Type.CAKE, (17, 15))
             Bird.Bird.create((15.47, 15))

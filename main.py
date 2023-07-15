@@ -1,9 +1,15 @@
+import asyncio
 from Game import Game
 
-game = Game()
-while Game.isRunning:
-    game.update()
-    game.render()
-    game.delay()
 
-game.exit()
+async def main():
+    game = Game()
+    while Game.isRunning:
+        game.update()
+        game.render()
+        await asyncio.sleep(0)
+        game.delay()
+
+    game.exit()
+
+asyncio.run(main())
