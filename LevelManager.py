@@ -67,7 +67,7 @@ class LevelManager:
             if GameInfo.GameInfo.levelTime[LevelManager.currentLevel] == 0.0 or \
                     newRecord:
                 GameInfo.GameInfo.levelTime[LevelManager.currentLevel] = Deadline.Deadline.time()
-                GameInfo.GameInfo.saveTimes()
+                GameInfo.GameInfo.saveTime()
 
             if Result.Result.state == Result.Result.State.CLOSED:
                 tooSlow = False if Deadline.Deadline.time() < 60 else True

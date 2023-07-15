@@ -87,6 +87,7 @@ class MainMenu:
         MainMenu.state = MainMenu.State.IN_MAIN
         MainMenu.SOUND_CLICK.set_volume(GameInfo.GameInfo.getSound())
         CloudManager.CloudManager.initialize()
+        MainMenu.renderBackground()
 
     @staticmethod
     def update():
@@ -94,11 +95,8 @@ class MainMenu:
 
     @staticmethod
     def render():
-        Screen.screen.blit(MainMenu.BACKGROUND1, (-800, 0))
-        Screen.screen.blit(MainMenu.BACKGROUND1, (800, 0))
-        CloudManager.CloudManager.renderBeforeMountains()
-        CloudManager.CloudManager.renderAfterMountains()
-        Screen.screen.blit(MainMenu.BACKGROUND2, (0, 0))
+        if GameInfo.GameInfo.BUILD_TYPE is not GameInfo.BuildType.WEB:
+            MainMenu.renderBackground()
         Screen.screen.blit(MainMenu.image, (600, 187))
 
         if MainMenu.state is MainMenu.State.IN_SETTINGS:
@@ -121,6 +119,14 @@ class MainMenu:
                 Screen.screen.blit(surface2, (811, posY))
 
         #pygame.draw.rect(Screen.screen, (255, 0, 0), MainMenu.hitboxLevelsBack)
+
+    @staticmethod
+    def renderBackground():
+        Screen.screen.blit(MainMenu.BACKGROUND1, (-800, 0))
+        Screen.screen.blit(MainMenu.BACKGROUND1, (800, 0))
+        CloudManager.CloudManager.renderBeforeMountains()
+        CloudManager.CloudManager.renderAfterMountains()
+        Screen.screen.blit(MainMenu.BACKGROUND2, (0, 0))
 
     @staticmethod
     def mouseButtonDown():

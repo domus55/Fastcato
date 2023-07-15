@@ -44,17 +44,38 @@ class GameInfo:
 
     @staticmethod
     def load():
+        if GameInfo.BUILD_TYPE == BuildType.WEB:
+            GameInfo.loadTimeFromWeb()
+        else:
+            GameInfo.loadTimeTxt()
+
         GameInfo.loadSettings()
-        GameInfo.loadSave()
 
     @staticmethod
-    def loadSave():
+    def loadTimeFromWeb():
+        GameInfo.levelTime[0] = 1
+        if __import__("sys").platform == "emscripten":
+            from platform import window
+            error = False
+            for i in range(GameInfo.NUMBER_OF_LEVELS):
+                time = window.localStorage.getItem(f"level{i + 1}")
+                if time is None:
+                    GameInfo.levelTime[i + 1] = 0
+                    error = True
+                else:
+                    GameInfo.levelTime[i + 1] = float(time)
+
+            if error:
+                GameInfo.saveTimeToWeb()
+
+    @staticmethod
+    def loadTimeTxt():
         error = False
         GameInfo.levelTime[0] = 1
 
         fileExists = os.path.exists('save.txt')
         if not fileExists:
-            GameInfo.saveTimes()
+            GameInfo.saveTime()
 
         with open('save.txt') as f:
             for i in range(GameInfo.NUMBER_OF_LEVELS):
@@ -64,18 +85,28 @@ class GameInfo:
                     GameInfo.levelTime[i + 1] = 0.0
                     error = True
         if error:
-            GameInfo.saveTimes()
+            GameInfo.saveTime()
 
     @staticmethod
-    def saveTimes():
+    def saveTime():
+        if GameInfo.BUILD_TYPE == BuildType.WEB:
+            GameInfo.saveTimeToWeb()
+        else:
+            GameInfo.saveTimeTxt()
+
+    @staticmethod
+    def saveTimeToWeb():
+        if __import__("sys").platform == "emscripten":
+            from platform import window
+
+            for i in range(GameInfo.NUMBER_OF_LEVELS):
+                window.localStorage.setItem(f"level{i + 1}", GameInfo.levelTime[i+1])
+
+    @staticmethod
+    def saveTimeTxt():
         with open('save.txt', 'w') as f:
             for i in range(GameInfo.NUMBER_OF_LEVELS):
                 f.write(f"{GameInfo.levelTime[i+1]}\n")
-
-    @staticmethod
-    def saveSettings():
-        with open('game_settings.txt', 'w') as f:
-            f.write(f"{GameInfo._sound}\n{GameInfo._music}")
 
     @staticmethod
     def loadSettings():
@@ -87,6 +118,11 @@ class GameInfo:
             GameInfo._sound = 6
             GameInfo._music = 6
             GameInfo.saveSettings()
+
+    @staticmethod
+    def saveSettings():
+        with open('game_settings.txt', 'w') as f:
+            f.write(f"{GameInfo._sound}\n{GameInfo._music}")
 
     @staticmethod
     def strLevelTime(levelNr):

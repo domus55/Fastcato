@@ -1,0 +1,12 @@
+Currently, there are 2 types of build Windows and Web.
+To change version go to `GameInfo.py` and change `GameInfo.BUILD_TYPE`
+
+Windows build is made by using Pyinstaller library and it is a full version of the game.
+
+Web is made using pygbag library and has simplified graphic
+no multi layer level background,
+no trees render,
+no background blocks,
+no background refresh in main menu,
+there is no sound 3 seconds after using dash
+times are saved in localStorage instead of txt file.

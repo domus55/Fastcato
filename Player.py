@@ -292,7 +292,8 @@ class Player(pygame.sprite.Sprite):
 
                 if changePositionY < 0:
                     self.canJump = True
-                    self._velocityY = 0
+                    if self._velocityY >= 0:
+                        self._velocityY = 0
 
                 if changePositionY > 0:
                     self._velocityY = 0
