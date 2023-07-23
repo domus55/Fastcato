@@ -7,6 +7,7 @@ import GameInfo
 import LevelManager
 import Music
 import Screen
+from ProjectCommon import loadImage, PATH
 
 '''You may find it strange that there are no button graphics. 
 It's because instead of creating Button class, it's graphics, event handling
@@ -25,38 +26,38 @@ class MainMenu:
     state = State.CLOSED
     levelsPage = 0
 
-    DEFAULT = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/default.png"), (400, 525)).convert_alpha()
-    PLAY = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/playActive.png"), (400, 525)).convert_alpha()
-    LEVELS = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/levelsActive.png"), (400, 525)).convert_alpha()
-    SETTINGS = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/settingActive.png"), (400, 525)).convert_alpha()
-    EXIT = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/exitActive.png"), (400, 525)).convert_alpha()
+    DEFAULT = loadImage(f"{PATH}images/gui/mainMenu/default.png", (400, 525))
+    PLAY = loadImage(f"{PATH}images/gui/mainMenu/playActive.png", (400, 525))
+    LEVELS = loadImage(f"{PATH}images/gui/mainMenu/levelsActive.png", (400, 525))
+    SETTINGS = loadImage(f"{PATH}images/gui/mainMenu/settingActive.png", (400, 525))
+    EXIT = loadImage(f"{PATH}images/gui/mainMenu/exitActive.png", (400, 525))
 
-    SETTINGS_DEFAULT = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/settings/default.png"), (400, 525)).convert_alpha()
-    SETTINGS_BACK = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/settings/back.png"), (400, 525)).convert_alpha()
-    SETTINGS_SOUND_UP = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/settings/soundUp.png"), (400, 525)).convert_alpha()
-    SETTINGS_SOUND_DOWN = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/settings/soundDown.png"), (400, 525)).convert_alpha()
-    SETTINGS_MUSIC_UP = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/settings/musicUp.png"), (400, 525)).convert_alpha()
-    SETTINGS_MUSIC_DOWN = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/settings/musicDown.png"), (400, 525)).convert_alpha()
-    SETTINGS_ACTIVE_BAR = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/settings/activeBar.png"), (15, 45)).convert_alpha()
+    SETTINGS_DEFAULT = loadImage(f"{PATH}images/gui/mainMenu/settings/default.png", (400, 525))
+    SETTINGS_BACK = loadImage(f"{PATH}images/gui/mainMenu/settings/back.png", (400, 525))
+    SETTINGS_SOUND_UP = loadImage(f"{PATH}images/gui/mainMenu/settings/soundUp.png", (400, 525))
+    SETTINGS_SOUND_DOWN = loadImage(f"{PATH}images/gui/mainMenu/settings/soundDown.png", (400, 525))
+    SETTINGS_MUSIC_UP = loadImage(f"{PATH}images/gui/mainMenu/settings/musicUp.png", (400, 525))
+    SETTINGS_MUSIC_DOWN = loadImage(f"{PATH}images/gui/mainMenu/settings/musicDown.png", (400, 525))
+    SETTINGS_ACTIVE_BAR = loadImage(f"{PATH}images/gui/mainMenu/settings/activeBar.png", (15, 45))
 
-    LEVELS_DEFAULT = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/levels/default.png"), (400, 525)).convert_alpha()
-    LEVELS_BACK = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/levels/back.png"), (400, 525)).convert_alpha()
-    LEVELS_NEXT = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/levels/next.png"), (400, 525)).convert_alpha()
-    LEVELS_PREV = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/levels/prev.png"), (400, 525)).convert_alpha()
-    LEVELS_1 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/levels/1.png"), (400, 525)).convert_alpha()
-    LEVELS_2 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/levels/2.png"), (400, 525)).convert_alpha()
-    LEVELS_3 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/levels/3.png"), (400, 525)).convert_alpha()
+    LEVELS_DEFAULT = loadImage(f"{PATH}images/gui/mainMenu/levels/default.png", (400, 525))
+    LEVELS_BACK = loadImage(f"{PATH}images/gui/mainMenu/levels/back.png", (400, 525))
+    LEVELS_NEXT = loadImage(f"{PATH}images/gui/mainMenu/levels/next.png", (400, 525))
+    LEVELS_PREV = loadImage(f"{PATH}images/gui/mainMenu/levels/prev.png", (400, 525))
+    LEVELS_1 = loadImage(f"{PATH}images/gui/mainMenu/levels/1.png", (400, 525))
+    LEVELS_2 = loadImage(f"{PATH}images/gui/mainMenu/levels/2.png", (400, 525))
+    LEVELS_3 = loadImage(f"{PATH}images/gui/mainMenu/levels/3.png", (400, 525))
 
-    BACKGROUND1 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/background/1.png"), (1600, 900)).convert_alpha()
-    BACKGROUND2 = pygame.transform.scale(pygame.image.load("images/gui/mainMenu/background/2.png"), (1600, 900)).convert_alpha()
+    BACKGROUND1 = loadImage(f"{PATH}images/gui/mainMenu/background/1.png", (1600, 900))
+    BACKGROUND2 = loadImage(f"{PATH}images/gui/mainMenu/background/2.png", (1600, 900))
 
     pygame.font.init()
-    FONT = pygame.font.Font("fonts/mainMenu.ttf", 28)
+    FONT = pygame.font.Font(f"{PATH}fonts/mainMenu.ttf", 28)
     FONT_COLOR = (182, 137, 98)
 
     #Sounds
     pygame.mixer.init()
-    SOUND_CLICK = pygame.mixer.Sound("sounds/click.wav")
+    SOUND_CLICK = pygame.mixer.Sound(f"{PATH}sounds/click.wav")
 
     #main hitboxes
     hitboxPlay = pygame.Rect(633, 220, 335, 96)

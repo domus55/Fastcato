@@ -3,8 +3,8 @@ from enum import Enum
 
 import Camera
 import GameInfo
-import Screen
 from Screen import *
+from ProjectCommon import loadImage, PATH
 
 
 class BlockType(Enum):
@@ -77,12 +77,12 @@ class Block(pygame.sprite.Sprite):
 
     @staticmethod
     def _loadImages():
-        Block.IMG_GRASS.append(pygame.image.load(f"images/grass/13.png").convert_alpha())  # default image
+        Block.IMG_GRASS.append(pygame.image.load(f"{PATH}images/grass/13.png").convert_alpha())  # default image
         for i in range(24):
-            img = pygame.image.load(f"images/grass/{i + 1}.png").convert_alpha()
+            img = pygame.image.load(f"{PATH}images/grass/{i + 1}.png").convert_alpha()
             Block.IMG_GRASS.append(img)
         for i in range(4):
-            img = pygame.image.load(f"images/grass/inside{i + 1}.png").convert()
+            img = pygame.image.load(f"{PATH}images/grass/inside{i + 1}.png").convert()
             Block._IMG_GRASS_CENTER.append(img)
 
         Block._loadedImages = True

@@ -2,6 +2,7 @@ import pygame
 import time
 from random import randrange
 
+from ProjectCommon import PATH
 from HUD import Deadline
 from InnerTimer import InnerTime
 from Obstacles.Obstacle import Obstacle
@@ -50,7 +51,7 @@ class Dog(Obstacle):
 
         #idle
         for i in range(4):
-            img = pygame.image.load(f"images/dog/idle/{i+1}.png")
+            img = pygame.image.load(f"{PATH}images/dog/idle/{i+1}.png")
             readyImg = pygame.transform.scale(img, (SIZE * 1.4, SIZE))
             Dog._ANIMATION_IDLE_RIGHT.append(readyImg.convert_alpha())
 
@@ -60,7 +61,7 @@ class Dog(Obstacle):
 
         #walk
         for i in range(6):
-            img = pygame.image.load(f"images/dog/walk/{i+1}.png")
+            img = pygame.image.load(f"{PATH}images/dog/walk/{i+1}.png")
             readyImg = pygame.transform.scale(img, (SIZE * 1.4, SIZE))
             Dog._ANIMATION_WALK_RIGHT.append(readyImg.convert_alpha())
 

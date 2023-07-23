@@ -6,6 +6,7 @@ import Credits
 import LevelManager
 from HUD import Deadline
 from InnerTimer import InnerTime
+from ProjectCommon import PATH
 from Screen import screen
 
 
@@ -45,7 +46,7 @@ class CatSmall:
 
         # laying
         for i in range(8):
-            img = pygame.image.load(f"images/catSmall/lay/{i + 1}.png")
+            img = pygame.image.load(f"{PATH}images/catSmall/lay/{i + 1}.png")
             img = pygame.transform.scale(img, (SIZE, SIZE))
             flippedImage = pygame.transform.flip(img, True, False)
             CatSmall.ANIMATION_LAY_LEFT.append(flippedImage.convert_alpha())
@@ -55,21 +56,21 @@ class CatSmall:
 
         # walking
         for i in range(4):
-            img = pygame.image.load(f"images/catSmall/walk/{i + 1}.png")
+            img = pygame.image.load(f"{PATH}images/catSmall/walk/{i + 1}.png")
             img = pygame.transform.scale(img, (SIZE, SIZE))
             flippedImage = pygame.transform.flip(img, True, False)
             CatSmall.ANIMATION_WALK_LEFT.append(flippedImage.convert_alpha())
 
         # sit transition
         for i in range(4):
-            img = pygame.image.load(f"images/catSmall/sitTransition/{i + 1}.png")
+            img = pygame.image.load(f"{PATH}images/catSmall/sitTransition/{i + 1}.png")
             img = pygame.transform.scale(img, (SIZE, SIZE))
             flippedImage = pygame.transform.flip(img, True, False)
             CatSmall.ANIMATION_SIT_TRANSITION.append(flippedImage.convert_alpha())
 
         # sit
         for i in range(24):
-            img = pygame.image.load(f"images/catSmall/sit/{i + 1}.png")
+            img = pygame.image.load(f"{PATH}images/catSmall/sit/{i + 1}.png")
             img = pygame.transform.scale(img, (SIZE, SIZE))
             flippedImage = pygame.transform.flip(img, True, False)
             CatSmall.ANIMATION_SIT_LEFT.append(flippedImage.convert_alpha())

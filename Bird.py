@@ -8,6 +8,8 @@ import Camera
 import GameInfo
 import Player
 from InnerTimer import InnerTime
+from ProjectCommon import \
+    PATH
 from Screen import screen
 
 
@@ -24,14 +26,14 @@ class Bird(pygame.sprite.Sprite):
     _ANIMATION_CROW_IDLE = []
     _animationWasSetUp = False
 
-    _ICON = pygame.transform.scale(pygame.image.load("images/gui/buttons/attention.png"), (40, 40)).convert_alpha()
+    _ICON = pygame.transform.scale(pygame.image.load(f"{PATH}images/gui/buttons/attention.png"), (40, 40)).convert_alpha()
 
     # Sounds
-    SOUNDS_SCARE_RAVEN1 = pygame.mixer.Sound("sounds/scareBird/raven/1.wav")
-    SOUNDS_SCARE_RAVEN2 = pygame.mixer.Sound("sounds/scareBird/raven/2.wav")
+    SOUNDS_SCARE_RAVEN1 = pygame.mixer.Sound(f"{PATH}sounds/scareBird/raven/1.wav")
+    SOUNDS_SCARE_RAVEN2 = pygame.mixer.Sound(f"{PATH}sounds/scareBird/raven/2.wav")
 
-    SOUNDS_SCARE_PIGEON1 = pygame.mixer.Sound("sounds/scareBird/pigeon/1.wav")
-    SOUNDS_SCARE_PIGEON2 = pygame.mixer.Sound("sounds/scareBird/pigeon/2.wav")
+    SOUNDS_SCARE_PIGEON1 = pygame.mixer.Sound(f"{PATH}sounds/scareBird/pigeon/1.wav")
+    SOUNDS_SCARE_PIGEON2 = pygame.mixer.Sound(f"{PATH}sounds/scareBird/pigeon/2.wav")
 
     def __init__(self, pos, hasIcon):
         super().__init__()
@@ -98,7 +100,7 @@ class Bird(pygame.sprite.Sprite):
 
         # Pigeon
         for i in range(NUMBER_OF_IMAGES):
-            img = pygame.image.load(f"images/bird2/fly/{i + 1}.png")
+            img = pygame.image.load(f"{PATH}images/bird2/fly/{i + 1}.png")
             readyImg = pygame.transform.scale(img, (SIZE * 1.4, SIZE))
             Bird._ANIMATION_PIGEON_FLY_RIGHT.append(readyImg.convert_alpha())
 
@@ -108,7 +110,7 @@ class Bird(pygame.sprite.Sprite):
 
         # Crow
         for i in range(NUMBER_OF_IMAGES):
-            img = pygame.image.load(f"images/bird1/fly/{i + 1}.png")
+            img = pygame.image.load(f"{PATH}images/bird1/fly/{i + 1}.png")
             readyImg = pygame.transform.scale(img, (SIZE * 1.4, SIZE))
             Bird._ANIMATION_CROW_FLY_RIGHT.append(readyImg.convert_alpha())
 
@@ -120,7 +122,7 @@ class Bird(pygame.sprite.Sprite):
 
         # Pigeon
         for i in range(4):
-            img = pygame.image.load(f"images/bird2/idle/{i + 1}.png")
+            img = pygame.image.load(f"{PATH}images/bird2/idle/{i + 1}.png")
             readyImg = pygame.transform.scale(img, (SIZE * 1.4, SIZE))
             Bird._ANIMATION_PIGEON_IDLE.append(readyImg.convert_alpha())
 
@@ -133,7 +135,7 @@ class Bird(pygame.sprite.Sprite):
 
         # Crow
         for i in range(4):
-            img = pygame.image.load(f"images/bird1/idle/{i + 1}.png")
+            img = pygame.image.load(f"{PATH}images/bird1/idle/{i + 1}.png")
             readyImg = pygame.transform.scale(img, (SIZE * 1.4, SIZE))
             Bird._ANIMATION_CROW_IDLE.append(readyImg.convert_alpha())
 

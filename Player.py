@@ -2,7 +2,7 @@ import time
 from random import randrange
 import pygame.mixer
 
-import Bird
+from ProjectCommon import PATH
 import Block
 import GameInfo
 import LevelManager
@@ -37,10 +37,10 @@ class Player(pygame.sprite.Sprite):
     ALL_IDLE_ANIMATIONS_LEFT = []
 
     # sounds
-    DASH_SOUND = pygame.mixer.Sound("sounds/dash.wav")
-    DASH_READY = pygame.mixer.Sound("sounds/dashReady.wav")
-    SOUND_MEOW1 = pygame.mixer.Sound("sounds/meow1.wav")
-    SOUND_MEOW2 = pygame.mixer.Sound("sounds/meow2.wav")
+    DASH_SOUND = pygame.mixer.Sound(f"{PATH}sounds/dash.wav")
+    DASH_READY = pygame.mixer.Sound(f"{PATH}sounds/dashReady.wav")
+    SOUND_MEOW1 = pygame.mixer.Sound(f"{PATH}sounds/meow1.wav")
+    SOUND_MEOW2 = pygame.mixer.Sound(f"{PATH}sounds/meow2.wav")
 
     _animationWasSetUp = False
 
@@ -310,7 +310,7 @@ class Player(pygame.sprite.Sprite):
 
         # walking
         for i in range(4):
-            img = pygame.image.load(f"images/cat/walk/{i + 1}.png")
+            img = pygame.image.load(f"{PATH}images/cat/walk/{i + 1}.png")
             readyImg = pygame.transform.scale(img, (SIZE, SIZE))
             Player.ANIMATION_WALK_RIGHT.append(readyImg.convert_alpha())
 
@@ -319,7 +319,7 @@ class Player(pygame.sprite.Sprite):
             Player.ANIMATION_WALK_LEFT.append(flippedImage)
 
         # jumping
-        img = pygame.image.load(f"images/cat/jumpUp.png")
+        img = pygame.image.load(f"{PATH}images/cat/jumpUp.png")
         readyImg = pygame.transform.scale(img, (SIZE, SIZE))
         Player.IMG_JUMP_UP_RIGHT = readyImg.convert_alpha()
 
@@ -327,7 +327,7 @@ class Player(pygame.sprite.Sprite):
         Player.IMG_JUMP_UP_LEFT = flippedImage.convert_alpha()
 
         # flying
-        img = pygame.image.load(f"images/cat/flying.png")
+        img = pygame.image.load(f"{PATH}images/cat/flying.png")
         readyImg = pygame.transform.scale(img, (SIZE, SIZE))
         Player.IMG_FLYING_RIGHT = readyImg.convert_alpha()
 
@@ -335,7 +335,7 @@ class Player(pygame.sprite.Sprite):
         Player.IMG_FLYING_LEFT = flippedImage.convert_alpha()
 
         # falling
-        img = pygame.image.load(f"images/cat/fallDown.png")
+        img = pygame.image.load(f"{PATH}images/cat/fallDown.png")
         readyImg = pygame.transform.scale(img, (SIZE, SIZE))
         Player.IMG_FALL_DOWN_RIGHT = readyImg.convert_alpha()
 
@@ -352,7 +352,7 @@ class Player(pygame.sprite.Sprite):
                 numOfAnimationFrames = 4
 
             for j in range(numOfAnimationFrames):
-                img = pygame.image.load(f"images/cat/idle{i + 1}/{j + 1}.png")
+                img = pygame.image.load(f"{PATH}images/cat/idle{i + 1}/{j + 1}.png")
                 readyImg = pygame.transform.scale(img, (SIZE, SIZE))
                 idleAnimationRight.append(readyImg.convert_alpha())
 
@@ -363,7 +363,7 @@ class Player(pygame.sprite.Sprite):
             Player.ALL_IDLE_ANIMATIONS_LEFT.append(idleAnimationLeft)
 
         # dash
-        dashImage = pygame.image.load(f"images/cat/dash.png").convert_alpha()
+        dashImage = pygame.image.load(f"{PATH}images/cat/dash.png").convert_alpha()
         dashImage = pygame.transform.scale(dashImage, (SIZE, SIZE))
 
         Player.IMG_SHADOW_RIGHT = dashImage
@@ -373,7 +373,7 @@ class Player(pygame.sprite.Sprite):
 
         # meow
         for i in range(3):
-            img = pygame.image.load(f"images/cat/meow/{i + 1}.png")
+            img = pygame.image.load(f"{PATH}images/cat/meow/{i + 1}.png")
             readyImg = pygame.transform.scale(img, (50, 50))
             Player.ANIMATION_MEOW_RIGHT.append(readyImg.convert_alpha())
 

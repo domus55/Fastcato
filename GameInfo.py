@@ -1,10 +1,13 @@
 from enum import Enum
 import os.path
 
+from ProjectCommon import PATH
+
 
 class BuildType(Enum):
     WINDOWS = 0
     WEB = 1
+    ANDROID = 2
 
 class GameInfo:
     _sound = 6   #from 0 - 6
@@ -73,11 +76,11 @@ class GameInfo:
         error = False
         GameInfo.levelTime[0] = 1
 
-        fileExists = os.path.exists('save.txt')
+        fileExists = os.path.exists(f'{PATH}save.txt')
         if not fileExists:
             GameInfo.saveTime()
 
-        with open('save.txt') as f:
+        with open(f'{PATH}save.txt') as f:
             for i in range(GameInfo.NUMBER_OF_LEVELS):
                 try:
                     GameInfo.levelTime[i + 1] = float(f.readline())
@@ -104,14 +107,14 @@ class GameInfo:
 
     @staticmethod
     def saveTimeTxt():
-        with open('save.txt', 'w') as f:
+        with open(f'{PATH}save.txt', 'w') as f:
             for i in range(GameInfo.NUMBER_OF_LEVELS):
                 f.write(f"{GameInfo.levelTime[i+1]}\n")
 
     @staticmethod
     def loadSettings():
         try:
-            with open('game_settings.txt') as f:
+            with open(f'{PATH}game_settings.txt') as f:
                 GameInfo._sound = int(f.readline())
                 GameInfo._music = int(f.readline())
         except Exception:
@@ -121,7 +124,7 @@ class GameInfo:
 
     @staticmethod
     def saveSettings():
-        with open('game_settings.txt', 'w') as f:
+        with open(f'{PATH}game_settings.txt', 'w') as f:
             f.write(f"{GameInfo._sound}\n{GameInfo._music}")
 
     @staticmethod

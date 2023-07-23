@@ -3,6 +3,7 @@ import pygame
 
 import Camera
 from InnerTimer import InnerTime
+from ProjectCommon import PATH
 from Screen import screen
 
 
@@ -31,7 +32,7 @@ class Cloud:
     @staticmethod
     def _loadImages():
         for i in range(Cloud._NUMBER_OF_IMAGES):
-            img = pygame.image.load(f"images/clouds/{i+1}.png")
+            img = pygame.image.load(f"{PATH}images/clouds/{i+1}.png")
 
             Cloud.IMAGES.append(img.convert_alpha())
 

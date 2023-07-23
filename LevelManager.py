@@ -15,6 +15,8 @@ from HUD import BirdCounter, Deadline
 from Obstacles import ObstacleManager
 from Obstacles.Dog import Dog
 from Obstacles.Hedgehog import Hedgehog
+from ProjectCommon import \
+    PATH
 
 
 class LevelManager:
@@ -48,7 +50,7 @@ class LevelManager:
     STAR = (180, 230, 180)
 
     currentLevel = 1
-    currentLevelImg = pygame.image.load("images/levels/1.bmp")
+    currentLevelImg = pygame.image.load(f"{PATH}images/levels/1.bmp")
 
     @staticmethod
     def initialize():
@@ -159,7 +161,7 @@ class LevelManager:
         try:
             LevelManager.IMG_LEVELS.append(None)
             for i in range(GameInfo.GameInfo.NUMBER_OF_LEVELS + 1):
-                img = pygame.image.load(f"images/levels/{i+1}.bmp")
+                img = pygame.image.load(f"{PATH}images/levels/{i+1}.bmp")
                 LevelManager.IMG_LEVELS.append(img)
         except:
             print("Not all levels *.bmp files are existing!")

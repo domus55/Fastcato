@@ -1,6 +1,7 @@
 from enum import Enum
 import pygame
 
+from ProjectCommon import loadImage, PATH
 import GameInfo
 import LevelManager
 import Result
@@ -15,10 +16,10 @@ class InGameMenu:
 
     state = State.CLOSED
 
-    DEFAULT = pygame.transform.scale(pygame.image.load("images/gui/inGameMenu/default.png"), (400, 405)).convert_alpha()
-    RESUME = pygame.transform.scale(pygame.image.load("images/gui/inGameMenu/resumeActive.png"), (400, 405)).convert_alpha()
-    RESTART = pygame.transform.scale(pygame.image.load("images/gui/inGameMenu/restartActive.png"), (400, 405)).convert_alpha()
-    EXIT = pygame.transform.scale(pygame.image.load("images/gui/inGameMenu/exitActive.png"), (400, 405)).convert_alpha()
+    DEFAULT = loadImage(f"{PATH}images/gui/inGameMenu/default.png", (400, 405))
+    RESUME = loadImage(f"{PATH}images/gui/inGameMenu/resumeActive.png", (400, 405))
+    RESTART = loadImage(f"{PATH}images/gui/inGameMenu/restartActive.png", (400, 405))
+    EXIT = loadImage(f"{PATH}images/gui/inGameMenu/exitActive.png", (400, 405))
 
     hitboxResume = pygame.Rect(633, 280, 335, 96)
     hitboxRestart = pygame.Rect(633, 401, 335, 96)

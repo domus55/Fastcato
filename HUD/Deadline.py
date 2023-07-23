@@ -1,6 +1,7 @@
 import time
 import pygame
 
+from ProjectCommon import PATH
 import GameInfo
 import LevelManager
 import Screen
@@ -12,12 +13,12 @@ class Deadline:
     timeOut = False
 
     # Font
-    _FONT = pygame.font.Font("fonts/timer.ttf", 50)
+    _FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", 50)
     _color = (255, 255, 255)
     _FONT_BACKGROUND = pygame.Surface((165, 44))
     _FONT_BACKGROUND.set_alpha(100)
 
-    SOUND_TIMER = pygame.mixer.Sound("sounds/timer.wav")
+    SOUND_TIMER = pygame.mixer.Sound(f"{PATH}sounds/timer.wav")
 
 
     @staticmethod
@@ -103,10 +104,10 @@ class Deadline:
             else: #font is shrinking
                 fontSize = 61.25 - (deltaTime - 60.15) * 75
 
-            Deadline._FONT = pygame.font.Font("fonts/timer.ttf", int(fontSize))
+            Deadline._FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", int(fontSize))
         else:
             if Deadline._FONT.size("a") != (22, 73):
-                Deadline._FONT = pygame.font.Font("fonts/timer.ttf", 50)
+                Deadline._FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", 50)
 
         Screen.screen.blit(Deadline._FONT_BACKGROUND, (45, 45))
 

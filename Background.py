@@ -3,12 +3,12 @@ import pygame
 import Camera
 import GameInfo
 from CloudManager import CloudManager
+from ProjectCommon import PATH
 from Screen import screen
 
 
 class Background:
     _instance = None
-
     def __init__(self):
         super().__init__()
         self.images = []
@@ -27,11 +27,11 @@ class Background:
         NUMBER_OF_IMAGES = 3
 
         for i in range(NUMBER_OF_IMAGES):
-            img = pygame.image.load(f"images/background/simplified.png")
+            img = pygame.image.load(f"{PATH}images/background/simplified.png")
             self.simplifiedImage = pygame.transform.scale(img, (1600, 692)).convert()
             self.simplifiedImageWidth = self.simplifiedImage.get_rect().width
 
-            img = pygame.image.load(f"images/background/{i + 1}.png")
+            img = pygame.image.load(f"{PATH}images/background/{i + 1}.png")
             if i == 0:  # sky
                 readyImg = pygame.transform.scale(img, (1600, 367))
                 self.images.append(readyImg.convert())

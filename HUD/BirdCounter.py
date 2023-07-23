@@ -5,16 +5,17 @@ import Bird
 import GameInfo
 import LevelManager
 import Screen
+from ProjectCommon import loadImage, PATH
 
 
 class BirdCounter:
-    IMG = pygame.transform.scale(pygame.image.load("images/gui/bird.png"), (35, 33)).convert_alpha()
+    IMG = loadImage(f"{PATH}images/gui/bird.png", (35, 33))
 
     color = (255, 255, 255)
-    _FONT = pygame.font.Font("fonts/timer.ttf", 50)
+    _FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", 50)
     _FONT_BACKGROUND = pygame.Surface((135, 44))
 
-    SOUND = pygame.mixer.Sound("sounds/bird.wav")
+    SOUND = pygame.mixer.Sound(f"{PATH}sounds/bird.wav")
 
     allBirds = 0
     birdsCatched = 0
@@ -33,10 +34,10 @@ class BirdCounter:
             else:  # font is shrinking
                 fontSize = 61.25 - (deltaTime - 0.15) * 75
 
-            BirdCounter._FONT = pygame.font.Font("fonts/timer.ttf", int(fontSize))
+            BirdCounter._FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", int(fontSize))
         else:
             if BirdCounter._FONT.size("a") != (22, 73):
-                BirdCounter._FONT = pygame.font.Font("fonts/timer.ttf", 50)
+                BirdCounter._FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", 50)
 
         strr = str(BirdCounter.birdsCatched) + "/" + str(BirdCounter.allBirds)
 

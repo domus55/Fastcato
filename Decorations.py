@@ -1,9 +1,8 @@
 from enum import Enum
 
 import GameInfo
-import pygame
-
 import Camera
+from ProjectCommon import PATH, loadImage
 from Screen import screen
 
 
@@ -21,31 +20,31 @@ class Decorations:
     allDecorations = []
 
     # Images
-    IMG_TREE_SMALL1 = pygame.transform.scale(pygame.image.load("images/decorations/treeSmall1.png"), (380, 430)).convert_alpha()
-    IMG_TREE_SMALL2 = pygame.transform.scale(pygame.image.load("images/decorations/treeSmall2.png"), (340, 360)).convert_alpha()
-    IMG_TREE_SMALL3 = pygame.transform.scale(pygame.image.load("images/decorations/treeSmall3.png"), (300, 350)).convert_alpha()
-    IMG_TREE_SMALL4 = pygame.transform.scale(pygame.image.load("images/decorations/treeSmall4.png"), (200, 300)).convert_alpha()
-    IMG_TREE_BIG1 = pygame.transform.scale(pygame.image.load("images/decorations/treeBig1.png"), (500, 500)).convert_alpha()
-    IMG_TREE_BIG2 = pygame.transform.scale(pygame.image.load("images/decorations/treeBig2.png"), (500, 500)).convert_alpha()
-    IMG_BUSH1 = pygame.transform.scale(pygame.image.load("images/decorations/bush1.png"), (75, 75)).convert_alpha()
-    IMG_BUSH2 = pygame.transform.scale(pygame.image.load("images/decorations/bush2.png"), (75, 50)).convert_alpha()
-    IMG_BUSH3 = pygame.transform.scale(pygame.image.load("images/decorations/bush3.png"), (75, 50)).convert_alpha()
-    IMG_BUSH4 = pygame.transform.scale(pygame.image.load("images/decorations/bush4.png"), (75, 50)).convert_alpha()
-    IMG_BUSH5 = pygame.transform.scale(pygame.image.load("images/decorations/bush5.png"), (75, 50)).convert_alpha()
-    IMG_GRASS1 = pygame.transform.scale(pygame.image.load("images/decorations/grass1.png"), (40, 40)).convert_alpha()
-    IMG_GRASS2 = pygame.transform.scale(pygame.image.load("images/decorations/grass2.png"), (40, 40)).convert_alpha()
-    IMG_GRASS3 = pygame.transform.scale(pygame.image.load("images/decorations/grass3.png"), (40, 40)).convert_alpha()
-    IMG_STONE_SMALL1 = pygame.transform.scale(pygame.image.load("images/decorations/stoneSmall1.png"), (20, 20)).convert_alpha()
-    IMG_STONE_SMALL2 = pygame.transform.scale(pygame.image.load("images/decorations/stoneSmall2.png"), (40, 25)).convert_alpha()
-    IMG_STONE_SMALL3 = pygame.transform.scale(pygame.image.load("images/decorations/stoneSmall3.png"), (50, 40)).convert_alpha()
-    IMG_STONE_BIG1 = pygame.transform.scale(pygame.image.load("images/decorations/stoneBig1.png"), (65, 45)).convert_alpha()
-    IMG_STONE_BIG2 = pygame.transform.scale(pygame.image.load("images/decorations/stoneBig2.png"), (60, 50)).convert_alpha()
-    IMG_STONE_BIG3 = pygame.transform.scale(pygame.image.load("images/decorations/stoneBig3.png"), (140, 80)).convert_alpha()
-    IMG_BALLOON1 = pygame.transform.scale(pygame.image.load("images/decorations/balloon1.png"), (100, 100)).convert_alpha()
-    IMG_BALLOON2 = pygame.transform.scale(pygame.image.load("images/decorations/balloon2.png"), (100, 100)).convert_alpha()
-    IMG_BALLOON3 = pygame.transform.scale(pygame.image.load("images/decorations/balloon3.png"), (100, 100)).convert_alpha()
-    IMG_BALLOON4 = pygame.transform.scale(pygame.image.load("images/decorations/balloon4.png"), (100, 100)).convert_alpha()
-    IMG_CAKE = pygame.transform.scale(pygame.image.load("images/decorations/cake.png"), (124, 124)).convert_alpha()
+    IMG_TREE_SMALL1 = loadImage(f"{PATH}images/decorations/treeSmall1.png", (380, 430))
+    IMG_TREE_SMALL2 = loadImage(f"{PATH}images/decorations/treeSmall2.png", (340, 360))
+    IMG_TREE_SMALL3 = loadImage(f"{PATH}images/decorations/treeSmall3.png", (300, 350))
+    IMG_TREE_SMALL4 = loadImage(f"{PATH}images/decorations/treeSmall4.png", (200, 300))
+    IMG_TREE_BIG1 = loadImage(f"{PATH}images/decorations/treeBig1.png", (500, 500))
+    IMG_TREE_BIG2 = loadImage(f"{PATH}images/decorations/treeBig2.png", (500, 500))
+    IMG_BUSH1 = loadImage(f"{PATH}images/decorations/bush1.png", (75, 75))
+    IMG_BUSH2 = loadImage(f"{PATH}images/decorations/bush2.png", (75, 50))
+    IMG_BUSH3 = loadImage(f"{PATH}images/decorations/bush3.png", (75, 50))
+    IMG_BUSH4 = loadImage(f"{PATH}images/decorations/bush4.png", (75, 50))
+    IMG_BUSH5 = loadImage(f"{PATH}images/decorations/bush5.png", (75, 50))
+    IMG_GRASS1 = loadImage(f"{PATH}images/decorations/grass1.png", (40, 40))
+    IMG_GRASS2 = loadImage(f"{PATH}images/decorations/grass2.png", (40, 40))
+    IMG_GRASS3 = loadImage(f"{PATH}images/decorations/grass3.png", (40, 40))
+    IMG_STONE_SMALL1 = loadImage(f"{PATH}images/decorations/stoneSmall1.png", (20, 20))
+    IMG_STONE_SMALL2 = loadImage(f"{PATH}images/decorations/stoneSmall2.png", (40, 25))
+    IMG_STONE_SMALL3 = loadImage(f"{PATH}images/decorations/stoneSmall3.png", (50, 40))
+    IMG_STONE_BIG1 = loadImage(f"{PATH}images/decorations/stoneBig1.png", (65, 45))
+    IMG_STONE_BIG2 = loadImage(f"{PATH}images/decorations/stoneBig2.png", (60, 50))
+    IMG_STONE_BIG3 = loadImage(f"{PATH}images/decorations/stoneBig3.png", (140, 80))
+    IMG_BALLOON1 = loadImage(f"{PATH}images/decorations/balloon1.png", (100, 100))
+    IMG_BALLOON2 = loadImage(f"{PATH}images/decorations/balloon2.png", (100, 100))
+    IMG_BALLOON3 = loadImage(f"{PATH}images/decorations/balloon3.png", (100, 100))
+    IMG_BALLOON4 = loadImage(f"{PATH}images/decorations/balloon4.png", (100, 100))
+    IMG_CAKE = loadImage(f"{PATH}images/decorations/cake.png", (124, 124))
 
 
     def __init__(self, type, pos):

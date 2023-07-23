@@ -6,6 +6,7 @@ import InGameMenu
 import LevelManager
 import Screen
 import MainMenu
+from ProjectCommon import loadImage, PATH
 
 
 class Result:
@@ -15,16 +16,16 @@ class Result:
 
     state = State.CLOSED
 
-    DEFAULT = pygame.transform.scale(pygame.image.load("images/gui/result/default.png"), (400, 405)).convert_alpha()
-    NEXT = pygame.transform.scale(pygame.image.load("images/gui/result/next.png"), (400, 405)).convert_alpha()
-    RESTART = pygame.transform.scale(pygame.image.load("images/gui/result/restart.png"), (400, 405)).convert_alpha()
-    HOME = pygame.transform.scale(pygame.image.load("images/gui/result/home.png"), (400, 405)).convert_alpha()
+    DEFAULT = loadImage(f"{PATH}images/gui/result/default.png", (400, 405))
+    NEXT = loadImage(f"{PATH}images/gui/result/next.png", (400, 405))
+    RESTART = loadImage(f"{PATH}images/gui/result/restart.png", (400, 405))
+    HOME = loadImage(f"{PATH}images/gui/result/home.png", (400, 405))
 
     hitboxHome = pygame.Rect(633, 537, 80, 80)
     hitboxRestart = pygame.Rect(761, 537, 80, 80)
     hitboxNext = pygame.Rect(889, 537, 80, 80)
 
-    FONT = pygame.font.Font("fonts/timer.ttf", 48)
+    FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", 48)
     FONT_COLOR = (182, 137, 98)
     _time = ""
     _tooSlow = False

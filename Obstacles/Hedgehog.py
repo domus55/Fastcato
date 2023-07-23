@@ -2,6 +2,7 @@ import pygame
 import time
 from random import randrange
 
+from ProjectCommon import PATH
 from Obstacles.Obstacle import Obstacle
 
 
@@ -33,7 +34,7 @@ class Hedgehog(Obstacle):
         NUMBER_OF_IMAGES = 4
 
         for i in range(NUMBER_OF_IMAGES):
-            img = pygame.image.load(f"images/hedgehog/idle/{i+1}.png")
+            img = pygame.image.load(f"{PATH}images/hedgehog/idle/{i+1}.png")
             readyImg = pygame.transform.scale(img, (SIZE * 1.4, SIZE))
             Hedgehog._ANIMATION_IDLE.append(readyImg.convert_alpha())
 

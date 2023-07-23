@@ -2,24 +2,25 @@ from enum import Enum
 import pygame
 
 import Camera
+from ProjectCommon import PATH, loadImage
 from Screen import screen
 
 class Icons:
     #Images
-    W_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/w1.png"), (42, 40)).convert_alpha()
-    W_DOWN = pygame.transform.scale(pygame.image.load("images/gui/buttons/w2.png"), (42, 40)).convert_alpha()
-    A_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/a1.png"), (42, 40)).convert_alpha()
-    A_DOWN = pygame.transform.scale(pygame.image.load("images/gui/buttons/a2.png"), (42, 40)).convert_alpha()
-    S_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/s1.png"), (42, 40)).convert_alpha()
-    S_DOWN = pygame.transform.scale(pygame.image.load("images/gui/buttons/s2.png"), (42, 40)).convert_alpha()
-    D_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/d1.png"), (42, 40)).convert_alpha()
-    D_DOWN = pygame.transform.scale(pygame.image.load("images/gui/buttons/d2.png"), (42, 40)).convert_alpha()
-    LSHIFT_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/shift1.png"), (93, 40)).convert_alpha()
-    LSHIFT_DOWN = pygame.transform.scale(pygame.image.load("images/gui/buttons/shift2.png"), (93, 40)).convert_alpha()
-    DEATH_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/death.png"), (40, 40)).convert_alpha()
-    ATTENTION_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/attention.png"), (40, 40)).convert_alpha()
-    STAR_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/star.png"), (40, 40)).convert_alpha()
-    TIP_UP = pygame.transform.scale(pygame.image.load("images/gui/buttons/tip.png"), (200, 70)).convert_alpha()
+    W_UP = loadImage(f"{PATH}images/gui/buttons/w1.png", (42, 40))
+    W_DOWN = loadImage(f"{PATH}images/gui/buttons/w2.png", (42, 40))
+    A_UP = loadImage(f"{PATH}images/gui/buttons/a1.png", (42, 40))
+    A_DOWN = loadImage(f"{PATH}images/gui/buttons/a2.png", (42, 40))
+    S_UP = loadImage(f"{PATH}images/gui/buttons/s1.png", (42, 40))
+    S_DOWN = loadImage(f"{PATH}images/gui/buttons/s2.png", (42, 40))
+    D_UP = loadImage(f"{PATH}images/gui/buttons/d1.png", (42, 40))
+    D_DOWN = loadImage(f"{PATH}images/gui/buttons/d2.png", (42, 40))
+    LSHIFT_UP = loadImage(f"{PATH}images/gui/buttons/shift1.png", (93, 40))
+    LSHIFT_DOWN = loadImage(f"{PATH}images/gui/buttons/shift2.png", (93, 40))
+    DEATH_UP = loadImage(f"{PATH}images/gui/buttons/death.png", (40, 40))
+    ATTENTION_UP = loadImage(f"{PATH}images/gui/buttons/attention.png", (40, 40))
+    STAR_UP = loadImage(f"{PATH}images/gui/buttons/star.png", (40, 40))
+    TIP_UP = loadImage(f"{PATH}images/gui/buttons/tip.png", (200, 70))
 
     class Type(Enum):
         W = 1
