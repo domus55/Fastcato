@@ -1,17 +1,16 @@
-import Screen
 import pygame
 
 import EventHandler
 from CatSmall import CatSmall
 from Credits import Credits
+from HUD.Buttons import Buttons
 from Icons import Icons
 from CloudManager import CloudManager
 from Bird import Bird
 from Block import Block
 from Camera import Camera
 from Decorations import Decorations
-from GameInfo import GameInfo
-from GameInfo import BuildType
+from GameInfo import GameInfo, BuildType
 from HUD.BirdCounter import BirdCounter
 from HUD.Deadline import Deadline
 from InGameMenu import InGameMenu
@@ -39,11 +38,12 @@ class Game:
         screenInitialize()
         CloudManager.initialize()
 
-
     def update(self):
         InnerTime.update()
         #InnerTime.showFps()
         EventHandler.update()
+        if GameInfo.BUILD_TYPE == BuildType.ANDROID:
+            Buttons.update()
         if MainMenu.state is not MainMenu.state.CLOSED:
             MainMenu.update()
         else:
@@ -81,6 +81,8 @@ class Game:
             if Result.state == Result.State.CLOSED:
                 Deadline.render()
                 BirdCounter.render()
+                if InGameMenu.state == InGameMenu.State.CLOSED and GameInfo.BUILD_TYPE == BuildType.ANDROID:
+                    Buttons.render()
             if InGameMenu.state == InGameMenu.State.OPEN:
                 InGameMenu.render()
             elif Result.state == Result.State.OPEN:

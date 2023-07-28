@@ -26,7 +26,7 @@ class Bird(pygame.sprite.Sprite):
     _ANIMATION_CROW_IDLE = []
     _animationWasSetUp = False
 
-    _ICON = pygame.transform.scale(pygame.image.load(f"{PATH}images/gui/buttons/attention.png"), (40, 40)).convert_alpha()
+    _ICON = pygame.transform.scale(pygame.image.load(f"{PATH}images/gui/icons/attention.png"), (40, 40)).convert_alpha()
 
     # Sounds
     SOUNDS_SCARE_RAVEN1 = pygame.mixer.Sound(f"{PATH}sounds/scareBird/raven/1.wav")

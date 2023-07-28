@@ -82,7 +82,6 @@ class MainMenu:
 
     image = DEFAULT
 
-
     @staticmethod
     def open():
         MainMenu.state = MainMenu.State.IN_MAIN

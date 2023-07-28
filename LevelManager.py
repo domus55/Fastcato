@@ -15,8 +15,7 @@ from HUD import BirdCounter, Deadline
 from Obstacles import ObstacleManager
 from Obstacles.Dog import Dog
 from Obstacles.Hedgehog import Hedgehog
-from ProjectCommon import \
-    PATH
+from ProjectCommon import PATH
 
 
 class LevelManager:

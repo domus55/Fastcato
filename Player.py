@@ -2,6 +2,7 @@ import time
 from random import randrange
 import pygame.mixer
 
+from HUD.Buttons import Buttons
 from ProjectCommon import PATH
 import Block
 import GameInfo
@@ -142,20 +143,20 @@ class Player(pygame.sprite.Sprite):
         self._velocityY += 0.2 * InnerTime.deltaTime / 10
 
         if keyPressed is not None:
-            if keyPressed[pygame.K_a]:
+            if keyPressed[pygame.K_a] or Buttons.right:
                 self._velocityX -= self.speed
                 self._isFacingRight = False
-            if keyPressed[pygame.K_d]:
+            if keyPressed[pygame.K_d] or Buttons.left:
                 self._velocityX += self.speed
                 self._isFacingRight = True
-            if (keyPressed[pygame.K_w] or keyPressed[pygame.K_SPACE]) and self.canJump:
+            if (keyPressed[pygame.K_w] or keyPressed[pygame.K_SPACE] or Buttons.jump) and self.canJump:
                 self._velocityY = - self.speed * 3
                 self.canJump = False
 
         deltaX = self._velocityX * InnerTime.deltaTime / 10.0
         deltaY = self._velocityY * InnerTime.deltaTime / 10.0
 
-        # If user has less then 30FPS then, there is a chance that deltaY will be greater than 25 and it can lead to falling out of the map
+        # If user has less than 30FPS then, there is a chance that deltaY will be greater than 25 and it can lead to falling out of the map
         # To prevent it in that case I move him only 15px(MAX_DELTA) and check collisions
         # I repeat that until he is in right position
         MAX_DELTA = 15
@@ -184,7 +185,7 @@ class Player(pygame.sprite.Sprite):
         if keyPressed is None or Deadline.Deadline.time() < 0.25:
             return
 
-        if keyPressed[pygame.K_LSHIFT] and time.time() > self.last_dash_time + self._DASH_DELAY:
+        if (keyPressed[pygame.K_LSHIFT] or Buttons.dash) and time.time() > self.last_dash_time + self._DASH_DELAY:
             if self._isFacingRight:
                 self._shadowFacingRight = True
                 self.collider.centerx += self._DASH_DISTANCE

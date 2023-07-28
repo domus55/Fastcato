@@ -32,4 +32,6 @@ def update():
             Icons.Icons.buttonDown(pygame.key.get_pressed())
 
     Game.Game.keyPressed = pygame.key.get_pressed()
+    #Game.Game.keyPressed[2] = True
+    #Game.Game.keyPressed.__setattr__("K_6", False)
 
