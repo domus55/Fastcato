@@ -28,9 +28,10 @@ from Background import Background
 class Game:
     isRunning = True
     keyPressed = None
+    fingers = {}
 
     def __init__(self):
-        self._maxFps = 100
+        self._maxFps = 104
         self._clock = pygame.time.Clock()
         GameInfo.load()
         Music.start()
@@ -41,9 +42,9 @@ class Game:
     def update(self):
         InnerTime.update()
         #InnerTime.showFps()
-        EventHandler.update()
+        Game.keyPressed = EventHandler.update()
         if GameInfo.BUILD_TYPE == BuildType.ANDROID:
-            Buttons.update()
+            Buttons.update(Game.fingers)
         if MainMenu.state is not MainMenu.state.CLOSED:
             MainMenu.update()
         else:

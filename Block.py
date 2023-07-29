@@ -2,9 +2,8 @@ import copy
 from enum import Enum
 
 import Camera
-import GameInfo
 from Screen import *
-from ProjectCommon import loadImage, PATH
+from ProjectCommon import  PATH
 
 
 class BlockType(Enum):
@@ -56,24 +55,21 @@ class Block(pygame.sprite.Sprite):
 
     @staticmethod
     def renderBackground():
-        if GameInfo.GameInfo.BUILD_TYPE != GameInfo.BuildType.WEB:
+        if GameInfo.GameInfo.BUILD_TYPE != GameInfo.BuildType.WEB and GameInfo.GameInfo.BUILD_TYPE != GameInfo.BuildType.ANDROID:
             for i in Block.allBackgroundBlocks:
                 if Camera.Camera.isOnScreen(i.rect):
-                    i.render()
+                    screen.blit(i.image, Camera.Camera.relativePosition(i.rect.topleft))
 
     @staticmethod
     def renderBlocks():
         for i in Block.allBlocks:
             if Camera.Camera.isOnScreen(i.rect):
-                i.render()
+                screen.blit(i.image, Camera.Camera.relativePosition(i.rect.topleft))
 
         #Renders all colliders
         '''for i in Block.allColliders:
             color = (i.top + i.left * 20 + i.size[0]) % 255
             pygame.draw.rect(Screen.screen, (color, color, color, 100), pygame.Rect(Camera.Camera.relativePosition(i.topleft), i.size))'''
-
-    def render(self):
-        screen.blit(self.image, Camera.Camera.relativePosition(self.rect.topleft))
 
     @staticmethod
     def _loadImages():
@@ -160,8 +156,6 @@ class Block(pygame.sprite.Sprite):
                         b = Block(img, (i, j), True)
                         Block.allBackgroundBlocks.append(b)
 
-
-
     @staticmethod
     def _setColliders():
         #layoutCopy = Block.grassLayout.copy()
@@ -205,7 +199,6 @@ class Block(pygame.sprite.Sprite):
                 not Block.grassLayout[i - 2][j] or not Block.grassLayout[i + 2][j]:
             return Block.IMG_GRASS[5]
         else:
-
             pseudoRandNum = (pow(i, 3) + pow(j, 2)) % 40
             if pseudoRandNum < len(Block._IMG_GRASS_CENTER):
                 return Block._IMG_GRASS_CENTER[pseudoRandNum]

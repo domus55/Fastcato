@@ -9,11 +9,12 @@ from ProjectCommon import loadImage, PATH
 
 
 class BirdCounter:
-    IMG = loadImage(f"{PATH}images/gui/bird.png", (35, 33))
+    SCALE = GameInfo.GameInfo.HUD_SCALE
+    IMG = loadImage(f"{PATH}images/gui/bird.png", (35 * SCALE, 33 * SCALE))
 
     color = (255, 255, 255)
-    _FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", 50)
-    _FONT_BACKGROUND = pygame.Surface((135, 44))
+    _FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", int(50 * SCALE))
+    _FONT_BACKGROUND = pygame.Surface((135 * SCALE, 44 * SCALE))
 
     SOUND = pygame.mixer.Sound(f"{PATH}sounds/bird.wav")
 
@@ -30,23 +31,22 @@ class BirdCounter:
         # font size after catching bird
         if deltaTime > 0 and deltaTime < 0.3:
             if deltaTime < 0.15:  # font is growing
-                fontSize = 50 + deltaTime * 75
+                fontSize = (50 + deltaTime * 75) * BirdCounter.SCALE
             else:  # font is shrinking
-                fontSize = 61.25 - (deltaTime - 0.15) * 75
+                fontSize = (61.25 - (deltaTime - 0.15) * 75) * BirdCounter.SCALE
 
             BirdCounter._FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", int(fontSize))
         else:
-            if BirdCounter._FONT.size("a") != (22, 73):
-                BirdCounter._FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", 50)
+            if BirdCounter._FONT.size("a") != (int(22 * BirdCounter.SCALE), int(73 * BirdCounter.SCALE)):
+                BirdCounter._FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", int(50 * BirdCounter.SCALE))
 
         strr = str(BirdCounter.birdsCatched) + "/" + str(BirdCounter.allBirds)
 
-        Screen.screen.blit(BirdCounter._FONT_BACKGROUND, (45, 100))
-        Screen.screen.blit(BirdCounter.IMG, (50, 105))
+        Screen.screen.blit(BirdCounter._FONT_BACKGROUND, (45, 50 + 50 * BirdCounter.SCALE))
+        Screen.screen.blit(BirdCounter.IMG, (45 + 5 * BirdCounter.SCALE, 50 + 55 * BirdCounter.SCALE))
 
         surface = BirdCounter._FONT.render(strr, False, BirdCounter.color)
-        Screen.screen.blit(surface, (100, 81))
-
+        Screen.screen.blit(surface, (55 + 45 * BirdCounter.SCALE, 50 + 31 * BirdCounter.SCALE))
 
     #use after placing all birds on the map
     @staticmethod
@@ -66,8 +66,8 @@ class BirdCounter:
     @staticmethod
     def _setFontBackgroundWidth():
             stringLen = len(str(BirdCounter.birdsCatched)) + len(str(BirdCounter.allBirds))
-            surfaceWidth = 99 + stringLen * 21
-            BirdCounter._FONT_BACKGROUND = pygame.Surface((surfaceWidth, 44))
+            surfaceWidth = (99 + stringLen * 21) * BirdCounter.SCALE
+            BirdCounter._FONT_BACKGROUND = pygame.Surface((surfaceWidth, 44 * BirdCounter.SCALE))
             BirdCounter._FONT_BACKGROUND.set_alpha(100)
 
 

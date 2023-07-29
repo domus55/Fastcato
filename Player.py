@@ -143,10 +143,10 @@ class Player(pygame.sprite.Sprite):
         self._velocityY += 0.2 * InnerTime.deltaTime / 10
 
         if keyPressed is not None:
-            if keyPressed[pygame.K_a] or Buttons.right:
+            if keyPressed[pygame.K_a] or Buttons.left:
                 self._velocityX -= self.speed
                 self._isFacingRight = False
-            if keyPressed[pygame.K_d] or Buttons.left:
+            if keyPressed[pygame.K_d] or Buttons.right:
                 self._velocityX += self.speed
                 self._isFacingRight = True
             if (keyPressed[pygame.K_w] or keyPressed[pygame.K_SPACE] or Buttons.jump) and self.canJump:
@@ -156,7 +156,7 @@ class Player(pygame.sprite.Sprite):
         deltaX = self._velocityX * InnerTime.deltaTime / 10.0
         deltaY = self._velocityY * InnerTime.deltaTime / 10.0
 
-        # If user has less than 30FPS then, there is a chance that deltaY will be greater than 25 and it can lead to falling out of the map
+        # If user has less than 30FPS then, there is a chance that deltaY will be greater than 25, it can lead to falling out of the map
         # To prevent it in that case I move him only 15px(MAX_DELTA) and check collisions
         # I repeat that until he is in right position
         MAX_DELTA = 15
@@ -164,14 +164,14 @@ class Player(pygame.sprite.Sprite):
             if abs(deltaX) > MAX_DELTA:
                 changeX = MAX_DELTA if deltaX > 0 else -MAX_DELTA
             else:
-                changeX = deltaX
+                changeX = 0
             deltaX -= changeX
             self.pos[0] += changeX
 
             if abs(deltaY) > MAX_DELTA:
                 changeY = MAX_DELTA if deltaY > 0 else -MAX_DELTA
             else:
-                changeY = deltaY
+                changeY = 0
             deltaY -= changeY
             self.pos[1] += changeY
 

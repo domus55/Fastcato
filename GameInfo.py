@@ -1,8 +1,8 @@
 from enum import Enum
 import os.path
 
-from ProjectCommon import PATH
-
+#from ProjectCommon import PATH
+PATH = os.path.abspath('.')+'/'
 
 class BuildType(Enum):
     WINDOWS = 0
@@ -10,12 +10,14 @@ class BuildType(Enum):
     ANDROID = 2
 
 class GameInfo:
-    _sound = 6   #from 0 - 6
-    _music = 6   #from 0 - 6
+    _sound = 6   # from 0 to 6
+    _music = 6   # from 0 to 6
 
-    BUILD_TYPE = BuildType.WINDOWS
+    BUILD_TYPE = BuildType.ANDROID
     NUMBER_OF_LEVELS = 6
     levelTime = [0.0] * (NUMBER_OF_LEVELS + 1)
+
+    HUD_SCALE = 1.5 if BUILD_TYPE is BuildType.ANDROID else 1
 
     @staticmethod
     def soundUp():

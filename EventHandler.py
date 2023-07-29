@@ -7,6 +7,7 @@ import MainMenu
 import InGameMenu
 import Music
 import Result
+from HUD import Buttons
 from Music import MUSIC_ENDED
 
 
@@ -24,6 +25,12 @@ def update():
             MainMenu.MainMenu.mouseButtonUp()
             InGameMenu.InGameMenu.mouseButtonUp()
             Result.Result.mouseButtonUp()
+        if event.type == pygame.FINGERDOWN:
+            x = event.x * 1600
+            y = event.y * 900
+            Game.Game.fingers[event.finger_id] = x, y
+        if event.type == pygame.FINGERUP:
+            Game.Game.fingers.pop(event.finger_id, None)
         if event.type == MUSIC_ENDED:
             Music.Music.start()
         if event.type == pygame.KEYDOWN:
@@ -31,7 +38,6 @@ def update():
         if event.type == pygame.KEYUP:
             Icons.Icons.buttonDown(pygame.key.get_pressed())
 
-    Game.Game.keyPressed = pygame.key.get_pressed()
-    #Game.Game.keyPressed[2] = True
-    #Game.Game.keyPressed.__setattr__("K_6", False)
+    return pygame.key.get_pressed()
+
 

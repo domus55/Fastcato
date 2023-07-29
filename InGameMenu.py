@@ -15,15 +15,16 @@ class InGameMenu:
         OPEN = 1
 
     state = State.CLOSED
+    SCALE = GameInfo.GameInfo.HUD_SCALE
 
-    DEFAULT = loadImage(f"{PATH}images/gui/inGameMenu/default.png", (400, 405))
-    RESUME = loadImage(f"{PATH}images/gui/inGameMenu/resumeActive.png", (400, 405))
-    RESTART = loadImage(f"{PATH}images/gui/inGameMenu/restartActive.png", (400, 405))
-    EXIT = loadImage(f"{PATH}images/gui/inGameMenu/exitActive.png", (400, 405))
+    DEFAULT = loadImage(f"{PATH}images/gui/inGameMenu/default.png", (400 * SCALE, 405 * SCALE))
+    RESUME = loadImage(f"{PATH}images/gui/inGameMenu/resumeActive.png", (400 * SCALE, 405 * SCALE))
+    RESTART = loadImage(f"{PATH}images/gui/inGameMenu/restartActive.png", (400 * SCALE, 405 * SCALE))
+    EXIT = loadImage(f"{PATH}images/gui/inGameMenu/exitActive.png", (400 * SCALE, 405 * SCALE))
 
-    hitboxResume = pygame.Rect(633, 280, 335, 96)
-    hitboxRestart = pygame.Rect(633, 401, 335, 96)
-    hitboxExit = pygame.Rect(633, 522, 335, 96)
+    hitboxResume = pygame.Rect(800 - 167 * SCALE, 450 - 170 * SCALE, 335 * SCALE, 96 * SCALE)
+    hitboxRestart = pygame.Rect(800 - 167 * SCALE, 450 - 49 * SCALE, 335 * SCALE, 96 * SCALE)
+    hitboxExit = pygame.Rect(800 - 167 * SCALE, 450 + 72 * SCALE, 335 * SCALE, 96 * SCALE)
 
     image = DEFAULT
 
@@ -42,7 +43,8 @@ class InGameMenu:
 
     @staticmethod
     def render():
-        Screen.screen.blit(InGameMenu.image, (600, 247))
+        Screen.screen.blit(InGameMenu.image, (800 - 200 * InGameMenu.SCALE, 450 - 203 * InGameMenu.SCALE))
+        #pygame.draw.rect(Screen.screen, (255, 0, 0), InGameMenu.hitboxResume)
 
     @staticmethod
     def mouseButtonDown():

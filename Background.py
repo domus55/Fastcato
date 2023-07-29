@@ -48,7 +48,7 @@ class Background:
             self.imageWidth.append(self.images[i].get_rect().width)
 
     def render(self):
-        if GameInfo.GameInfo.BUILD_TYPE == GameInfo.BuildType.WEB:
+        if GameInfo.GameInfo.BUILD_TYPE == GameInfo.BuildType.WEB or GameInfo.GameInfo.BUILD_TYPE == GameInfo.BuildType.ANDROID:
             screen.fill((0, 174, 255))
             screen.blit(self.simplifiedImage, (0, 208))
             CloudManager.renderAfterMountains()

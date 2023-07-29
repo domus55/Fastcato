@@ -1,6 +1,7 @@
 import time
 import pygame
 
+from HUD import Buttons
 from ProjectCommon import PATH
 import GameInfo
 import LevelManager
@@ -11,11 +12,12 @@ class Deadline:
     _startTime = time.time()
     isRunning = False
     timeOut = False
+    SCALE = GameInfo.GameInfo.HUD_SCALE
 
     # Font
-    _FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", 50)
+    _FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", int(50 * SCALE))
     _color = (255, 255, 255)
-    _FONT_BACKGROUND = pygame.Surface((165, 44))
+    _FONT_BACKGROUND = pygame.Surface((165 * SCALE, 44 * SCALE))
     _FONT_BACKGROUND.set_alpha(100)
 
     SOUND_TIMER = pygame.mixer.Sound(f"{PATH}sounds/timer.wav")
@@ -31,7 +33,8 @@ class Deadline:
             return
 
         if not Deadline.isRunning:
-            if keyPressed[pygame.K_w] or keyPressed[pygame.K_a] or keyPressed[pygame.K_s] or keyPressed[pygame.K_d] or keyPressed[pygame.K_LSHIFT]:
+            if keyPressed[pygame.K_w] or keyPressed[pygame.K_a] or keyPressed[pygame.K_s] or keyPressed[pygame.K_d] or keyPressed[pygame.K_LSHIFT] or \
+                    Buttons.Buttons.right or Buttons.Buttons.left or Buttons.Buttons.dash or Buttons.Buttons.jump:
                 Deadline._start()
 
     @staticmethod
@@ -84,7 +87,7 @@ class Deadline:
 
         # set font _color
         if minutes == 0:
-            if seconds >= 50 and seconds < 55:
+            if 50 <= seconds < 55:
                 a = 255 - (deltaTime - 50) * 51
                 Deadline._color = (255, 255, a)
             elif seconds >= 55:
@@ -100,19 +103,19 @@ class Deadline:
         #font size after 60 seconds
         if deltaTime > 60 and deltaTime < 60.3:
             if deltaTime < 60.15: #font is growing
-                fontSize = 50 + (deltaTime - 60) * 75
+                fontSize = (50 + (deltaTime - 60) * 75) * Deadline.SCALE
             else: #font is shrinking
-                fontSize = 61.25 - (deltaTime - 60.15) * 75
+                fontSize = (61.25 - (deltaTime - 60.15) * 75) * Deadline.SCALE
 
             Deadline._FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", int(fontSize))
         else:
-            if Deadline._FONT.size("a") != (22, 73):
-                Deadline._FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", 50)
+            if Deadline._FONT.size("a") != (int(22 * Deadline.SCALE), int(73 * Deadline.SCALE)):
+                Deadline._FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", 50 * Deadline.SCALE)
 
         Screen.screen.blit(Deadline._FONT_BACKGROUND, (45, 45))
 
         surface = Deadline._FONT.render(strr, False, Deadline._color)
-        Screen.screen.blit(surface, (50, 26))
+        Screen.screen.blit(surface, (45 + 5 * Deadline.SCALE, 45 - 19 * Deadline.SCALE))
 
     @staticmethod
     def strTime():

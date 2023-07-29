@@ -15,17 +15,18 @@ class Result:
         OPEN = 1
 
     state = State.CLOSED
+    SCALE = GameInfo.GameInfo.HUD_SCALE
 
-    DEFAULT = loadImage(f"{PATH}images/gui/result/default.png", (400, 405))
-    NEXT = loadImage(f"{PATH}images/gui/result/next.png", (400, 405))
-    RESTART = loadImage(f"{PATH}images/gui/result/restart.png", (400, 405))
-    HOME = loadImage(f"{PATH}images/gui/result/home.png", (400, 405))
+    DEFAULT = loadImage(f"{PATH}images/gui/result/default.png", (400 * SCALE, 405 * SCALE))
+    NEXT = loadImage(f"{PATH}images/gui/result/next.png", (400 * SCALE, 405 * SCALE))
+    RESTART = loadImage(f"{PATH}images/gui/result/restart.png", (400 * SCALE, 405 * SCALE))
+    HOME = loadImage(f"{PATH}images/gui/result/home.png", (400 * SCALE, 405 * SCALE))
 
-    hitboxHome = pygame.Rect(633, 537, 80, 80)
-    hitboxRestart = pygame.Rect(761, 537, 80, 80)
-    hitboxNext = pygame.Rect(889, 537, 80, 80)
+    hitboxHome = pygame.Rect(800 - 167 * SCALE, 450 + 87 * SCALE, 80 * SCALE, 80 * SCALE)
+    hitboxRestart = pygame.Rect(800 - 39 * SCALE, 450 + 87 * SCALE, 80 * SCALE, 80 * SCALE)
+    hitboxNext = pygame.Rect(800 + 89  * SCALE, 450 + 87 * SCALE, 80 * SCALE, 80 * SCALE)
 
-    FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", 48)
+    FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", int(48 * SCALE))
     FONT_COLOR = (182, 137, 98)
     _time = ""
     _tooSlow = False
@@ -44,22 +45,22 @@ class Result:
 
     @staticmethod
     def render():
-        Screen.screen.blit(Result.image, (600, 247))
+        Screen.screen.blit(Result.image, (800 - 200 * Result.SCALE, 450 - 203 * Result.SCALE))
         str1 = "Time: " + Result._time
         str2 = ""
         str2pos = 0
         if Result._tooSlow:
             str2 = "Too slow"
-            str2pos = 721
+            str2pos = 800 - 79 * Result.SCALE
         elif Result._isNewRecord:
             str2 = "New record!"
-            str2pos = 693
+            str2pos = 800 - 107 * Result.SCALE
 
         surface1 = Result.FONT.render(str1, False, Result.FONT_COLOR)
         surface2 = Result.FONT.render(str2, False, Result.FONT_COLOR)
 
-        Screen.screen.blit(surface1, (647, 400))
-        Screen.screen.blit(surface2, (str2pos, 460))
+        Screen.screen.blit(surface1, (800 - 153 * Result.SCALE, 450 - 70 * Result.SCALE))
+        Screen.screen.blit(surface2, (str2pos, 450 - 10 * Result.SCALE))
 
         #pygame.draw.rect(Screen.screen, (255, 0, 0), Result.hitboxNext)
         #pygame.draw.rect(Screen.screen, (255, 0, 0), Result.hitboxRestart)
