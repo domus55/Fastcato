@@ -13,9 +13,10 @@ class GameInfo:
     _sound = 6   # from 0 to 6
     _music = 6   # from 0 to 6
 
-    BUILD_TYPE = BuildType.ANDROID
+    BUILD_TYPE = BuildType.WINDOWS
     NUMBER_OF_LEVELS = 6
     levelTime = [0.0] * (NUMBER_OF_LEVELS + 1)
+    fullScreen = 0      # 0 - False, 1 - True
 
     HUD_SCALE = 1.5 if BUILD_TYPE is BuildType.ANDROID else 1
 
@@ -119,15 +120,17 @@ class GameInfo:
             with open(f'{PATH}game_settings.txt') as f:
                 GameInfo._sound = int(f.readline())
                 GameInfo._music = int(f.readline())
+                GameInfo.fullScreen = int(f.readline())
         except Exception:
             GameInfo._sound = 6
             GameInfo._music = 6
+            GameInfo.fullScreen = 0
             GameInfo.saveSettings()
 
     @staticmethod
     def saveSettings():
         with open(f'{PATH}game_settings.txt', 'w') as f:
-            f.write(f"{GameInfo._sound}\n{GameInfo._music}")
+            f.write(f"{GameInfo._sound}\n{GameInfo._music}\n{GameInfo.fullScreen}")
 
     @staticmethod
     def strLevelTime(levelNr):
