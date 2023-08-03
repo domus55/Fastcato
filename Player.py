@@ -2,14 +2,14 @@ import time
 from random import randrange
 import pygame.mixer
 
-from HUD.Buttons import Buttons
+
 from ProjectCommon import PATH
 import Block
 import GameInfo
 import LevelManager
 import Camera
 import MainMenu
-from HUD import Deadline, BirdCounter
+from HUD import Deadline, BirdCounter, Buttons
 from Obstacles import ObstacleManager
 from Screen import *
 from InnerTimer import *
@@ -143,13 +143,13 @@ class Player(pygame.sprite.Sprite):
         self._velocityY += 0.2 * InnerTime.deltaTime / 10
 
         if keyPressed is not None:
-            if keyPressed[pygame.K_a] or Buttons.left:
+            if keyPressed[pygame.K_a] or Buttons.Buttons.left:
                 self._velocityX -= self.speed
                 self._isFacingRight = False
-            if keyPressed[pygame.K_d] or Buttons.right:
+            if keyPressed[pygame.K_d] or Buttons.Buttons.right:
                 self._velocityX += self.speed
                 self._isFacingRight = True
-            if (keyPressed[pygame.K_w] or keyPressed[pygame.K_SPACE] or Buttons.jump) and self.canJump:
+            if (keyPressed[pygame.K_w] or keyPressed[pygame.K_SPACE] or Buttons.Buttons.jump) and self.canJump:
                 self._velocityY = - self.speed * 3
                 self.canJump = False
 
@@ -185,7 +185,7 @@ class Player(pygame.sprite.Sprite):
         if keyPressed is None or Deadline.Deadline.time() < 0.25:
             return
 
-        if (keyPressed[pygame.K_LSHIFT] or Buttons.dash) and time.time() > self.last_dash_time + self._DASH_DELAY:
+        if (keyPressed[pygame.K_LSHIFT] or Buttons.Buttons.dash) and time.time() > self.last_dash_time + self._DASH_DELAY:
             if self._isFacingRight:
                 self._shadowFacingRight = True
                 self.collider.centerx += self._DASH_DISTANCE

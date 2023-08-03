@@ -1,7 +1,10 @@
 from enum import Enum
+
+import GameInfo
 import pygame
 
 import Camera
+from HUD import Buttons
 from ProjectCommon import PATH, loadImage
 from Screen import screen
 
@@ -17,6 +20,8 @@ class Icons:
     D_DOWN = loadImage(f"{PATH}images/gui/icons/d2.png", (42, 40))
     LSHIFT_UP = loadImage(f"{PATH}images/gui/icons/shift1.png", (93, 40))
     LSHIFT_DOWN = loadImage(f"{PATH}images/gui/icons/shift2.png", (93, 40))
+    LSHIFT_ANDROID_UP = loadImage(f"{PATH}images/gui/buttons/dashUp.png", (60, 60))
+    LSHIFT_ANDROID_DOWN = loadImage(f"{PATH}images/gui/buttons/dashDown.png", (60, 60))
     DEATH_UP = loadImage(f"{PATH}images/gui/icons/death.png", (40, 40))
     ATTENTION_UP = loadImage(f"{PATH}images/gui/icons/attention.png", (40, 40))
     STAR_UP = loadImage(f"{PATH}images/gui/icons/star.png", (40, 40))
@@ -28,6 +33,7 @@ class Icons:
         S = 3
         D = 4
         LSHIFT = 5
+        LSHIFT_ANDROID = 6
         DEATH = 101
         ATTENTION = 102
         STAR = 103
@@ -43,6 +49,13 @@ class Icons:
 
     @staticmethod
     def add(type, pos):
+        if GameInfo.GameInfo.BUILD_TYPE is GameInfo.BuildType.ANDROID:
+            if type.value <= 4:
+                return
+            if type == Icons.Type.LSHIFT:
+                type = Icons.Type.LSHIFT_ANDROID
+                pos = pos[0] + 15, pos[1]
+
         obj = Icons(type, pos)
         Icons.allButton.append(obj)
 
@@ -65,6 +78,14 @@ class Icons:
             i._setButtonImage(keyPressed)
 
     def _setButtonImage(self, keyPressed):
+        if self.type is Icons.Type.LSHIFT_ANDROID:
+            if Buttons.Buttons.dash or keyPressed[pygame.K_LSHIFT]:
+                self.image = eval("Icons." + str(self.type)[5:] + "_DOWN")
+            else:
+                self.image = eval("Icons." + str(self.type)[5:] + "_UP")
+            return
+
+
         if self.type.value > 100:
             return
         if self.type == Icons.Type.LSHIFT:

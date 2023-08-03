@@ -7,6 +7,7 @@ import Screen
 
 
 class Credits:
+    pygame.font.init()
     _FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", 50)
     _color = (255, 255, 255)
     text = []

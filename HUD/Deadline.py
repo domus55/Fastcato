@@ -20,6 +20,7 @@ class Deadline:
     _FONT_BACKGROUND = pygame.Surface((165 * SCALE, 44 * SCALE))
     _FONT_BACKGROUND.set_alpha(100)
 
+    pygame.mixer.init()
     SOUND_TIMER = pygame.mixer.Sound(f"{PATH}sounds/timer.wav")
 
 

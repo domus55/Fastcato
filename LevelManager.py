@@ -168,23 +168,23 @@ class LevelManager:
     @staticmethod
     def _loadAdditionalThings():
         if LevelManager.currentLevel == 1:
-            x = 325
+            x = 500
             y = 500
             Icons.Icons.add(Icons.Icons.Type.W, (x, y - 43))
             Icons.Icons.add(Icons.Icons.Type.A, (x - 45, y))
             Icons.Icons.add(Icons.Icons.Type.S, (x, y))
             Icons.Icons.add(Icons.Icons.Type.D, (x + 45, y))
 
-            Icons.Icons.add(Icons.Icons.Type.TIP, (2100, 550))
+            Icons.Icons.add(Icons.Icons.Type.TIP, (2300, 550))
 
-            Icons.Icons.add(Icons.Icons.Type.ATTENTION, (1105, 800))
+            Icons.Icons.add(Icons.Icons.Type.ATTENTION, (1305, 800))
 
-            Icons.Icons.add(Icons.Icons.Type.LSHIFT, (3600, 550))
-            Icons.Icons.add(Icons.Icons.Type.ATTENTION, (3625, 500))
+            Icons.Icons.add(Icons.Icons.Type.LSHIFT, (3800, 550))
+            Icons.Icons.add(Icons.Icons.Type.ATTENTION, (3825, 500))
 
-            Icons.Icons.add(Icons.Icons.Type.DEATH, (6075, 650))
+            Icons.Icons.add(Icons.Icons.Type.DEATH, (6275, 650))
 
-            Decorations.Decorations.add(Decorations.Decorations.Type.TREE_SMALL, (108, 12))
+            Decorations.Decorations.add(Decorations.Decorations.Type.TREE_SMALL, (112, 12))
 
         if LevelManager.currentLevel == 2:
             Decorations.Decorations.add(Decorations.Decorations.Type.STONE_SMALL, (66, 16))
