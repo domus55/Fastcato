@@ -110,7 +110,7 @@ class Deadline:
             Deadline._FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", int(fontSize))
         else:
             if Deadline._FONT.size("a") != (int(22 * Deadline.SCALE), int(73 * Deadline.SCALE)):
-                Deadline._FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", 50 * Deadline.SCALE)
+                Deadline._FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", int(50 * Deadline.SCALE))
 
         Screen.screen.blit(Deadline._FONT_BACKGROUND, (45, 45))
 

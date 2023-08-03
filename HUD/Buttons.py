@@ -29,12 +29,12 @@ class Buttons:
     pauseImg = PAUSE_UP
 
     # hitboxes
-    hitboxJump = pygame.Rect(50, 850 - BUTTON_SCALE * 50, BUTTON_SIZE[0], BUTTON_SIZE[1])
-    hitboxDash = pygame.Rect(100 + BUTTON_SCALE * 50, 850 - BUTTON_SCALE * 50, BUTTON_SIZE[0], BUTTON_SIZE[1])
-    hitboxLeft1 = pygame.Rect(100 + BUTTON_SCALE * 100, 0, 1100 - BUTTON_SCALE * 100, 900)
-    hitboxLeft2 = pygame.Rect(0, 0, 100 + BUTTON_SCALE * 100, 850 - BUTTON_SCALE * 50)
+    hitboxJump = pygame.Rect(0, 750 - BUTTON_SIZE[1] * 2, 100 + BUTTON_SIZE[0], 75 + BUTTON_SIZE[1])
+    hitboxDash = pygame.Rect(0, 825 - BUTTON_SIZE[1], 100 + BUTTON_SIZE[0], 75 + BUTTON_SIZE[1])
+    hitboxLeft1 = pygame.Rect(100 + BUTTON_SIZE[0], 0, 1100 - BUTTON_SIZE[0], 900)
+    hitboxLeft2 = pygame.Rect(0, 0, 100 + BUTTON_SIZE[0], 750 - BUTTON_SIZE[1] * 2)
     hitboxRight = pygame.Rect(1200, 0, 800, 900)
-    hitboxPause = pygame.Rect(1550 - BUTTON_SCALE * 30, 50, PAUSE_SIZE[0], PAUSE_SIZE[1])
+    hitboxPause = pygame.Rect(1500 - PAUSE_SIZE[0], 0, PAUSE_SIZE[0] + 100, PAUSE_SIZE[1] + 100)
 
     right = False
     left = False
@@ -70,6 +70,7 @@ class Buttons:
             if Buttons.hitboxPause.collidepoint(pos):
                 Buttons.pauseImg = Buttons.PAUSE_DOWN
                 pause = True
+                Buttons.right = False
 
         if pause is False and Buttons.pauseImg == Buttons.PAUSE_DOWN and InGameMenu.InGameMenu.state is InGameMenu.InGameMenu.State.CLOSED:
             Buttons.pauseImg = Buttons.PAUSE_UP
@@ -77,13 +78,15 @@ class Buttons:
 
     @staticmethod
     def render():
-        screen.blit(Buttons.jumpImg, (50, 850 - Buttons.BUTTON_SCALE * 50))
-        screen.blit(Buttons.dashImg, (100 + Buttons.BUTTON_SCALE * 50, 850 - Buttons.BUTTON_SCALE * 50))
-        screen.blit(Buttons.pauseImg, (1550 - Buttons.BUTTON_SCALE * 30, 50))
-
-        #pygame.draw.rect(screen, (255, 0, 0), Buttons.hitboxJump)
-        #pygame.draw.rect(screen, (255, 0, 0), Buttons.hitboxDash)
-        #pygame.draw.rect(screen, (155, 255, 150), Buttons.hitboxLeft2)
         #pygame.draw.rect(screen, (0, 255, 0), Buttons.hitboxLeft1)
+        #pygame.draw.rect(screen, (155, 255, 150), Buttons.hitboxLeft2)
         #pygame.draw.rect(screen, (255, 0, 0), Buttons.hitboxRight)
         #pygame.draw.rect(screen, (0, 0, 255), Buttons.hitboxPause)
+        #pygame.draw.rect(screen, (255, 0, 0), Buttons.hitboxJump)
+        #pygame.draw.rect(screen, (140, 0, 140), Buttons.hitboxDash)
+
+        screen.blit(Buttons.jumpImg, (50, 800 - Buttons.BUTTON_SIZE[1] * 2))
+        screen.blit(Buttons.dashImg, (50, 850 - Buttons.BUTTON_SIZE[1]))
+        screen.blit(Buttons.pauseImg, (1550 - Buttons.BUTTON_SCALE * 30, 50))
+
+
