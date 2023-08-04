@@ -20,6 +20,10 @@ class GameInfo:
 
     HUD_SCALE = 1.5 if BUILD_TYPE is BuildType.ANDROID else 1
 
+    # Times for gold and silver
+    # TROPHY_TIMES[3][1] returns time on 3rd level for silver, TROPHY_TIMES[1][0] returns time on first level for gold
+    TROPHY_TIMES = [[0, 0], [30, 40], [36, 44], [32, 40], [43, 50], [52, 56], [55, 57]]
+
     @staticmethod
     def soundUp():
         if GameInfo._sound < 6:
@@ -70,7 +74,6 @@ class GameInfo:
                     error = True
                 else:
                     GameInfo.levelTime[i + 1] = float(time)
-
             if error:
                 GameInfo.saveTimeToWeb()
 
@@ -162,3 +165,18 @@ class GameInfo:
 
         return strr
 
+    '''0 - none, 1 - bronze, 2 - silver, 3 - gold'''
+    @staticmethod
+    def getTrophee(level, time=-1):
+        if time == -1:
+            time = GameInfo.levelTime[level]
+
+        if time > 60 or time == 0:
+            return 0
+
+        if time <= GameInfo.TROPHY_TIMES[level][0]:
+            return 3
+        elif time <= GameInfo.TROPHY_TIMES[level][1]:
+            return 2
+        else:
+            return 1

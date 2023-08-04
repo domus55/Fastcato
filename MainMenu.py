@@ -49,6 +49,11 @@ class MainMenu:
     LEVELS_2 = loadImage(f"{PATH}images/gui/mainMenu/levels/2.png", IMG_SIZE)
     LEVELS_3 = loadImage(f"{PATH}images/gui/mainMenu/levels/3.png", IMG_SIZE)
 
+    TROPHY_NONE = loadImage(f"{PATH}images/gui/trophy/none.png", (80, 40))
+    TROPHY_BRONZE = loadImage(f"{PATH}images/gui/trophy/bronze.png", (80, 40))
+    TROPHY_SILVER = loadImage(f"{PATH}images/gui/trophy/silver.png", (80, 40))
+    TROPHY_GOLD = loadImage(f"{PATH}images/gui/trophy/gold.png", (80, 40))
+
     BACKGROUND1 = loadImage(f"{PATH}images/gui/mainMenu/background/1.png", (1600, 900))
     BACKGROUND2 = loadImage(f"{PATH}images/gui/mainMenu/background/2.png", (1600, 900))
 
@@ -116,6 +121,16 @@ class MainMenu:
 
                 Screen.screen.blit(surface1, (650, posY))
                 Screen.screen.blit(surface2, (811, posY))
+
+                # Render trophies
+                if GameInfo.GameInfo.getTrophee(lvl) == 0:
+                    Screen.screen.blit(MainMenu.TROPHY_NONE, (700, posY - 8))
+                elif GameInfo.GameInfo.getTrophee(lvl) == 1:
+                    Screen.screen.blit(MainMenu.TROPHY_BRONZE, (700, posY - 8))
+                elif GameInfo.GameInfo.getTrophee(lvl) == 2:
+                    Screen.screen.blit(MainMenu.TROPHY_SILVER, (700, posY - 8))
+                elif GameInfo.GameInfo.getTrophee(lvl) == 3:
+                    Screen.screen.blit(MainMenu.TROPHY_GOLD, (700, posY - 8))
 
         #pygame.draw.rect(Screen.screen, (255, 0, 0), MainMenu.hitboxLevelsBack)
 

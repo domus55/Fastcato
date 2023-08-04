@@ -72,8 +72,7 @@ class LevelManager:
 
             if Result.Result.state == Result.Result.State.CLOSED:
                 tooSlow = False if Deadline.Deadline.time() < 60 else True
-                Result.Result.open(Deadline.Deadline.strTime(), newRecord, tooSlow)
-
+                Result.Result.open(Deadline.Deadline.strTime(), Deadline.Deadline.time(), newRecord)
 
     @staticmethod
     def restartLevel():
