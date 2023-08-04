@@ -46,19 +46,21 @@ class Block(pygame.sprite.Sprite):
     def setBlocks():
         if not Block._loadedImages:
             Block._loadImages()
-        Block._setImages(BlockType.GRASS)
+        Block._setImages(BlockType.GRASS, Block.grassLayout)
         Block._setColliders()
-        Block.grassLayout = [[sum(x) for x in zip(Block.grassLayout[i], Block.grassBackgroundLayout[i])] for i in range(len(Block.grassLayout))]
-        Block._setImages(BlockType.GRASS_BACKGROUND)
+
+        Block._expandBackgroundLayer()
+        Block._setImages(BlockType.GRASS_BACKGROUND, Block.grassBackgroundLayout)
+
+        # Clear all layouts
         Block.grassLayout = [[0 for col in range(21)] for row in range(1000)]
-        Block.grassBackgroundLayout = [[0 for col2 in range(21)] for row2 in range(1000)]
+        Block.grassBackgroundLayout = [[0 for col in range(21)] for row in range(1000)]
 
     @staticmethod
     def renderBackground():
-        if GameInfo.GameInfo.BUILD_TYPE != GameInfo.BuildType.WEB and GameInfo.GameInfo.BUILD_TYPE != GameInfo.BuildType.ANDROID:
-            for i in Block.allBackgroundBlocks:
-                if Camera.Camera.isOnScreen(i.rect):
-                    screen.blit(i.image, Camera.Camera.relativePosition(i.rect.topleft))
+        for i in Block.allBackgroundBlocks:
+            if Camera.Camera.isOnScreen(i.rect):
+                screen.blit(i.image, Camera.Camera.relativePosition(i.rect.topleft))
 
     @staticmethod
     def renderBlocks():
@@ -84,81 +86,82 @@ class Block(pygame.sprite.Sprite):
         Block._loadedImages = True
 
     @staticmethod
-    def _setImages(type):
-        for i, block in enumerate(Block.grassLayout):
+    def _setImages(type, layout):
+        for i, block in enumerate(layout):
             for j, exists in enumerate(block):
                 if exists:
                     # Select correct image
                     img = Block.IMG_GRASS[0]
 
-                    if Block.grassLayout[i][j + 1]:  # if there is block below
-                        if Block.grassLayout[i][j - 1]:  # if there is block above and below
-                            if not Block.grassLayout[i - 1][j] and Block.grassLayout[i + 1][j]:
+                    if layout[i][j + 1]:  # if there is block below
+                        if layout[i][j - 1]:  # if there is block above and below
+                            if not layout[i - 1][j] and layout[i + 1][j]:
                                 img = Block.IMG_GRASS[4]
-                            elif Block.grassLayout[i - 1][j] and Block.grassLayout[i + 1][j]:
-                                if not Block.grassLayout[i - 1][j - 1] and Block.grassLayout[i + 1][j - 1]:
+                            elif layout[i - 1][j] and layout[i + 1][j]:
+                                if not layout[i - 1][j - 1] and layout[i + 1][j - 1]:
                                     img = Block.IMG_GRASS[24]
-                                elif Block.grassLayout[i - 1][j - 1] and not Block.grassLayout[i + 1][j - 1]:
+                                elif layout[i - 1][j - 1] and not layout[i + 1][j - 1]:
                                     img = Block.IMG_GRASS[23]
-                                elif Block.grassLayout[i - 1][j + 1] and not Block.grassLayout[i + 1][j + 1]:
+                                elif layout[i - 1][j + 1] and not layout[i + 1][j + 1]:
                                     img = Block.IMG_GRASS[21]
-                                elif not Block.grassLayout[i - 1][j + 1] and Block.grassLayout[i + 1][j + 1]:
+                                elif not layout[i - 1][j + 1] and layout[i + 1][j + 1]:
                                     img = Block.IMG_GRASS[22]
                                 else:
                                     img = Block._getCenterBlock(i, j)
-                            elif Block.grassLayout[i - 1][j] and not Block.grassLayout[i + 1][j]:
+                            elif layout[i - 1][j] and not layout[i + 1][j]:
                                 img = Block.IMG_GRASS[6]
                             else:
                                 img = Block.IMG_GRASS[14]
 
                         else:  # if there is block below but not above
-                            if not Block.grassLayout[i - 1][j] and Block.grassLayout[i + 1][j]:
-                                if Block.grassLayout[i][j + 1] and not Block.grassLayout[i + 1][j + 1]:
+                            if not layout[i - 1][j] and layout[i + 1][j]:
+                                if layout[i][j + 1] and not layout[i + 1][j + 1]:
                                     img = Block.IMG_GRASS[17]
                                 else:
                                     img = Block.IMG_GRASS[1]
-                            elif Block.grassLayout[i - 1][j] and Block.grassLayout[i + 1][j]:
+                            elif layout[i - 1][j] and layout[i + 1][j]:
                                 img = Block.IMG_GRASS[2]
-                            elif Block.grassLayout[i - 1][j] and not Block.grassLayout[i + 1][j]:
-                                if Block.grassLayout[i][j + 1] and not Block.grassLayout[i - 1][j + 1]:
+                            elif layout[i - 1][j] and not layout[i + 1][j]:
+                                if layout[i][j + 1] and not layout[i - 1][j + 1]:
                                     img = Block.IMG_GRASS[18]
                                 else:
                                     img = Block.IMG_GRASS[3]
 
                     else:  # if there is no block below
-                        if Block.grassLayout[i][j - 1]:  # if there is block above but not below
-                            if not Block.grassLayout[i - 1][j] and Block.grassLayout[i + 1][j]:
-                                if not Block.grassLayout[i + 1][j - 1]:
+                        if layout[i][j - 1]:  # if there is block above but not below
+                            if not layout[i - 1][j] and layout[i + 1][j]:
+                                if not layout[i + 1][j - 1]:
                                     img = Block.IMG_GRASS[19]
                                 else:
                                     img = Block.IMG_GRASS[7]
-                            elif Block.grassLayout[i - 1][j] and Block.grassLayout[i + 1][j]:
+                            elif layout[i - 1][j] and layout[i + 1][j]:
                                 img = Block.IMG_GRASS[8]
-                            elif Block.grassLayout[i - 1][j] and not Block.grassLayout[i + 1][j]:
-                                if not Block.grassLayout[i - 1][j - 1]:
+                            elif layout[i - 1][j] and not layout[i + 1][j]:
+                                if not layout[i - 1][j - 1]:
                                     img = Block.IMG_GRASS[20]
                                 else:
                                     img = Block.IMG_GRASS[9]
                             else:
                                 img = Block.IMG_GRASS[15]
                         else:  # if there is no block above and not below
-                            if not Block.grassLayout[i - 1][j] and Block.grassLayout[i + 1][j]:
+                            if not layout[i - 1][j] and layout[i + 1][j]:
                                 img = Block.IMG_GRASS[10]
-                            elif Block.grassLayout[i - 1][j] and Block.grassLayout[i + 1][j]:
+                            elif layout[i - 1][j] and layout[i + 1][j]:
                                 img = Block.IMG_GRASS[11]
-                            elif Block.grassLayout[i - 1][j] and not Block.grassLayout[i + 1][j]:
+                            elif layout[i - 1][j] and not layout[i + 1][j]:
                                 img = Block.IMG_GRASS[12]
 
                     if type == BlockType.GRASS:
                         b = Block(img, (i, j))
                         Block.allBlocks.append(b)
                     if type == BlockType.GRASS_BACKGROUND:
+                        if Block.grassLayout[i][j] and (img == Block.IMG_GRASS[1] or img == Block.IMG_GRASS[3] or img == Block.IMG_GRASS[10] or img == Block.IMG_GRASS[12]):
+                            continue
                         b = Block(img, (i, j), True)
                         Block.allBackgroundBlocks.append(b)
 
     @staticmethod
     def _setColliders():
-        #layoutCopy = Block.grassLayout.copy()
         layoutCopy = copy.deepcopy(Block.grassLayout)
         for i, b in enumerate(layoutCopy):
             for j, block in enumerate(b):
@@ -204,3 +207,27 @@ class Block(pygame.sprite.Sprite):
                 return Block._IMG_GRASS_CENTER[pseudoRandNum]
             else:
                 return Block.IMG_GRASS[5]
+
+    @staticmethod
+    def _expandBackgroundLayer():
+        for c in range(2):
+            clone = copy.deepcopy(Block.grassBackgroundLayout)
+            for i, a in enumerate(clone):
+                for j, exists in enumerate(a):
+                    if exists:
+                        if Block.grassLayout[i+1][j+1]:
+                            Block.grassBackgroundLayout[i+1][j+1] = True
+                        if Block.grassLayout[i+1][j]:
+                            Block.grassBackgroundLayout[i+1][j] = True
+                        if Block.grassLayout[i+1][j-1]:
+                            Block.grassBackgroundLayout[i+1][j-1] = True
+                        if Block.grassLayout[i][j+1]:
+                            Block.grassBackgroundLayout[i][j+1] = True
+                        if Block.grassLayout[i][j-1]:
+                            Block.grassBackgroundLayout[i][j-1] = True
+                        if Block.grassLayout[i-1][j+1]:
+                            Block.grassBackgroundLayout[i-1][j+1] = True
+                        if Block.grassLayout[i-1][j]:
+                            Block.grassBackgroundLayout[i-1][j] = True
+                        if Block.grassLayout[i-1][j-1]:
+                            Block.grassBackgroundLayout[i-1][j-1] = True
