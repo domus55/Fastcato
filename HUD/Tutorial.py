@@ -1,3 +1,4 @@
+import Player
 import pygame
 
 import Game
@@ -9,8 +10,6 @@ from Screen import screen
 class Tutorial:
     leftPanel = pygame.Surface((1200, 900), pygame.SRCALPHA, 32)
     rightPanel = pygame.Surface((400, 900), pygame.SRCALPHA, 32)
-    #leftPanel = pygame.Rect(0, 0, 1200, 900)
-    #rightPanel = pygame.Rect(1200, 0, 800, 900)
 
     showRight = True
     showLeft = False
@@ -18,7 +17,7 @@ class Tutorial:
     @staticmethod
     def render():
         # logic part
-        if Game.Game.keyPressed is None or GameInfo.GameInfo.BUILD_TYPE is not GameInfo.BuildType.ANDROID:
+        if Game.Game.keyPressed is None or GameInfo.GameInfo.BUILD_TYPE is not GameInfo.BuildType.ANDROID or GameInfo.GameInfo.levelTime[1] != 0:
             return
 
         if Buttons.Buttons.right or Game.Game.keyPressed[pygame.K_d]:
@@ -32,12 +31,14 @@ class Tutorial:
         # render part
         alpha1 = abs(100 - (Deadline.Deadline.time()) * 25 % 100)
         alpha2 = abs(100 - (Deadline.Deadline.time() + 2) * 25 % 100)
-        if GameInfo.GameInfo.levelTime[1] == 0 and Tutorial.showRight:
+        if Tutorial.showRight or (Player.Player.getInstance().pos[0] < 900 and Deadline.Deadline.time() >= 12):
+            if Deadline.Deadline.time() < 4:
+                return
             Tutorial._draw_circle_alpha(Tutorial.rightPanel, (1200, 0), (255, 255, 255, alpha1), (200, 450), 5 * abs(100 - alpha1))
-            if Deadline.Deadline.time() > 2:
+            if (Tutorial.showRight and Deadline.Deadline.time() > 6) or (not Tutorial.showRight and Deadline.Deadline.time() >= 14 ):
                 Tutorial._draw_circle_alpha(Tutorial.rightPanel, (1200, 0), (255, 255, 255, alpha2), (200, 450), 5 * abs(100 - alpha2))
 
-        if GameInfo.GameInfo.levelTime[1] == 0 and Tutorial.showLeft:
+        if Tutorial.showLeft:
             Tutorial._draw_circle_alpha(Tutorial.leftPanel, (0, 0), (255, 255, 255, alpha1), (600, 450), 8 * abs(100 - alpha1))
             if Deadline.Deadline.time() > 2:
                 Tutorial._draw_circle_alpha(Tutorial.leftPanel, (0, 0), (255, 255, 255, alpha2), (600, 450), 8 * abs(100 - alpha2))
