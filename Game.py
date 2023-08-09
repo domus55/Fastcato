@@ -4,6 +4,7 @@ import EventHandler
 from CatSmall import CatSmall
 from Credits import Credits
 from HUD.Buttons import Buttons
+from HUD.Tutorial import Tutorial
 from Icons import Icons
 from CloudManager import CloudManager
 from Bird import Bird
@@ -80,6 +81,7 @@ class Game:
             if LevelManager.currentLevel == 7:
                 Credits.renderFade()
             if Result.state == Result.State.CLOSED:
+                Tutorial.render()
                 Deadline.render()
                 BirdCounter.render()
                 if InGameMenu.state == InGameMenu.State.CLOSED and GameInfo.BUILD_TYPE == BuildType.ANDROID:
