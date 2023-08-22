@@ -221,7 +221,7 @@ class Player(pygame.sprite.Sprite):
 
             self.pos = list(self.collider.topleft)
             Player.DASH_SOUND.play()
-            if GameInfo.GameInfo.BUILD_TYPE == GameInfo.BuildType.WINDOWS:
+            if GameInfo.GameInfo.BUILD_TYPE != GameInfo.BuildType.WEB:
                 t = Timer(self._DASH_DELAY, self._dashReadySound)
                 t.start()
             self.last_dash_time = time.time()

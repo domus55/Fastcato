@@ -1,12 +1,28 @@
-Currently, there are 2 types of build Windows and Web.
+Currently, there are 3 types of build: Windows, Web and android.
 To change version go to `GameInfo.py` and change `GameInfo.BUILD_TYPE`
 
 Windows build is made by using Pyinstaller library and it is a full version of the game.
 
 Web is made using pygbag library and has simplified graphic
+diff: 
 no multi layer level background,
 no trees render,
-no background blocks,
 no background refresh in main menu,
 there is no sound 3 seconds after using dash
 times are saved in localStorage instead of txt file.
+
+
+Android is made using buildozer library and also has simplified graphic
+diff:
+no multi layer level background,
+no trees render.
+
+testing:
+buildozer -v android debug deploy run logcat
+buildozer -v android debug deploy run logcat >> output.txt
+
+build:
+buildozer -v android release
+cd bin
+change *.aab file name to Fastcato.aab
+jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -storepass [password] -keystore fastcato.keystore Fastcato.aab fastcato
