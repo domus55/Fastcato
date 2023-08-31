@@ -164,4 +164,5 @@ cython_debug/
 game_settings.txt
 save.txt
 .buildozer
-
+main.spec
+Fastcato.spec
