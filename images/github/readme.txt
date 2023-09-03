@@ -1,0 +1,1 @@
+These files are only used to create github readme file and are never used in game.

@@ -70,8 +70,8 @@ class Block(pygame.sprite.Sprite):
 
         #Renders all colliders
         '''for i in Block.allColliders:
-            color = (i.top + i.left * 20 + i.size[0]) % 255
-            pygame.draw.rect(Screen.screen, (color, color, color, 100), pygame.Rect(Camera.Camera.relativePosition(i.topleft), i.size))'''
+            color = ((i.top + i.left * 20 + i.size[0]) % 155) + 100
+            pygame.draw.rect(screen, (color, color/6, color/6, 100), pygame.Rect(Camera.Camera.relativePosition(i.topleft), i.size))'''
 
     @staticmethod
     def _loadImages():
