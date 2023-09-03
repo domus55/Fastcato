@@ -1,1 +1,1 @@
-These files are only used to create github readme file and are never used in game.
+These files are only used to create readme and build_differences files and are never used in game.
