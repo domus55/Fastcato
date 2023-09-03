@@ -17,7 +17,7 @@
 
 ## Level creation
 Levels are created from *.bmp file, simplifying and expediting the level creation process. Below is an example of what a bmp file might look
-<img src="https://github.com/domus55/Python-Game/blob/main/images/github/bmp.bmp" width="100%"/><br><br>
+<img src="https://github.com/domus55/Python-Game/blob/main/images/github/bmp.png" width="100%"/><br><br>
 This is how this level would appear in the game
 <img src="https://github.com/domus55/Python-Game/blob/main/images/github/bmpEffect.png" width="100%"/><br><br>
 Block **colliders** are consolidated into rectangles, and their appearance is as follows
@@ -27,9 +27,8 @@ Block **colliders** are consolidated into rectangles, and their appearance is as
 ## Builds
 Game is aviable on these platforms:
 - [windows](https://matix.li/d8b89beef392)
-- [linux](https://matix.li/d8b89beef392)
 - [web](https://fatcat668.itch.io/fastcato)
 - [android](https://play.google.com/store/apps/details?id=org.dominikpalenik.fastcato&hl=pl&gl=US)
 
 
-To read more about building game on these platforms check [build differences](https://github.com/domus55/Python-Game/blob/main/build%20differences.txt) file
+To read more about building game on these platforms check [build differences](https://github.com/domus55/Python-Game/blob/main/build%20differences.md) file
