@@ -17,11 +17,11 @@ To change version go to `GameInfo.py` and change `GameInfo.BUILD_TYPE`
 **Web** is made using the pygbag library and has simplified graphic.
 
 **diff**: <br>
-* no multi layer level background,
-* no trees render,
-* no background refresh in main menu,
+* no multi layer level background
+* no trees render
+* no background refresh in main menu
 * there is no sound 3 seconds after using dash
-* times are saved in localStorage instead of txt file.
+* times are saved in localStorage instead of txt file
 
 **testing**:
 1. `cd ..`
@@ -36,10 +36,12 @@ To change version go to `GameInfo.py` and change `GameInfo.BUILD_TYPE`
 ![image](https://github.com/domus55/Python-Game/blob/main/images/github/web.png)
 
 ## Android
-**Android** is made using buildozer library and also has simplified graphic
+**Android** is made using buildozer library and also has simplified graphic.
+
 **diff**:
-* no multi layer level background,
-* no trees render.
+* no multi layer level background
+* no trees render
+* bigger UI
 
 **testing**:
 * `buildozer -v android debug deploy run logcat`
