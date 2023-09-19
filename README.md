@@ -20,7 +20,7 @@ Levels are created from *.bmp file, simplifying and expediting the level creatio
 <img src="https://github.com/domus55/Python-Game/blob/main/images/github/bmp.png" width="100%"/><br><br>
 This is how this level would appear in the game
 <img src="https://github.com/domus55/Python-Game/blob/main/images/github/bmpEffect.png" width="100%"/><br><br>
-Block **colliders** are consolidated into rectangles, and their appearance is as follows
+Block **colliders** are automatically consolidated into rectangles, and their appearance is as follows
 <img src="https://github.com/domus55/Python-Game/blob/main/images/github/bmpColliders.png" width="100%"/>
 <br><br>
 
