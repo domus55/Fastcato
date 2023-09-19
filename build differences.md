@@ -11,6 +11,7 @@ To change version go to `GameInfo.py` and change `GameInfo.BUILD_TYPE`
 **build**:<br>
 * `pyinstaller main.py --windowed --onefile --icon=images/gameIcon.ico --name "Fastcato"`
 
+**Preview**:<br>
 ![image](https://github.com/domus55/Python-Game/blob/main/images/github/windows.png)
 
 ## Web
@@ -33,6 +34,7 @@ To change version go to `GameInfo.py` and change `GameInfo.BUILD_TYPE`
 2. `pygbag [game_folder_name]`
 3. `build will be in [game_folder_name]/build/web`
 
+**Preview**:<br>
 ![image](https://github.com/domus55/Python-Game/blob/main/images/github/web.png)
 
 ## Android
@@ -53,4 +55,5 @@ To change version go to `GameInfo.py` and change `GameInfo.BUILD_TYPE`
 3. `change *.aab file name to Fastcato.aab`
 4. `jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -storepass [password] -keystore fastcato.keystore Fastcato.aab fastcato`
 
+**Preview**:<br>
 ![image](https://github.com/domus55/Python-Game/blob/main/images/github/android.png)
