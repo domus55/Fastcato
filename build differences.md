@@ -11,17 +11,18 @@ To change version go to `GameInfo.py` and change `GameInfo.BUILD_TYPE`
 **build**:<br>
 * `pyinstaller main.py --windowed --onefile --icon=images/gameIcon.ico --name "Fastcato"`
 
+**Preview**:<br>
 ![image](https://github.com/domus55/Python-Game/blob/main/images/github/windows.png)
 
 ## Web
 **Web** is made using the pygbag library and has simplified graphic.
 
 **diff**: <br>
-* no multi layer level background,
-* no trees render,
-* no background refresh in main menu,
+* no multi layer level background
+* no trees render
+* no background refresh in main menu
 * there is no sound 3 seconds after using dash
-* times are saved in localStorage instead of txt file.
+* times are saved in localStorage instead of txt file
 
 **testing**:
 1. `cd ..`
@@ -33,13 +34,16 @@ To change version go to `GameInfo.py` and change `GameInfo.BUILD_TYPE`
 2. `pygbag [game_folder_name]`
 3. `build will be in [game_folder_name]/build/web`
 
+**Preview**:<br>
 ![image](https://github.com/domus55/Python-Game/blob/main/images/github/web.png)
 
 ## Android
-**Android** is made using buildozer library and also has simplified graphic
+**Android** is made using buildozer library and also has simplified graphic.
+
 **diff**:
-* no multi layer level background,
-* no trees render.
+* no multi layer level background
+* no trees render
+* bigger UI
 
 **testing**:
 * `buildozer -v android debug deploy run logcat`
@@ -51,4 +55,5 @@ To change version go to `GameInfo.py` and change `GameInfo.BUILD_TYPE`
 3. `change *.aab file name to Fastcato.aab`
 4. `jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -storepass [password] -keystore fastcato.keystore Fastcato.aab fastcato`
 
+**Preview**:<br>
 ![image](https://github.com/domus55/Python-Game/blob/main/images/github/android.png)
