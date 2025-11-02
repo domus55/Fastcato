@@ -1,8 +1,9 @@
 from random import randrange
+
 import pygame
 
-from src.project_common import PATH
 from src import game_info
+from src.project_common import PATH
 
 MUSIC_ENDED = pygame.USEREVENT + 1
 

@@ -1,15 +1,14 @@
 import math
 import time
 from random import randrange
+
 import pygame
 
-from src.hud import bird_counter
+from src import game_info, player
 from src.camera import Camera
-from src import game_info
-from src import player
+from src.hud import bird_counter
 from src.inner_timer import InnerTime
-from src.project_common import \
-    PATH
+from src.project_common import PATH
 from src.screen import screen
 
 

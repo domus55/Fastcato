@@ -46,6 +46,4 @@ class Camera:
     def isOnScreen(rect):
         if Camera.posX + 1600 < rect.left - rect.size[0] / 2:
             return False
-        if Camera.posX > rect.right + rect.size[0] / 2:
-            return False
-        return True
+        return not Camera.posX > rect.right + rect.size[0] / 2

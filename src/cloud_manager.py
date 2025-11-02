@@ -24,22 +24,17 @@ class CloudManager:
     @staticmethod
     def renderBeforeMountains():
         for i in CloudManager._allClouds:
-            if i.distance > 1:
-                if CloudManager.isOnScreen(i):
-                    i.render()
+            if i.distance > 1 and CloudManager.isOnScreen(i):
+                i.render()
 
     @staticmethod
     def renderAfterMountains():
         for i in CloudManager._allClouds:
-            if i.distance <= 1:
-                if CloudManager.isOnScreen(i):
-                    i.render()
+            if i.distance <= 1 and CloudManager.isOnScreen(i):
+                i.render()
 
     @staticmethod
     def isOnScreen(cloud):
-        if 0 > cloud.getXPosition() + cloud.width:
+        if cloud.getXPosition() + cloud.width < 0:
             return False
-        if 1600 < cloud.getXPosition() - cloud.width:
-            return False
-        return True
-
+        return not cloud.getXPosition() - cloud.width > 1600

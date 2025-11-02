@@ -1,7 +1,7 @@
 import pygame
 
 from src import game_info, player
-from src.hud import deadline, buttons
+from src.hud import buttons, deadline
 from src.screen import screen
 
 
@@ -13,7 +13,9 @@ class Tutorial:
     @staticmethod
     def render(key_pressed):
         # logic part
-        if key_pressed is None or game_info.GameInfo.BUILD_TYPE is not game_info.BuildType.ANDROID or game_info.GameInfo.levelTime[1] != 0:
+        if (key_pressed is None or
+                game_info.GameInfo.BUILD_TYPE is not game_info.BuildType.ANDROID or
+                game_info.GameInfo.levelTime[1] != 0):
             return
 
         if buttons.Buttons.right or key_pressed[pygame.K_d]:
@@ -22,12 +24,15 @@ class Tutorial:
         # render part
         alpha1 = abs(100 - (deadline.Deadline.time()) * 25 % 100)
         alpha2 = abs(100 - (deadline.Deadline.time() + 2) * 25 % 100)
-        if Tutorial.showHint or (player.Player.getInstance().pos[0] < 900 and deadline.Deadline.time() >= 8):
+        if (Tutorial.showHint or
+                (player.Player.getInstance().pos[0] < 900 and
+                 deadline.Deadline.time() >= 8)):
             if deadline.Deadline.time() < 4:
                 return
-            Tutorial._draw_circle_alpha(Tutorial.rightPanel, (1200, 0), (255, 255, 255, alpha1), (200, 450), 5 * abs(100 - alpha1))
-            if (Tutorial.showHint and deadline.Deadline.time() > 6) or (not Tutorial.showHint and deadline.Deadline.time() >= 10):
-                Tutorial._draw_circle_alpha(Tutorial.rightPanel, (1200, 0), (255, 255, 255, alpha2), (200, 450), 5 * abs(100 - alpha2))
+            Tutorial._draw_circle_alpha(Tutorial.rightPanel, (1200, 0), (255, 255, 255, alpha1), (200, 450), 5 * abs(100 - alpha1))  # noqa: E501
+            if ((Tutorial.showHint and deadline.Deadline.time() > 6) or
+                    (not Tutorial.showHint and deadline.Deadline.time() >= 10)):
+                Tutorial._draw_circle_alpha(Tutorial.rightPanel, (1200, 0), (255, 255, 255, alpha2), (200, 450), 5 * abs(100 - alpha2)) # noqa: E501
 
     @staticmethod
     def _draw_circle_alpha(panel, panelPos, color, center, radius):

@@ -1,9 +1,10 @@
-import pygame
 import time
 from random import randrange
 
-from src.project_common import PATH
+import pygame
+
 from src.obstacles.obstacle import Obstacle
+from src.project_common import PATH
 
 
 class Hedgehog(Obstacle):

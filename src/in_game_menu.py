@@ -1,8 +1,10 @@
 from enum import Enum
+
 import pygame
 
-from src.project_common import loadImage, PATH
-from src import main_menu, screen, level_manager, game_info
+from src import game_info, level_manager, main_menu, screen
+from src.project_common import PATH, loadImage
+from src.result import Result
 
 
 class InGameMenu:
@@ -26,7 +28,7 @@ class InGameMenu:
 
     @staticmethod
     def open():
-        if Result.Result.state is Result.Result.State.OPEN:
+        if Result.state is Result.State.OPEN:
             return
         InGameMenu.state = InGameMenu.State.CLOSED if InGameMenu.state is InGameMenu.State.OPEN else InGameMenu.State.OPEN
         main_menu.MainMenu.SOUND_CLICK.set_volume(game_info.GameInfo.getSound())
@@ -64,7 +66,9 @@ class InGameMenu:
 
             if InGameMenu.hitboxResume.collidepoint(mousePos) and InGameMenu.image == InGameMenu.RESUME:
                 InGameMenu.state = InGameMenu.State.CLOSED
-            elif InGameMenu.hitboxRestart.collidepoint(mousePos) and InGameMenu.image == InGameMenu.RESTART and level_manager.LevelManager.currentLevel != 7:
+            elif (InGameMenu.hitboxRestart.collidepoint(mousePos) and
+                  InGameMenu.image == InGameMenu.RESTART and
+                  level_manager.LevelManager.currentLevel != 7):
                 level_manager.LevelManager.restartLevel()
                 InGameMenu.state = InGameMenu.State.CLOSED
             elif InGameMenu.hitboxExit.collidepoint(mousePos) and InGameMenu.image == InGameMenu.EXIT:

@@ -1,0 +1,20 @@
+[tool.ruff]
+line-length = 130
+target-version = "py312"
+
+exclude = [
+    ".tox",
+    ".git",
+    ".venv",
+    "build",
+    "dist",
+]
+
+output-format = "concise"
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "SIM"]
+ignore = ["SIM108", "SIM210"]

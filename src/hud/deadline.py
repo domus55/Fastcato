@@ -1,9 +1,10 @@
 import time
+
 import pygame
 
+from src import game_info, level_manager, screen
 from src.hud import buttons
 from src.project_common import PATH
-from src import screen, game_info, level_manager
 
 
 class Deadline:
@@ -21,7 +22,6 @@ class Deadline:
     pygame.mixer.init()
     SOUND_TIMER = pygame.mixer.Sound(f"{PATH}sounds/timer.wav")
 
-
     @staticmethod
     def update(keyPressed):
         Deadline._checkStart(keyPressed)
@@ -31,10 +31,16 @@ class Deadline:
         if keyPressed is None or level_manager.LevelManager.currentLevel == 7:
             return
 
-        if not Deadline.isRunning:
-            if keyPressed[pygame.K_w] or keyPressed[pygame.K_a] or keyPressed[pygame.K_s] or keyPressed[pygame.K_d] or keyPressed[pygame.K_LSHIFT] or \
-                    buttons.Buttons.right or buttons.Buttons.left or buttons.Buttons.dash or buttons.Buttons.jump:
-                Deadline._start()
+        if not Deadline.isRunning and (keyPressed[pygame.K_w] or
+                                       keyPressed[pygame.K_a] or
+                                       keyPressed[pygame.K_s] or
+                                       keyPressed[pygame.K_d] or
+                                       keyPressed[pygame.K_LSHIFT] or
+                                       buttons.Buttons.right or
+                                       buttons.Buttons.left or
+                                       buttons.Buttons.dash or
+                                       buttons.Buttons.jump):
+            Deadline._start()
 
     @staticmethod
     def _start():
@@ -67,7 +73,7 @@ class Deadline:
             deltaTime = 0
 
         seconds = int(deltaTime)
-        minutes = seconds//60
+        minutes = seconds // 60
         ms = int(deltaTime * 10 % 10)
 
         seconds = seconds % 60
@@ -99,11 +105,11 @@ class Deadline:
                 Deadline.SOUND_TIMER.play()
             Deadline.timeOut = True
 
-        #font size after 60 seconds
+        # font size after 60 seconds
         if deltaTime > 60 and deltaTime < 60.3:
-            if deltaTime < 60.15: #font is growing
+            if deltaTime < 60.15:  # font is growing
                 fontSize = (50 + (deltaTime - 60) * 75) * Deadline.SCALE
-            else: #font is shrinking
+            else:  # font is shrinking
                 fontSize = (61.25 - (deltaTime - 60.15) * 75) * Deadline.SCALE
 
             Deadline._FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", int(fontSize))

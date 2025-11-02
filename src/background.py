@@ -1,7 +1,7 @@
 import pygame
 
-from src.camera import Camera
 from src import game_info
+from src.camera import Camera
 from src.cloud_manager import CloudManager
 from src.project_common import PATH
 from src.screen import screen
@@ -48,7 +48,8 @@ class Background:
             self.imageWidth.append(self.images[i].get_rect().width)
 
     def render(self):
-        if game_info.GameInfo.BUILD_TYPE == game_info.BuildType.WEB or game_info.GameInfo.BUILD_TYPE == game_info.BuildType.ANDROID:
+        if (game_info.GameInfo.BUILD_TYPE == game_info.BuildType.WEB or
+                game_info.GameInfo.BUILD_TYPE == game_info.BuildType.ANDROID):
             screen.fill((0, 174, 255))
             screen.blit(self.simplifiedImage, (0, 208))
             CloudManager.renderAfterMountains()

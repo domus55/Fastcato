@@ -1,6 +1,8 @@
-import game_info
-import pygame
 import os
+
+import pygame
+
+import game_info
 
 PATH = os.path.abspath('') + '/'
 

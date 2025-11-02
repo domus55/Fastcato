@@ -1,8 +1,9 @@
 from enum import Enum
+
 import pygame
 
-from src import main_menu, screen, level_manager, in_game_menu, game_info
-from src.project_common import loadImage, PATH
+from src import game_info, in_game_menu, level_manager, main_menu, screen
+from src.project_common import PATH, loadImage
 
 
 class Result:
@@ -103,7 +104,8 @@ class Result:
         if Result.state == Result.State.OPEN:
             mousePos = pygame.mouse.get_pos()
 
-            if Result.hitboxNext.collidepoint(mousePos) and game_info.GameInfo.levelTime[level_manager.LevelManager.currentLevel] < 60:
+            if (Result.hitboxNext.collidepoint(mousePos) and
+                    game_info.GameInfo.levelTime[level_manager.LevelManager.currentLevel] < 60):
                 Result.image = Result.NEXT
                 main_menu.MainMenu.SOUND_CLICK.play()
             elif Result.hitboxRestart.collidepoint(mousePos):

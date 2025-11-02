@@ -1,13 +1,13 @@
 import time
-import pygame.mixer
 from random import randrange
 from threading import Timer
 
+import pygame.mixer
 
-from src import block, level_manager, main_menu, game_info
+from src import block, game_info, level_manager, main_menu
 from src.camera import Camera
 from src.game_info import PATH
-from src.hud import deadline, buttons, bird_counter
+from src.hud import bird_counter, buttons, deadline
 from src.inner_timer import InnerTime
 from src.obstacles import obstacle_manager
 from src.screen import screen
@@ -82,8 +82,10 @@ class Player(pygame.sprite.Sprite):
         return Player._instance
 
     def update(self, keyPressed):
-        if (level_manager.LevelManager.currentLevel == 6 and bird_counter.BirdCounter.birdsCatched == bird_counter.BirdCounter.allBirds and game_info.GameInfo.levelTime[6] < 60) or \
-                level_manager.LevelManager.currentLevel == 7:
+        if ((level_manager.LevelManager.currentLevel == 6 and
+            bird_counter.BirdCounter.birdsCatched == bird_counter.BirdCounter.allBirds and
+            game_info.GameInfo.levelTime[6] < 60) or
+                level_manager.LevelManager.currentLevel == 7):
             self._lastLevelAnimation()
         else:
             self._move(keyPressed)
@@ -154,7 +156,8 @@ class Player(pygame.sprite.Sprite):
         deltaX = self._velocityX * InnerTime.deltaTime / 10.0
         deltaY = self._velocityY * InnerTime.deltaTime / 10.0
 
-        # If user has less than 30FPS then, there is a chance that deltaY will be greater than 25, it can lead to falling out of the map
+        # If user has less than 30FPS then, there is a chance that deltaY will be greater than 25,
+        # it can lead to falling out of the map
         # To prevent it in that case I move him only 15px(MAX_DELTA) and check collisions
         # I repeat that until he is in right position
         MAX_DELTA = 15
@@ -410,7 +413,8 @@ class Player(pygame.sprite.Sprite):
             if self._velocityX == 0:
                 if self._prevVelocityX != 0:
                     self._selectRandomIdleAnimation()
-                if self._prevVelocityY != 0 and self._velocityY == 0 and game_info.GameInfo.BUILD_TYPE is not game_info.BuildType.WEB:
+                if (self._prevVelocityY != 0 and self._velocityY == 0 and
+                        game_info.GameInfo.BUILD_TYPE is not game_info.BuildType.WEB):
                     self._selectRandomIdleAnimation()
                 animationSpeed = 3.5
                 animation = self.currentIdleAnimation
@@ -490,17 +494,15 @@ class Player(pygame.sprite.Sprite):
             if self.animationStage == 1 or self.animationStage == 3:
                 self._velocityX = speed
 
-            if self.animationStage == 4:
-                if self.meowStartTime == 0:
-                    Player.SOUND_MEOW1.play()
-                    self.meowStartTime = 0.05
+            if self.animationStage == 4 and self.meowStartTime == 0:
+                Player.SOUND_MEOW1.play()
+                self.meowStartTime = 0.05
 
             if self.animationStage == 5:
                 self._isFacingRight = False
                 self._velocityX = -speed
 
         else:
-            # go right before on the level before finish level
             self._velocityX = speed
 
         self._velocityY += 0.2 * InnerTime.deltaTime / 10

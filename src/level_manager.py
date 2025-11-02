@@ -1,7 +1,7 @@
 import pygame
 
+from src import bird, block, cat_small, credits, decorations, game_info, icons, main_menu, player, result
 from src.camera import Camera
-from src import main_menu, game_info, decorations, bird, icons, credits, cat_small, player, block, result
 from src.hud import bird_counter, deadline
 from src.obstacles import obstacle_manager
 from src.obstacles.dog import Dog
@@ -62,7 +62,6 @@ class LevelManager:
                 game_info.GameInfo.saveTime()
 
             if result.Result.state == result.Result.State.CLOSED:
-                tooSlow = False if deadline.Deadline.time() < 60 else True
                 result.Result.open(deadline.Deadline.strTime(), deadline.Deadline.time(), newRecord)
 
     @staticmethod
@@ -78,7 +77,7 @@ class LevelManager:
 
         try:
             LevelManager.currentLevelImg = LevelManager.IMG_LEVELS[LevelManager.currentLevel]
-        except:
+        except (IndexError, TypeError, AttributeError):
             LevelManager.currentLevelImg = LevelManager.IMG_LEVELS[1]
             LevelManager.currentLevel = 1
 
@@ -152,7 +151,7 @@ class LevelManager:
             for i in range(game_info.GameInfo.NUMBER_OF_LEVELS + 1):
                 img = pygame.image.load(f"{PATH}images/levels/{i+1}.bmp")
                 LevelManager.IMG_LEVELS.append(img)
-        except:
+        except (IndexError, TypeError, AttributeError):
             print("Not all levels *.bmp files are existing!")
 
     @staticmethod

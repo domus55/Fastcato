@@ -1,19 +1,20 @@
 import pygame
 
 from src import event_handler
-from src.cat_small import CatSmall
-from src.credits import Credits
-from src.hud.buttons import Buttons
-from src.hud.tutorial import Tutorial
-from src.icons import Icons
-from src.cloud_manager import CloudManager
+from src.background import Background
 from src.bird import Bird
 from src.block import Block
 from src.camera import Camera
+from src.cat_small import CatSmall
+from src.cloud_manager import CloudManager
+from src.credits import Credits
 from src.decorations import Decorations
-from src.game_info import GameInfo, BuildType
+from src.game_info import BuildType, GameInfo
 from src.hud.bird_counter import BirdCounter
+from src.hud.buttons import Buttons
 from src.hud.deadline import Deadline
+from src.hud.tutorial import Tutorial
+from src.icons import Icons
 from src.in_game_menu import InGameMenu
 from src.inner_timer import InnerTime
 from src.level_manager import LevelManager
@@ -22,8 +23,7 @@ from src.music import Music
 from src.obstacles.obstacle_manager import ObstacleManager
 from src.player import Player
 from src.result import Result
-from src.screen import screenRender, screenInitialize
-from src.background import Background
+from src.screen import screenInitialize, screenRender
 
 
 class Game:

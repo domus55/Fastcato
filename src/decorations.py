@@ -55,13 +55,7 @@ class Decorations:
             typeStr += str(pos[0] % 2 + 1)
         elif type == Decorations.Type.BUSH:
             typeStr += str(pos[0] % 5 + 1)
-        elif type == Decorations.Type.GRASS:
-            typeStr += str(pos[0] % 3 + 1)
-        elif type == Decorations.Type.STONE_SMALL:
-            typeStr += str(pos[0] % 3 + 1)
-        elif type == Decorations.Type.STONE_BIG:
-            typeStr += str(pos[0] % 3 + 1)
-        elif type == Decorations.Type.BALLOON:
+        elif type in (Decorations.Type.GRASS, Decorations.Type.STONE_SMALL, Decorations.Type.STONE_BIG, Decorations.Type.BALLOON):
             typeStr += str(pos[0] % 3 + 1)
 
         img = eval(typeStr)
@@ -73,9 +67,10 @@ class Decorations:
     @staticmethod
     def add(type, pos):
         # Don't render trees if game is in WEB, then we can get around +25% FPS
-        if game_info.GameInfo.BUILD_TYPE == game_info.BuildType.WEB or game_info.GameInfo.BUILD_TYPE == game_info.BuildType.ANDROID:
-            if type == Decorations.Type.TREE_SMALL or type == Decorations.Type.TREE_BIG:
-                type = Decorations.Type.BUSH
+        if ((game_info.GameInfo.BUILD_TYPE == game_info.BuildType.WEB or
+             game_info.GameInfo.BUILD_TYPE == game_info.BuildType.ANDROID) and
+             type == Decorations.Type.TREE_SMALL or type == Decorations.Type.TREE_BIG):
+            type = Decorations.Type.BUSH
         obj = Decorations(type, pos)
         Decorations.allDecorations.append(obj)
 

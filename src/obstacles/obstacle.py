@@ -9,4 +9,4 @@ class Obstacle(pygame.sprite.Sprite):
         if Camera.isOnScreen(self.rect):
             screen.screen.blit(self.image, Camera.relativePosition(self.rect.topleft))
 
-        #pygame.draw.rect(Screen.screen, (255, 0, 0), pygame.Rect(Camera.Camera.relativePosition(self.hitbox.topleft), self.hitbox.size))
+        #pygame.draw.rect(Screen.screen, (255, 0, 0), pygame.Rect(Camera.Camera.relativePosition(self.hitbox.topleft), self.hitbox.size))  # noqa: E501

@@ -1,4 +1,5 @@
 from enum import Enum
+
 import pygame
 
 from src import game_info
@@ -6,6 +7,7 @@ from src.camera import Camera
 from src.hud import buttons
 from src.project_common import PATH, loadImage
 from src.screen import screen
+
 
 class Icons:
     #Images

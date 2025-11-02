@@ -1,8 +1,9 @@
 import time
+
 import pygame
 
-from src.camera import Camera
 from src import credits, level_manager
+from src.camera import Camera
 from src.hud import deadline
 from src.inner_timer import InnerTime
 from src.project_common import PATH
@@ -117,13 +118,13 @@ class CatSmall:
             animation = CatSmall.ANIMATION_SIT_LEFT
             self._animationSpeed = 4
 
-        currentTime = int(time.time() * self._animationSpeed)
+        current_time = int(time.time() * self._animationSpeed)
 
-        if currentTime % len(animation) != self._lastAnimationFrame:
-            self._lastAnimationFrame = currentTime % len(animation)
+        if current_time % len(animation) != self._lastAnimationFrame:
+            self._lastAnimationFrame = current_time % len(animation)
             if self._sittingPhase != 1:
                 self.image = animation[self._lastAnimationFrame]
-            else:  # this lines make sure that sitting transition animation will start from 0 frame and and at the last one
+            else:  # this lines makes sure that sitting transition animation will start from 0 frame and at the last one
                 self._sittingAnimationFrame += 1
                 if self._sittingAnimationFrame + 1 > len(animation):
                     self._sittingPhase = 2

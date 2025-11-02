@@ -1,7 +1,7 @@
 import pygame
 
+from src import in_game_menu, inner_timer, screen
 from src.project_common import PATH
-from src import screen, inner_timer, in_game_menu
 
 
 class Credits:
@@ -24,8 +24,8 @@ class Credits:
         Credits.text.clear()
 
         lines = "I hope you enjoyed\nThank you for playing\n\nCreator\nDominik Palenik".splitlines()
-        for i, l in enumerate(lines):
-            Credits.text.append(Credits._FONT.render(l, False, Credits._color))
+        for i, line in enumerate(lines):
+            Credits.text.append(Credits._FONT.render(line, False, Credits._color))
 
     @staticmethod
     def renderText():
@@ -33,9 +33,9 @@ class Credits:
             return
 
         Credits.y -= inner_timer.InnerTime.deltaTime / 30
-        for i, l in enumerate(Credits.text):
-            x = 800 - l.get_width() / 2
-            screen.screen.blit(l, (x, Credits.y + 45 * i))
+        for i, line in enumerate(Credits.text):
+            x = 800 - line.get_width() / 2
+            screen.screen.blit(line, (x, Credits.y + 45 * i))
 
     @staticmethod
     def renderFade():

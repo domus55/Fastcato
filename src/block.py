@@ -1,9 +1,11 @@
 import copy
 from enum import Enum
 
+import pygame
+
 from src.camera import Camera
-from src.screen import *
 from src.project_common import PATH
+from src.screen import screen
 
 
 class BlockType(Enum):
@@ -71,7 +73,7 @@ class Block(pygame.sprite.Sprite):
         #Renders all colliders
         '''for i in Block.allColliders:
             color = ((i.top + i.left * 20 + i.size[0]) % 155) + 100
-            pygame.draw.rect(screen, (color, color/6, color/6, 100), pygame.Rect(camera.Camera.relativePosition(i.topleft), i.size))'''
+            pygame.draw.rect(screen, (color, color/6, color/6, 100), pygame.Rect(camera.Camera.relativePosition(i.topleft), i.size))'''  # noqa: E501
 
     @staticmethod
     def _loadImages():
@@ -155,7 +157,10 @@ class Block(pygame.sprite.Sprite):
                         b = Block(img, (i, j))
                         Block.allBlocks.append(b)
                     if type == BlockType.GRASS_BACKGROUND:
-                        if Block.grassLayout[i][j] and (img == Block.IMG_GRASS[1] or img == Block.IMG_GRASS[3] or img == Block.IMG_GRASS[10] or img == Block.IMG_GRASS[12]):
+                        if Block.grassLayout[i][j] and (img == Block.IMG_GRASS[1] or
+                                                        img == Block.IMG_GRASS[3] or
+                                                        img == Block.IMG_GRASS[10] or
+                                                        img == Block.IMG_GRASS[12]):
                             continue
                         b = Block(img, (i, j), True)
                         Block.allBackgroundBlocks.append(b)
@@ -165,7 +170,8 @@ class Block(pygame.sprite.Sprite):
         layoutCopy = copy.deepcopy(Block.grassLayout)
         for i, b in enumerate(layoutCopy):
             for j, block in enumerate(b):
-                if layoutCopy[i][j] is True and not Block._isSurroundedByBlocks(i, j): #if block exists and is not surrounded, then create collider
+                # if block exists and is not surrounded, then create collider
+                if layoutCopy[i][j] is True and not Block._isSurroundedByBlocks(i, j):
                     deltaY = 1
 
                     while layoutCopy[i][j + deltaY] is True and Block._isSurroundedByBlocks(i, j + deltaY) is False:
@@ -189,11 +195,8 @@ class Block(pygame.sprite.Sprite):
 
     @staticmethod
     def _isSurroundedByBlocks(i, j):
-        if Block.grassLayout[i][j + 1] and Block.grassLayout[i][j - 1] and \
-                Block.grassLayout[i + 1][j] and Block.grassLayout[i - 1][j]:
-            return True
-        else:
-            return False
+        return Block.grassLayout[i][j + 1] and Block.grassLayout[i][j - 1] and \
+                Block.grassLayout[i + 1][j] and Block.grassLayout[i - 1][j]
 
     @staticmethod
     def _getCenterBlock(i, j):

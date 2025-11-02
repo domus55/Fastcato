@@ -1,9 +1,9 @@
-import pygame
 from enum import Enum
 
-from src import game_info, cloud_manager, level_manager, music, screen
-from src import game
-from src.project_common import loadImage, PATH
+import pygame
+
+from src import cloud_manager, game, game_info, level_manager, music, screen
+from src.project_common import PATH, loadImage
 
 '''You may find it strange that there are no button graphics. 
 It's because instead of creating Button class, its graphics, event handling
@@ -58,23 +58,23 @@ class MainMenu:
     FONT = pygame.font.Font(f"{PATH}fonts/mainMenu.ttf", 28)
     FONT_COLOR = (182, 137, 98)
 
-    #Sounds
+    # Sounds
     SOUND_CLICK = pygame.mixer.Sound(f"{PATH}sounds/click.wav")
 
-    #main hitboxes
+    # main hitboxes
     hitboxPlay = pygame.Rect(633, 220, 335, 96)
     hitboxLevels = pygame.Rect(633, 341, 335, 96)
     hitboxSettings = pygame.Rect(633, 462, 335, 96)
     hitboxExit = pygame.Rect(633, 583, 335, 96)
 
-    #settings hitboxes
+    # settings hitboxes
     hitboxSettingBack = pygame.Rect(633, 583, 335, 96)
     hitboxSoundUp = pygame.Rect(944, 320, 25, 74)
     hitboxSoundDown = pygame.Rect(918, 320, 25, 74)
     hitboxMusicUp = pygame.Rect(944, 411, 25, 74)
     hitboxMusicDown = pygame.Rect(918, 411, 25, 74)
 
-    #levels hitboxes
+    # levels hitboxes
     hitboxLevelsBack = pygame.Rect(633, 583, 272, 96)
     hitboxLevelsPrev = pygame.Rect(918, 583, 25, 96)
     hitboxLevelsNext = pygame.Rect(944, 583, 25, 96)
@@ -108,10 +108,10 @@ class MainMenu:
                 screen.screen.blit(MainMenu.SETTINGS_ACTIVE_BAR, (788 + i * 19, 424))
         if MainMenu.state is MainMenu.State.IN_LEVELS:
             for i in range(3):
-                lvl = MainMenu.levelsPage*3+i+1
+                lvl = MainMenu.levelsPage * 3 + i + 1
                 posY = 329 + i * 91
 
-                if eval("MainMenu.LEVELS_" + str(i+1)) is MainMenu.image:
+                if eval("MainMenu.LEVELS_" + str(i + 1)) is MainMenu.image:
                     posY += 8
 
                 surface1 = MainMenu.FONT.render(str(lvl), False, MainMenu.FONT_COLOR)
@@ -130,7 +130,7 @@ class MainMenu:
                 elif game_info.GameInfo.getTrophee(lvl) == 3:
                     screen.screen.blit(MainMenu.TROPHY_GOLD, (700, posY - 8))
 
-        #pygame.draw.rect(screen.screen, (255, 0, 0), MainMenu.hitboxLevelsBack)
+        # pygame.draw.rect(screen.screen, (255, 0, 0), MainMenu.hitboxLevelsBack)
 
     @staticmethod
     def renderBackground():
@@ -145,7 +145,7 @@ class MainMenu:
         if MainMenu.state is not MainMenu.State.CLOSED:
             mousePos = pygame.mouse.get_pos()
 
-            #in settings
+            # in settings
             if MainMenu.state is MainMenu.State.IN_SETTINGS:
                 if MainMenu.hitboxSettingBack.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS_BACK
@@ -162,32 +162,33 @@ class MainMenu:
                 elif MainMenu.hitboxMusicDown.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS_MUSIC_DOWN
                     MainMenu.SOUND_CLICK.play()
-            #in levels
+            # in levels
             elif MainMenu.state is MainMenu.State.IN_LEVELS:
                 if MainMenu.hitboxLevelsBack.collidepoint(mousePos):
                     MainMenu.image = MainMenu.LEVELS_BACK
                     MainMenu.SOUND_CLICK.play()
-                if MainMenu.hitboxLevelsPrev.collidepoint(mousePos):
-                    if MainMenu.levelsPage > 0:
-                        MainMenu.image = MainMenu.LEVELS_PREV
-                        MainMenu.SOUND_CLICK.play()
-                if MainMenu.hitboxLevelsNext.collidepoint(mousePos):
-                    if MainMenu.levelsPage < 1:
-                        MainMenu.image = MainMenu.LEVELS_NEXT
-                        MainMenu.SOUND_CLICK.play()
-                if MainMenu.hitboxLevels1.collidepoint(mousePos):
-                    if game_info.GameInfo.levelTime[MainMenu.levelsPage * 3] != 0.0 and game_info.GameInfo.levelTime[MainMenu.levelsPage * 3] <= 60.0:
-                        MainMenu.image = MainMenu.LEVELS_1
-                        MainMenu.SOUND_CLICK.play()
-                if MainMenu.hitboxLevels2.collidepoint(mousePos):
-                    if game_info.GameInfo.levelTime[MainMenu.levelsPage * 3 + 1] != 0.0 and game_info.GameInfo.levelTime[MainMenu.levelsPage * 3 + 1] <= 60.0:
-                        MainMenu.image = MainMenu.LEVELS_2
-                        MainMenu.SOUND_CLICK.play()
-                if MainMenu.hitboxLevels3.collidepoint(mousePos):
-                    if game_info.GameInfo.levelTime[MainMenu.levelsPage * 3 + 2] != 0.0 and game_info.GameInfo.levelTime[MainMenu.levelsPage * 3 + 2] <= 60.0:
-                        MainMenu.image = MainMenu.LEVELS_3
-                        MainMenu.SOUND_CLICK.play()
-            #in main
+                if MainMenu.hitboxLevelsPrev.collidepoint(mousePos) and MainMenu.levelsPage > 0:
+                    MainMenu.image = MainMenu.LEVELS_PREV
+                    MainMenu.SOUND_CLICK.play()
+                if MainMenu.hitboxLevelsNext.collidepoint(mousePos) and MainMenu.levelsPage < 1:
+                    MainMenu.image = MainMenu.LEVELS_NEXT
+                    MainMenu.SOUND_CLICK.play()
+                if (MainMenu.hitboxLevels1.collidepoint(mousePos) and
+                        (game_info.GameInfo.levelTime[MainMenu.levelsPage * 3] != 0.0 and
+                         game_info.GameInfo.levelTime[MainMenu.levelsPage * 3] <= 60.0)):
+                    MainMenu.image = MainMenu.LEVELS_1
+                    MainMenu.SOUND_CLICK.play()
+                if (MainMenu.hitboxLevels2.collidepoint(mousePos) and
+                        (game_info.GameInfo.levelTime[MainMenu.levelsPage * 3 + 1] != 0.0 and
+                         game_info.GameInfo.levelTime[MainMenu.levelsPage * 3 + 1] <= 60.0)):
+                    MainMenu.image = MainMenu.LEVELS_2
+                    MainMenu.SOUND_CLICK.play()
+                if (MainMenu.hitboxLevels3.collidepoint(mousePos) and
+                        (game_info.GameInfo.levelTime[MainMenu.levelsPage * 3 + 2] != 0.0 and
+                         game_info.GameInfo.levelTime[MainMenu.levelsPage * 3 + 2] <= 60.0)):
+                    MainMenu.image = MainMenu.LEVELS_3
+                    MainMenu.SOUND_CLICK.play()
+            # in main
             else:
                 if MainMenu.hitboxPlay.collidepoint(mousePos):
                     MainMenu.image = MainMenu.PLAY
@@ -207,7 +208,7 @@ class MainMenu:
         if MainMenu.state is not MainMenu.State.CLOSED:
             mousePos = pygame.mouse.get_pos()
 
-            #in settings
+            # in settings
             if MainMenu.state is MainMenu.State.IN_SETTINGS:
                 if MainMenu.hitboxSettingBack.collidepoint(mousePos) and MainMenu.image == MainMenu.SETTINGS_BACK:
                     MainMenu.state = MainMenu.State.IN_MAIN
@@ -225,7 +226,7 @@ class MainMenu:
                 MainMenu.SOUND_CLICK.set_volume(game_info.GameInfo.getSound())
                 music.Music.adjustVolume()
                 game_info.GameInfo.saveSettings()
-            #in levels
+            # in levels
             elif MainMenu.state is MainMenu.State.IN_LEVELS:
                 if MainMenu.hitboxLevelsBack.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS_BACK:
                     MainMenu.state = MainMenu.State.IN_MAIN
@@ -257,7 +258,7 @@ class MainMenu:
                     MainMenu.state = MainMenu.State.CLOSED
                     return
                 MainMenu.image = MainMenu.LEVELS_DEFAULT
-            #in main
+            # in main
             else:
                 if MainMenu.hitboxPlay.collidepoint(mousePos) and MainMenu.image == MainMenu.PLAY:
                     for i in reversed(range(game_info.GameInfo.NUMBER_OF_LEVELS)):

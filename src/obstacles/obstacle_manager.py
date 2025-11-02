@@ -1,4 +1,3 @@
-from src.camera import Camera
 
 
 class ObstacleManager:

@@ -1,11 +1,12 @@
-import pygame
 import time
 from random import randrange
 
-from src.project_common import PATH
+import pygame
+
 from src.hud import deadline
 from src.inner_timer import InnerTime
 from src.obstacles.obstacle import Obstacle
+from src.project_common import PATH
 
 
 class Dog(Obstacle):
@@ -105,16 +106,10 @@ class Dog(Obstacle):
         animation = None
         if self.isIdle:
             self._animationSpeed = 4
-            if self._isFacingRight:
-                animation = Dog._ANIMATION_IDLE_RIGHT
-            else:
-                animation = Dog._ANIMATION_IDLE_LEFT
+            animation = Dog._ANIMATION_IDLE_RIGHT if self._isFacingRight else Dog._ANIMATION_IDLE_LEFT
         else:
             self._animationSpeed = 14
-            if self._isFacingRight:
-                animation = Dog._ANIMATION_WALK_RIGHT
-            else:
-                animation = Dog._ANIMATION_WALK_LEFT
+            animation = Dog._ANIMATION_WALK_RIGHT if self._isFacingRight else Dog._ANIMATION_WALK_LEFT
 
 
         if currentTime % 4 != self._lastAnimationFrame:

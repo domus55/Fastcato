@@ -1,7 +1,7 @@
 import pygame
 
 from src import in_game_menu
-from src.project_common import loadImage, PATH
+from src.project_common import PATH, loadImage
 from src.screen import screen
 
 
@@ -72,7 +72,8 @@ class Buttons:
                 pause = True
                 Buttons.right = False
 
-        if pause is False and Buttons.pauseImg == Buttons.PAUSE_DOWN and in_game_menu.InGameMenu.state is in_game_menu.InGameMenu.State.CLOSED:
+        if (pause is False and Buttons.pauseImg == Buttons.PAUSE_DOWN and
+                in_game_menu.InGameMenu.state is in_game_menu.InGameMenu.State.CLOSED):
             Buttons.pauseImg = Buttons.PAUSE_UP
             in_game_menu.InGameMenu.open()
 

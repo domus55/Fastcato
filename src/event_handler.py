@@ -1,15 +1,17 @@
 import pygame
 
-from src import icons, game, level_manager, main_menu, in_game_menu, music, result
+from src import game, icons, in_game_menu, level_manager, main_menu, music, result
 from src.music import MUSIC_ENDED
-
 
 
 def update():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game.Game.isRunning = False
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE and main_menu.MainMenu.state is main_menu.MainMenu.state.CLOSED and level_manager.LevelManager.currentLevel != 7:
+        if (event.type == pygame.KEYDOWN
+                and event.key == pygame.K_ESCAPE
+                and main_menu.MainMenu.state is main_menu.MainMenu.state.CLOSED
+                and level_manager.LevelManager.currentLevel != 7):
             in_game_menu.InGameMenu.open()
         if event.type == pygame.MOUSEBUTTONDOWN:
             main_menu.MainMenu.mouseButtonDown()

@@ -1,5 +1,5 @@
-from enum import Enum
 import os.path
+from enum import Enum
 
 PATH = os.path.abspath('') + '/'
 
@@ -91,7 +91,7 @@ class GameInfo:
             for i in range(GameInfo.NUMBER_OF_LEVELS):
                 try:
                     GameInfo.levelTime[i + 1] = float(f.readline())
-                except:
+                except (ValueError, TypeError,IndexError):
                     GameInfo.levelTime[i + 1] = 0.0
                     error = True
         if error:

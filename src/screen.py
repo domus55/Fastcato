@@ -1,5 +1,6 @@
-import game_info
 import pygame
+
+import game_info
 from src.project_common import PATH
 
 screen = pygame.display.set_mode((1600, 900))

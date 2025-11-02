@@ -1,8 +1,9 @@
 import time
+
 import pygame
 
-from src import bird, screen, game_info, level_manager
-from src.project_common import loadImage, PATH
+from src import bird, game_info, level_manager, screen
+from src.project_common import PATH, loadImage
 
 
 class BirdCounter:

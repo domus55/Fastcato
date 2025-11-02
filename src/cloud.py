@@ -1,4 +1,5 @@
 from random import randrange
+
 import pygame
 
 from src.camera import Camera
