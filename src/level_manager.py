@@ -1,0 +1,218 @@
+import pygame
+
+from src.camera import Camera
+from src import main_menu, game_info, decorations, bird, icons, credits, cat_small, player, block, result
+from src.hud import bird_counter, deadline
+from src.obstacles import obstacle_manager
+from src.obstacles.dog import Dog
+from src.obstacles.hedgehog import Hedgehog
+from src.project_common import PATH
+
+
+class LevelManager:
+    IMG_LEVELS = []
+
+    #SPECIAL COLORS
+    PLAYER_SPAWN = (255, 0, 0, 255)
+    BIRD = (200, 200, 0, 255)
+    BIRD_WITH_ICON = (220, 200, 0, 255)
+
+    #BLOCKS
+    BLOCK_GRASS = (80, 40, 40, 255)
+    BLOCK_GRASS_BACKGROUND = (50, 25, 25, 255)
+
+    #DECORATIONS
+    TREE_BIG = (0, 80, 0, 255)
+    TREE_SMALL = (0, 140, 0, 255)
+    GRASS = (0, 255, 0, 255)
+    BUSH = (100, 200, 100, 255)
+    STONE_BIG = (150, 150, 150, 255)
+    STONE_SMALL = (200, 200, 200, 255)
+    BALLOON = (255, 0, 200, 255)
+
+    #ENITIES
+    HEADGEHOG = (200, 100, 100, 255)
+    DOG = (200, 120)
+
+    #Icons
+    DEATH = (180, 200, 180)
+    ATTENTION = (180, 215, 180)
+    STAR = (180, 230, 180)
+
+    currentLevel = 6
+    currentLevelImg = pygame.image.load(f"{PATH}images/levels/1.bmp")
+
+    @staticmethod
+    def initialize():
+        LevelManager.currentLevel = 1
+        LevelManager._loadImages()
+        LevelManager.restartLevel()
+
+    @staticmethod
+    def update():
+        if bird.Bird.birdsOnMap() == 0:
+            newRecord = False
+            if game_info.GameInfo.levelTime[LevelManager.currentLevel] > deadline.Deadline.time():
+                newRecord = True
+
+            # if new record, then save it
+            if game_info.GameInfo.levelTime[LevelManager.currentLevel] == 0.0 or \
+                    newRecord:
+                game_info.GameInfo.levelTime[LevelManager.currentLevel] = deadline.Deadline.time()
+                game_info.GameInfo.saveTime()
+
+            if result.Result.state == result.Result.State.CLOSED:
+                tooSlow = False if deadline.Deadline.time() < 60 else True
+                result.Result.open(deadline.Deadline.strTime(), deadline.Deadline.time(), newRecord)
+
+    @staticmethod
+    def restartLevel():
+        block.Block.allBlocks.clear()
+        block.Block.allColliders.clear()
+        block.Block.allBackgroundBlocks.clear()
+        obstacle_manager.ObstacleManager.allObstacles.clear()
+        bird.Bird.allBirds.clear()
+        icons.Icons.allButton.clear()
+        decorations.Decorations.allDecorations.clear()
+        deadline.Deadline.restart()
+
+        try:
+            LevelManager.currentLevelImg = LevelManager.IMG_LEVELS[LevelManager.currentLevel]
+        except:
+            LevelManager.currentLevelImg = LevelManager.IMG_LEVELS[1]
+            LevelManager.currentLevel = 1
+
+        if LevelManager.currentLevel == 0:
+            player.Player._instance = None
+            main_menu.MainMenu.open()
+        else:
+            LevelManager.loadLevel()
+
+    @staticmethod
+    def nextLevel():
+        LevelManager.currentLevel += 1
+        LevelManager.restartLevel()
+
+    @staticmethod
+    def loadLevel():
+        for i in range(LevelManager.currentLevelImg.get_width()):
+            for j in range(20):
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.BLOCK_GRASS:
+                    block.Block.createBlock(block.BlockType.GRASS, (i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.BLOCK_GRASS_BACKGROUND:
+                    block.Block.createBlock(block.BlockType.GRASS_BACKGROUND, (i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.PLAYER_SPAWN:
+                    player.Player.getInstance().startingPosition = (i * 50, j * 50)
+                #obstacles
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.HEADGEHOG:
+                    obj = Hedgehog((i, j))
+                    obstacle_manager.ObstacleManager.addObstacle(obj)
+                if LevelManager.currentLevelImg.get_at((i, j))[:2] == LevelManager.DOG:
+                    distance = LevelManager.currentLevelImg.get_at((i, j))[2] - 100
+                    distance *= 50
+                    obj = Dog((i, j), distance)
+                    obstacle_manager.ObstacleManager.addObstacle(obj)
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.BIRD:
+                    bird.Bird.create((i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.BIRD_WITH_ICON:
+                    bird.Bird.create((i, j), True)
+                #Decorations
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.TREE_BIG:
+                    decorations.Decorations.add(decorations.Decorations.Type.TREE_BIG, (i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.TREE_SMALL:
+                    decorations.Decorations.add(decorations.Decorations.Type.TREE_SMALL, (i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.GRASS:
+                    decorations.Decorations.add(decorations.Decorations.Type.GRASS, (i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.BUSH:
+                    decorations.Decorations.add(decorations.Decorations.Type.BUSH, (i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.STONE_BIG:
+                    decorations.Decorations.add(decorations.Decorations.Type.STONE_BIG, (i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.STONE_SMALL:
+                    decorations.Decorations.add(decorations.Decorations.Type.STONE_SMALL, (i, j))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.BALLOON:
+                    decorations.Decorations.add(decorations.Decorations.Type.BALLOON, (i, j))
+                #Icons
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.DEATH:
+                    icons.Icons.add(icons.Icons.Type.DEATH, (i * 50 - 22, j * 50))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.ATTENTION:
+                    icons.Icons.add(icons.Icons.Type.ATTENTION, (i * 50 - 22, j * 50))
+                if LevelManager.currentLevelImg.get_at((i, j)) == LevelManager.STAR:
+                    icons.Icons.add(icons.Icons.Type.STAR, (i * 50 - 22, j * 50))
+
+        Camera.borderRight = LevelManager.currentLevelImg.get_width() * 50 - 100
+        player.Player.getInstance().restart()
+        bird_counter.BirdCounter.restart()
+        LevelManager._loadAdditionalThings()
+        block.Block.setBlocks()
+
+    @staticmethod
+    def _loadImages():
+        try:
+            LevelManager.IMG_LEVELS.append(None)
+            for i in range(game_info.GameInfo.NUMBER_OF_LEVELS + 1):
+                img = pygame.image.load(f"{PATH}images/levels/{i+1}.bmp")
+                LevelManager.IMG_LEVELS.append(img)
+        except:
+            print("Not all levels *.bmp files are existing!")
+
+    @staticmethod
+    def _loadAdditionalThings():
+        if LevelManager.currentLevel == 1:
+            x = 500
+            y = 500
+            icons.Icons.add(icons.Icons.Type.W, (x, y - 43))
+            icons.Icons.add(icons.Icons.Type.A, (x - 45, y))
+            icons.Icons.add(icons.Icons.Type.S, (x, y))
+            icons.Icons.add(icons.Icons.Type.D, (x + 45, y))
+
+            icons.Icons.add(icons.Icons.Type.TIP, (2300, 550))
+
+            icons.Icons.add(icons.Icons.Type.ATTENTION, (1305, 800))
+
+            icons.Icons.add(icons.Icons.Type.LSHIFT, (3800, 550))
+            icons.Icons.add(icons.Icons.Type.ATTENTION, (3825, 500))
+
+            icons.Icons.add(icons.Icons.Type.DEATH, (6275, 650))
+
+            decorations.Decorations.add(decorations.Decorations.Type.TREE_SMALL, (112, 12))
+
+        if LevelManager.currentLevel == 2:
+            decorations.Decorations.add(decorations.Decorations.Type.STONE_SMALL, (66, 16))
+            decorations.Decorations.add(decorations.Decorations.Type.STONE_SMALL, (70, 16))
+            decorations.Decorations.add(decorations.Decorations.Type.STONE_SMALL, (73, 16))
+            decorations.Decorations.add(decorations.Decorations.Type.STONE_SMALL, (74, 16))
+            decorations.Decorations.add(decorations.Decorations.Type.STONE_SMALL, (77, 16))
+
+            obj = Dog((76, 16), -700)
+            obstacle_manager.ObstacleManager.addObstacle(obj)
+
+        if LevelManager.currentLevel == 3:
+            icons.Icons.add(icons.Icons.Type.LSHIFT, (1000, 750))
+
+            obj = Hedgehog((24, 16))
+            obstacle_manager.ObstacleManager.addObstacle(obj)
+
+        if LevelManager.currentLevel == 5:
+            block.Block.createBlock(block.BlockType.GRASS_BACKGROUND, (64, 17))
+            obj = Dog((66, 17), 250)
+            obstacle_manager.ObstacleManager.addObstacle(obj)
+            obj = Hedgehog((73, 16))
+            obstacle_manager.ObstacleManager.addObstacle(obj)
+            decorations.Decorations.add(decorations.Decorations.Type.STONE_BIG, (69, 17))
+            block.Block.createBlock(block.BlockType.GRASS_BACKGROUND, (191, 17))
+            obj = Hedgehog((222, 15))
+            obstacle_manager.ObstacleManager.addObstacle(obj)
+            obj = Dog((225, 16), 250)
+            obstacle_manager.ObstacleManager.addObstacle(obj)
+
+        if LevelManager.currentLevel == 6:
+            obj = Hedgehog((58, 12))
+            obstacle_manager.ObstacleManager.addObstacle(obj)
+            Camera.borderRight -= 300
+
+        if LevelManager.currentLevel == 7:
+            cat_small.CatSmall.getInstance().restart([1350, 675])
+            decorations.Decorations.add(decorations.Decorations.Type.CAKE, (17, 15))
+            bird.Bird.create((15.47, 15))
+            bird.Bird.create((18.52, 15))
+            credits.Credits.restart()
