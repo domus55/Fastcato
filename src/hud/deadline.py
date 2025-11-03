@@ -29,7 +29,7 @@ class Deadline:
 
     @staticmethod
     def _checkStart(keyPressed):
-        if keyPressed is None or level_manager.LevelManager.currentLevel == 7:
+        if keyPressed is None or level_manager.LevelManager.current_level == 7:
             return
 
         if not Deadline.isRunning and (keyPressed[pygame.K_w] or
@@ -66,7 +66,7 @@ class Deadline:
 
     @staticmethod
     def render():
-        if level_manager.LevelManager.currentLevel == 7:  # Don't display on last level
+        if level_manager.LevelManager.current_level == 7:  # Don't display on last level
             return
         strr = ""
         deltaTime = time.time() - Deadline._startTime

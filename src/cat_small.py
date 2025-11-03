@@ -82,13 +82,13 @@ class CatSmall:
         self._sittingAnimationFrame = 0
 
     def update(self):
-        if level_manager.LevelManager.currentLevel == 7:
+        if level_manager.LevelManager.current_level == 7:
             self._isFacingRight = False
             self._move()
             self._animate()
 
     def render(self):
-        if level_manager.LevelManager.currentLevel == 7:
+        if level_manager.LevelManager.current_level == 7:
             screen.blit(self.image, Camera.relativePosition(self.pos))
 
     def _move(self):

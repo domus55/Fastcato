@@ -15,7 +15,7 @@ class Tutorial:
         # logic part
         if (key_pressed is None or
                 game_info.GameInfo.BUILD_TYPE is not game_info.BuildType.ANDROID or
-                game_info.GameInfo.levelTime[1] != 0):
+                game_info.GameInfo.level_time[1] != 0):
             return
 
         if buttons.Buttons.right or key_pressed[pygame.K_d]:

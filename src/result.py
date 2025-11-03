@@ -54,7 +54,7 @@ class Result:
 
         # Trophy
         tropheePos = (800 - Result.TROPHY_SIZE[0] / 2, 450 - 143 * Result.SCALE)
-        trophyType = game_info.GameInfo.getTrophee(level_manager.LevelManager.currentLevel, Result._time)
+        trophyType = game_info.GameInfo.get_trophy(level_manager.LevelManager.current_level, Result._time)
         if trophyType == 0:
             screen.screen.blit(Result.TROPHY_NONE, tropheePos)
         elif trophyType == 1:
@@ -76,9 +76,9 @@ class Result:
             if trophyType == 0:
                 strr = "Bronze: 60.000"
             elif trophyType == 1:
-                strr = "Silver: " + str(game_info.GameInfo.TROPHY_TIMES[level_manager.LevelManager.currentLevel][1]) + ".000"
+                strr = "Silver: " + str(game_info.GameInfo.TROPHY_TIMES[level_manager.LevelManager.current_level][1]) + ".000"
             else:
-                strr = "Gold: " + str(game_info.GameInfo.TROPHY_TIMES[level_manager.LevelManager.currentLevel][0]) + ".000"
+                strr = "Gold: " + str(game_info.GameInfo.TROPHY_TIMES[level_manager.LevelManager.current_level][0]) + ".000"
 
             sizeX, _ = Result.FONT.size(strr)
             surface = Result.FONT.render(strr, False, Result.FONT_COLOR)
@@ -105,7 +105,7 @@ class Result:
             mousePos = pygame.mouse.get_pos()
 
             if (Result.hitboxNext.collidepoint(mousePos) and
-                    game_info.GameInfo.levelTime[level_manager.LevelManager.currentLevel] < 60):
+                    game_info.GameInfo.level_time[level_manager.LevelManager.current_level] < 60):
                 Result.image = Result.NEXT
                 main_menu.MainMenu.SOUND_CLICK.play()
             elif Result.hitboxRestart.collidepoint(mousePos):

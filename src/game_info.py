@@ -16,7 +16,7 @@ class GameInfo:
 
     BUILD_TYPE = BuildType.WINDOWS
     NUMBER_OF_LEVELS = 6
-    levelTime = [0.0] * (NUMBER_OF_LEVELS + 1)
+    level_time = [0.0] * (NUMBER_OF_LEVELS + 1)
     fullScreen = 0      # 0 - False, 1 - True
 
     HUD_SCALE = 1.5 if BUILD_TYPE is BuildType.ANDROID else 1
@@ -64,24 +64,24 @@ class GameInfo:
 
     @staticmethod
     def loadTimeFromWeb():
-        GameInfo.levelTime[0] = 1
+        GameInfo.level_time[0] = 1
         if __import__("sys").platform == "emscripten":
             from platform import window
             error = False
             for i in range(GameInfo.NUMBER_OF_LEVELS):
                 time = window.localStorage.getItem(f"level{i + 1}")
                 if time is None:
-                    GameInfo.levelTime[i + 1] = 0
+                    GameInfo.level_time[i + 1] = 0
                     error = True
                 else:
-                    GameInfo.levelTime[i + 1] = float(time)
+                    GameInfo.level_time[i + 1] = float(time)
             if error:
                 GameInfo.saveTimeToWeb()
 
     @staticmethod
     def loadTimeTxt():
         error = False
-        GameInfo.levelTime[0] = 1
+        GameInfo.level_time[0] = 1
 
         fileExists = os.path.exists(f'{PATH}save.txt')
         if not fileExists:
@@ -90,9 +90,9 @@ class GameInfo:
         with open(f'{PATH}save.txt') as f:
             for i in range(GameInfo.NUMBER_OF_LEVELS):
                 try:
-                    GameInfo.levelTime[i + 1] = float(f.readline())
+                    GameInfo.level_time[i + 1] = float(f.readline())
                 except (ValueError, TypeError,IndexError):
-                    GameInfo.levelTime[i + 1] = 0.0
+                    GameInfo.level_time[i + 1] = 0.0
                     error = True
         if error:
             GameInfo.saveTime()
@@ -110,13 +110,13 @@ class GameInfo:
             from platform import window
 
             for i in range(GameInfo.NUMBER_OF_LEVELS):
-                window.localStorage.setItem(f"level{i + 1}", GameInfo.levelTime[i+1])
+                window.localStorage.setItem(f"level{i + 1}", GameInfo.level_time[i + 1])
 
     @staticmethod
     def saveTimeTxt():
         with open(f'{PATH}save.txt', 'w') as f:
             for i in range(GameInfo.NUMBER_OF_LEVELS):
-                f.write(f"{GameInfo.levelTime[i+1]}\n")
+                f.write(f"{GameInfo.level_time[i + 1]}\n")
 
     @staticmethod
     def loadSettings():
@@ -137,9 +137,9 @@ class GameInfo:
             f.write(f"{GameInfo._sound}\n{GameInfo._music}\n{GameInfo.fullScreen}")
 
     @staticmethod
-    def strLevelTime(levelNr):
+    def str_level_time(level_nr):
         strr = ""
-        time = GameInfo.levelTime[levelNr]
+        time = GameInfo.level_time[level_nr]
 
         seconds = int(time)
         minutes = seconds // 60
@@ -168,9 +168,9 @@ class GameInfo:
 
     '''0 - none, 1 - bronze, 2 - silver, 3 - gold'''
     @staticmethod
-    def getTrophee(level, time=-1):
+    def get_trophy(level, time=-1):
         if time == -1:
-            time = GameInfo.levelTime[level]
+            time = GameInfo.level_time[level]
 
         if time > 60 or time == 0:
             return 0

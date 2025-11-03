@@ -11,7 +11,7 @@ def update():
         if (event.type == pygame.KEYDOWN
                 and event.key == pygame.K_ESCAPE
                 and main_menu.MainMenu.state is main_menu.MainMenu.state.CLOSED
-                and level_manager.LevelManager.currentLevel != 7):
+                and level_manager.LevelManager.current_level != 7):
             in_game_menu.InGameMenu.open()
         if event.type == pygame.MOUSEBUTTONDOWN:
             main_menu.MainMenu.mouseButtonDown()

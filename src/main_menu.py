@@ -117,19 +117,19 @@ class MainMenu:
                     posY += 8
 
                 surface1 = MainMenu.FONT.render(str(lvl), False, MainMenu.FONT_COLOR)
-                surface2 = MainMenu.FONT.render(game_info.GameInfo.strLevelTime(lvl), False, MainMenu.FONT_COLOR)
+                surface2 = MainMenu.FONT.render(game_info.GameInfo.str_level_time(lvl), False, MainMenu.FONT_COLOR)
 
                 screen.screen.blit(surface1, (650, posY))
                 screen.screen.blit(surface2, (811, posY))
 
                 # Render trophies
-                if game_info.GameInfo.getTrophee(lvl) == 0:
+                if game_info.GameInfo.get_trophy(lvl) == 0:
                     screen.screen.blit(MainMenu.TROPHY_NONE, (700, posY - 8))
-                elif game_info.GameInfo.getTrophee(lvl) == 1:
+                elif game_info.GameInfo.get_trophy(lvl) == 1:
                     screen.screen.blit(MainMenu.TROPHY_BRONZE, (700, posY - 8))
-                elif game_info.GameInfo.getTrophee(lvl) == 2:
+                elif game_info.GameInfo.get_trophy(lvl) == 2:
                     screen.screen.blit(MainMenu.TROPHY_SILVER, (700, posY - 8))
-                elif game_info.GameInfo.getTrophee(lvl) == 3:
+                elif game_info.GameInfo.get_trophy(lvl) == 3:
                     screen.screen.blit(MainMenu.TROPHY_GOLD, (700, posY - 8))
 
         # pygame.draw.rect(screen.screen, (255, 0, 0), MainMenu.hitboxLevelsBack)
@@ -176,18 +176,18 @@ class MainMenu:
                     MainMenu.image = MainMenu.LEVELS_NEXT
                     MainMenu.SOUND_CLICK.play()
                 if (MainMenu.hitboxLevels1.collidepoint(mousePos) and
-                        (game_info.GameInfo.levelTime[MainMenu.levelsPage * 3] != 0.0 and
-                         game_info.GameInfo.levelTime[MainMenu.levelsPage * 3] <= 60.0)):
+                        (game_info.GameInfo.level_time[MainMenu.levelsPage * 3] != 0.0 and
+                         game_info.GameInfo.level_time[MainMenu.levelsPage * 3] <= 60.0)):
                     MainMenu.image = MainMenu.LEVELS_1
                     MainMenu.SOUND_CLICK.play()
                 if (MainMenu.hitboxLevels2.collidepoint(mousePos) and
-                        (game_info.GameInfo.levelTime[MainMenu.levelsPage * 3 + 1] != 0.0 and
-                         game_info.GameInfo.levelTime[MainMenu.levelsPage * 3 + 1] <= 60.0)):
+                        (game_info.GameInfo.level_time[MainMenu.levelsPage * 3 + 1] != 0.0 and
+                         game_info.GameInfo.level_time[MainMenu.levelsPage * 3 + 1] <= 60.0)):
                     MainMenu.image = MainMenu.LEVELS_2
                     MainMenu.SOUND_CLICK.play()
                 if (MainMenu.hitboxLevels3.collidepoint(mousePos) and
-                        (game_info.GameInfo.levelTime[MainMenu.levelsPage * 3 + 2] != 0.0 and
-                         game_info.GameInfo.levelTime[MainMenu.levelsPage * 3 + 2] <= 60.0)):
+                        (game_info.GameInfo.level_time[MainMenu.levelsPage * 3 + 2] != 0.0 and
+                         game_info.GameInfo.level_time[MainMenu.levelsPage * 3 + 2] <= 60.0)):
                     MainMenu.image = MainMenu.LEVELS_3
                     MainMenu.SOUND_CLICK.play()
             # in main
@@ -241,21 +241,21 @@ class MainMenu:
                 elif MainMenu.hitboxLevels1.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS_1:
                     MainMenu.state = MainMenu.State.IN_MAIN
                     MainMenu.image = MainMenu.DEFAULT
-                    level_manager.LevelManager.currentLevel = MainMenu.levelsPage * 3 + 1
+                    level_manager.LevelManager.current_level = MainMenu.levelsPage * 3 + 1
                     level_manager.LevelManager.restartLevel()
                     MainMenu.state = MainMenu.State.CLOSED
                     return
                 elif MainMenu.hitboxLevels2.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS_2:
                     MainMenu.state = MainMenu.State.IN_MAIN
                     MainMenu.image = MainMenu.DEFAULT
-                    level_manager.LevelManager.currentLevel = MainMenu.levelsPage * 3 + 2
+                    level_manager.LevelManager.current_level = MainMenu.levelsPage * 3 + 2
                     level_manager.LevelManager.restartLevel()
                     MainMenu.state = MainMenu.State.CLOSED
                     return
                 elif MainMenu.hitboxLevels3.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS_3:
                     MainMenu.state = MainMenu.State.IN_MAIN
                     MainMenu.image = MainMenu.DEFAULT
-                    level_manager.LevelManager.currentLevel = MainMenu.levelsPage * 3 + 3
+                    level_manager.LevelManager.current_level = MainMenu.levelsPage * 3 + 3
                     level_manager.LevelManager.restartLevel()
                     MainMenu.state = MainMenu.State.CLOSED
                     return
@@ -264,8 +264,8 @@ class MainMenu:
             else:
                 if MainMenu.hitboxPlay.collidepoint(mousePos) and MainMenu.image == MainMenu.PLAY:
                     for i in reversed(range(game_info.GameInfo.NUMBER_OF_LEVELS)):
-                        if game_info.GameInfo.levelTime[i] != 0.0 and game_info.GameInfo.levelTime[i] <= 60.0:
-                            level_manager.LevelManager.currentLevel = i + 1
+                        if game_info.GameInfo.level_time[i] != 0.0 and game_info.GameInfo.level_time[i] <= 60.0:
+                            level_manager.LevelManager.current_level = i + 1
                             level_manager.LevelManager.restartLevel()
                             MainMenu.state = MainMenu.State.CLOSED
                             MainMenu.image = MainMenu.DEFAULT

@@ -82,10 +82,10 @@ class Player(pygame.sprite.Sprite):
         return Player._instance
 
     def update(self, keyPressed):
-        if ((level_manager.LevelManager.currentLevel == 6 and
-            bird_counter.BirdCounter.birdsCatched == bird_counter.BirdCounter.allBirds and
-            game_info.GameInfo.levelTime[6] < 60) or
-                level_manager.LevelManager.currentLevel == 7):
+        if ((level_manager.LevelManager.current_level == 6 and
+             bird_counter.BirdCounter.birds_caught == bird_counter.BirdCounter.all_birds and
+             game_info.GameInfo.level_time[6] < 60) or
+                level_manager.LevelManager.current_level == 7):
             self._lastLevelAnimation()
         else:
             self._move(keyPressed)
@@ -475,7 +475,7 @@ class Player(pygame.sprite.Sprite):
             time *= 4
             speed *= 4
 
-        if level_manager.LevelManager.currentLevel == 7:
+        if level_manager.LevelManager.current_level == 7:
             if self.pos[0] < 300:  # Go
                 self.animationStage = 1
             elif time < 8:  # Wait and see what is happening
