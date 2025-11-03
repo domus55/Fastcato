@@ -15,6 +15,7 @@ class Deadline:
 
     # Font
     pygame.font.init()
+    pygame.font.init()
     _FONT = pygame.font.Font(f"{PATH}fonts/timer.ttf", int(50 * SCALE))
     _color = (255, 255, 255)
     _FONT_BACKGROUND = pygame.Surface((165 * SCALE, 44 * SCALE))
@@ -51,7 +52,7 @@ class Deadline:
         Deadline._color = (255, 255, 255)
 
     @staticmethod
-    def time():
+    def time() -> float:
         return time.time() - Deadline._startTime
 
     @staticmethod

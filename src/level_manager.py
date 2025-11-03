@@ -44,25 +44,27 @@ class LevelManager:
 
     @staticmethod
     def initialize():
-        LevelManager.currentLevel = 1
+        LevelManager.currentLevel = 0
         LevelManager._loadImages()
         LevelManager.restartLevel()
 
     @staticmethod
-    def update():
-        if bird.Bird.birdsOnMap() == 0:
-            newRecord = False
-            if game_info.GameInfo.levelTime[LevelManager.currentLevel] > deadline.Deadline.time():
-                newRecord = True
+    def finished_level():
+        if LevelManager.currentLevel == 7:
+            return
 
-            # if new record, then save it
-            if game_info.GameInfo.levelTime[LevelManager.currentLevel] == 0.0 or \
-                    newRecord:
-                game_info.GameInfo.levelTime[LevelManager.currentLevel] = deadline.Deadline.time()
-                game_info.GameInfo.saveTime()
+        new_record = False
+        if game_info.GameInfo.levelTime[LevelManager.currentLevel] > deadline.Deadline.time():
+            new_record = True
 
-            if result.Result.state == result.Result.State.CLOSED:
-                result.Result.open(deadline.Deadline.strTime(), deadline.Deadline.time(), newRecord)
+        # if new record, then save it
+        if game_info.GameInfo.levelTime[LevelManager.currentLevel] == 0.0 or \
+                new_record:
+            game_info.GameInfo.levelTime[LevelManager.currentLevel] = deadline.Deadline.time()
+            game_info.GameInfo.saveTime()
+
+        if result.Result.state == result.Result.State.CLOSED:
+            result.Result.open(deadline.Deadline.strTime(), deadline.Deadline.time(), new_record)
 
     @staticmethod
     def restartLevel():

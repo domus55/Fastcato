@@ -46,7 +46,6 @@ class Decorations:
     IMG_BALLOON4 = loadImage(f"{PATH}images/decorations/balloon4.png", (100, 100))
     IMG_CAKE = loadImage(f"{PATH}images/decorations/cake.png", (124, 124))
 
-
     def __init__(self, type, pos):
         typeStr = "Decorations.IMG_" + str(type)[5:]
         if type == Decorations.Type.TREE_SMALL:
@@ -67,9 +66,8 @@ class Decorations:
     @staticmethod
     def add(type, pos):
         # Don't render trees if game is in WEB, then we can get around +25% FPS
-        if ((game_info.GameInfo.BUILD_TYPE == game_info.BuildType.WEB or
-             game_info.GameInfo.BUILD_TYPE == game_info.BuildType.ANDROID) and
-             type == Decorations.Type.TREE_SMALL or type == Decorations.Type.TREE_BIG):
+        if ((game_info.GameInfo.BUILD_TYPE == game_info.BuildType.WEB or game_info.GameInfo.BUILD_TYPE == game_info.BuildType.ANDROID) and
+                (type == Decorations.Type.TREE_SMALL or type == Decorations.Type.TREE_BIG)):
             type = Decorations.Type.BUSH
         obj = Decorations(type, pos)
         Decorations.allDecorations.append(obj)

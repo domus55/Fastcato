@@ -39,11 +39,11 @@ class Result:
     image = DEFAULT
 
     @staticmethod
-    def open(timeStr, time, isNewRecord):
-        Result._timeStr = timeStr
+    def open(time_str: str, time: float, is_new_record: bool):
+        Result._timeStr = time_str
         Result._time = time
         Result._tooSlow = True if time > 60 else False
-        Result._isNewRecord = isNewRecord
+        Result._isNewRecord = is_new_record
         Result.state = Result.State.OPEN
         in_game_menu.InGameMenu.state = in_game_menu.InGameMenu.State.CLOSED
         main_menu.MainMenu.SOUND_CLICK.set_volume(game_info.GameInfo.getSound())

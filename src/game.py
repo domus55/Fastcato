@@ -54,7 +54,6 @@ class Game:
                 Game.keyPressed = None
             if Result.state == Result.State.OPEN:
                 Game.keyPressed = None
-            LevelManager.update()
             ObstacleManager.updateAll()
             Player.getInstance().update(Game.keyPressed)
             CatSmall.getInstance().update()

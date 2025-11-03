@@ -1,5 +1,6 @@
 import math
 import time
+from enum import Enum
 from random import randrange
 
 import pygame
@@ -12,7 +13,12 @@ from src.project_common import PATH
 from src.screen import screen
 
 
+class BirdType(Enum):
+    CROW = 0
+    PIGEON = 1
+
 class Bird(pygame.sprite.Sprite):
+
     allBirds = []
     _DISAPPEARING_TIME = 2.5  # in sec
 
@@ -28,19 +34,19 @@ class Bird(pygame.sprite.Sprite):
     _ICON = pygame.transform.scale(pygame.image.load(f"{PATH}images/gui/icons/attention.png"), (40, 40)).convert_alpha()
 
     # Sounds
-    SOUNDS_SCARE_RAVEN1 = pygame.mixer.Sound(f"{PATH}sounds/scareBird/raven/1.wav")
-    SOUNDS_SCARE_RAVEN2 = pygame.mixer.Sound(f"{PATH}sounds/scareBird/raven/2.wav")
+    SOUNDS_SCARE_CROW1 = pygame.mixer.Sound(f"{PATH}sounds/scareBird/crow/1.wav")
+    SOUNDS_SCARE_CROW2 = pygame.mixer.Sound(f"{PATH}sounds/scareBird/crow/2.wav")
 
     SOUNDS_SCARE_PIGEON1 = pygame.mixer.Sound(f"{PATH}sounds/scareBird/pigeon/1.wav")
     SOUNDS_SCARE_PIGEON2 = pygame.mixer.Sound(f"{PATH}sounds/scareBird/pigeon/2.wav")
 
-    def __init__(self, pos, hasIcon):
+    def __init__(self, pos, has_icon):
         super().__init__()
         if not Bird._animationWasSetUp:
             Bird._setUpAnimation()
 
-        self.birdType = int(pos[0]) % 2  # 0 = raven, 1 = pigeon
-        if self.birdType == 0:
+        self.birdType = BirdType(int(pos[0]) % 2)  # 0 = crow, 1 = pigeon
+        if self.birdType == BirdType.CROW:
             self.animationFlyRight = Bird._ANIMATION_CROW_FLY_RIGHT
             self.animationFlyLeft = Bird._ANIMATION_CROW_FLY_LEFT
             self.animationIdle = Bird._ANIMATION_CROW_IDLE
@@ -54,7 +60,7 @@ class Bird(pygame.sprite.Sprite):
         self.rect.center = pos[0] * 50, pos[1] * 50 + 12
         self.posX = pos[0] * 50.0
         self.posY = pos[1] * 50.0 + 12
-        self._hasIcon = hasIcon
+        self._hasIcon = has_icon
         self._alpha = 255
         self.disappeared = False  # true after _alpha is set to 0
         self._startFlying = None
@@ -65,11 +71,11 @@ class Bird(pygame.sprite.Sprite):
         self._animationSpeed = 10 * self._animationBooster
 
     @staticmethod
-    def create(pos, hasIcon = False):
-        obj = Bird(pos, hasIcon)
+    def create(pos, has_icon = False):
+        obj = Bird(pos, has_icon)
         Bird.allBirds.append(obj)
-        Bird.SOUNDS_SCARE_RAVEN1.set_volume(game_info.GameInfo.getSound())
-        Bird.SOUNDS_SCARE_RAVEN2.set_volume(game_info.GameInfo.getSound())
+        Bird.SOUNDS_SCARE_CROW1.set_volume(game_info.GameInfo.getSound())
+        Bird.SOUNDS_SCARE_CROW2.set_volume(game_info.GameInfo.getSound())
         Bird.SOUNDS_SCARE_PIGEON1.set_volume(game_info.GameInfo.getSound())
         Bird.SOUNDS_SCARE_PIGEON2.set_volume(game_info.GameInfo.getSound())
 
@@ -167,68 +173,68 @@ class Bird(pygame.sprite.Sprite):
                 self._move()
 
     def _checkScared(self):
-        playerCenter = player.Player.getInstance().collider.center
-        birdCenter = self.rect.center
-        dist = math.hypot(playerCenter[0] - birdCenter[0], playerCenter[1] - birdCenter[1])
+        player_center = player.Player.getInstance().collider.center
+        bird_center = self.rect.center
+        dist = math.hypot(player_center[0] - bird_center[0], player_center[1] - bird_center[1])
         if dist < 150 and self._startFlying is None:
             self._startFlying = time.time()
-            if self.birdType == 0:
-                randSound = randrange(2)
-                if randSound == 0:
-                    Bird.SOUNDS_SCARE_RAVEN1.play()
+            if self.birdType == BirdType.CROW:
+                rand_sound = randrange(2)
+                if rand_sound == 0:
+                    Bird.SOUNDS_SCARE_CROW1.play()
                 else:
-                    Bird.SOUNDS_SCARE_RAVEN2.play()
+                    Bird.SOUNDS_SCARE_CROW2.play()
             else:
-                randSound = randrange(2)
-                if randSound == 0:
+                rand_sound = randrange(2)
+                if rand_sound == 0:
                     Bird.SOUNDS_SCARE_PIGEON1.play()
                 else:
                     Bird.SOUNDS_SCARE_PIGEON2.play()
 
-            if playerCenter[0] > birdCenter[0]:
+            if player_center[0] > bird_center[0]:
                 self.__fliesRight = False
             else:
                 self.__fliesRight = True
-            if self.birdType == 0:
+            if self.birdType == BirdType.CROW:
                 self.posY -= 12
+            bird_counter.BirdCounter.catchedBird()
 
     def _set_alpha(self):
-        if self._startFlying is not None:
+        if self._startFlying is not None and not self.disappeared:
             self._alpha = 255 - (time.time() - self._startFlying) / Bird._DISAPPEARING_TIME * 255
             if self._alpha < 0:
                 self._alpha = 0
                 self.disappeared = True
-                bird_counter.BirdCounter.catchedBird()
 
     def _move(self):
-        if self.birdType == 0:
-            speedX = 1.35
-            speedY = 0.5
+        if self.birdType == BirdType.CROW:
+            speed_x = 1.35
+            speed_y = 0.5
         else:
-            speedX = 1
-            speedY = 1.25
+            speed_x = 1
+            speed_y = 1.25
 
         if not self.__fliesRight:
-            speedX *= -1
+            speed_x *= -1
 
-        self.posX += speedX * InnerTime.deltaTime / 10
-        self.posY -= speedY * InnerTime.deltaTime / 10
+        self.posX += speed_x * InnerTime.deltaTime / 10
+        self.posY -= speed_y * InnerTime.deltaTime / 10
         self.rect.center = (self.posX, self.posY)
 
     def _animate(self):
         if self._startFlying:  # flying animation
-            currentTime = int((time.time() + self._animationDeltaTime) * self._animationSpeed)
+            current_time = int((time.time() + self._animationDeltaTime) * self._animationSpeed)
 
-            if currentTime % 6 != self._lastAnimationFrame:
+            if current_time % 6 != self._lastAnimationFrame:
                 if self.__fliesRight is True:
-                    self._lastAnimationFrame = currentTime % len(self.animationFlyRight)
+                    self._lastAnimationFrame = current_time % len(self.animationFlyRight)
                     self.image = self.animationFlyRight[self._lastAnimationFrame]
                 else:
-                    self._lastAnimationFrame = currentTime % len(self.animationFlyLeft)
+                    self._lastAnimationFrame = current_time % len(self.animationFlyLeft)
                     self.image = self.animationFlyLeft[self._lastAnimationFrame]
         else:  # idle animation
-            currentTime = int((time.time() + self._animationDeltaTime) * self._animationSpeed / 2)
+            current_time = int((time.time() + self._animationDeltaTime) * self._animationSpeed / 2)
 
-            if currentTime % 6 != self._lastAnimationFrame:
-                self._lastAnimationFrame = currentTime % len(self.animationIdle)
+            if current_time % 6 != self._lastAnimationFrame:
+                self._lastAnimationFrame = current_time % len(self.animationIdle)
                 self.image = self.animationIdle[self._lastAnimationFrame]

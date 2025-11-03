@@ -55,6 +55,8 @@ class MainMenu:
     BACKGROUND1 = loadImage(f"{PATH}images/gui/mainMenu/background/1.png", (1600, 900))
     BACKGROUND2 = loadImage(f"{PATH}images/gui/mainMenu/background/2.png", (1600, 900))
 
+    pygame.font.init()
+    pygame.mixer.init()
     FONT = pygame.font.Font(f"{PATH}fonts/mainMenu.ttf", 28)
     FONT_COLOR = (182, 137, 98)
 

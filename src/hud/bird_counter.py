@@ -47,7 +47,7 @@ class BirdCounter:
         surface = BirdCounter._FONT.render(strr, False, BirdCounter.color)
         screen.screen.blit(surface, (55 + 45 * BirdCounter.SCALE, 50 + 31 * BirdCounter.SCALE))
 
-    #use after placing all birds on the map
+    # use after placing all birds on the map
     @staticmethod
     def restart():
         BirdCounter.allBirds = len(bird.Bird.allBirds)
@@ -61,13 +61,15 @@ class BirdCounter:
         BirdCounter.lastCatchTime = time.time()
         BirdCounter.SOUND.play()
         BirdCounter._setFontBackgroundWidth()
+        if BirdCounter.birdsCatched >= BirdCounter.allBirds:
+            level_manager.LevelManager.finished_level()
 
     @staticmethod
     def _setFontBackgroundWidth():
-            stringLen = len(str(BirdCounter.birdsCatched)) + len(str(BirdCounter.allBirds))
-            surfaceWidth = (99 + stringLen * 21) * BirdCounter.SCALE
-            BirdCounter._FONT_BACKGROUND = pygame.Surface((surfaceWidth, 44 * BirdCounter.SCALE))
-            BirdCounter._FONT_BACKGROUND.set_alpha(100)
+        stringLen = len(str(BirdCounter.birdsCatched)) + len(str(BirdCounter.allBirds))
+        surfaceWidth = (99 + stringLen * 21) * BirdCounter.SCALE
+        BirdCounter._FONT_BACKGROUND = pygame.Surface((surfaceWidth, 44 * BirdCounter.SCALE))
+        BirdCounter._FONT_BACKGROUND.set_alpha(100)
 
 
 
