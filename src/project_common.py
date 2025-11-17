@@ -1,8 +1,7 @@
 import os
-
 import pygame
 
-import game_info
+from src import game_info
 
 PATH = os.path.abspath('') + '/'
 
