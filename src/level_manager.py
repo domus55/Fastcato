@@ -61,7 +61,7 @@ class LevelManager:
         if game_info.GameInfo.level_time[LevelManager.current_level] == 0.0 or \
                 new_record:
             game_info.GameInfo.level_time[LevelManager.current_level] = deadline.Deadline.time()
-            game_info.GameInfo.saveTime()
+            game_info.GameInfo.save_time()
 
         if result.Result.state == result.Result.State.CLOSED:
             result.Result.open(deadline.Deadline.strTime(), deadline.Deadline.time(), new_record)

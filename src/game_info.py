@@ -58,9 +58,9 @@ class GameInfo:
         if GameInfo.BUILD_TYPE == BuildType.WEB:
             GameInfo.loadTimeFromWeb()
         else:
-            GameInfo.loadTimeTxt()
+            GameInfo.load_time_dat()
 
-        GameInfo.loadSettings()
+        GameInfo.load_settings()
 
     @staticmethod
     def loadTimeFromWeb():
@@ -76,36 +76,47 @@ class GameInfo:
                 else:
                     GameInfo.level_time[i + 1] = float(time)
             if error:
-                GameInfo.saveTimeToWeb()
+                GameInfo.save_time_to_web()
 
     @staticmethod
-    def loadTimeTxt():
+    def load_time_dat():
         error = False
         GameInfo.level_time[0] = 1
 
-        fileExists = os.path.exists(f'{PATH}save.txt')
+        fileExists = os.path.exists(f'{PATH}save.dat')
         if not fileExists:
-            GameInfo.saveTime()
+            GameInfo.save_time()
 
-        with open(f'{PATH}save.txt') as f:
+        with open(f'{PATH}save.dat', 'rb') as f:
             for i in range(GameInfo.NUMBER_OF_LEVELS):
                 try:
-                    GameInfo.level_time[i + 1] = float(f.readline())
-                except (ValueError, TypeError,IndexError):
+                    line = f.readline().strip()
+                    if not line:
+                        print("ValueError")
+                        raise ValueError
+
+                    original_bytes = bytes.fromhex(line.decode('utf-8'))
+                    print(line)
+                    print(original_bytes)
+                    print(original_bytes.decode('utf-8'))
+                    GameInfo.level_time[i + 1] = float(original_bytes.decode('utf-8'))
+
+                except (ValueError, TypeError, IndexError):
+                    print("error\n")
                     GameInfo.level_time[i + 1] = 0.0
                     error = True
         if error:
-            GameInfo.saveTime()
+            GameInfo.save_time()
 
     @staticmethod
-    def saveTime():
+    def save_time():
         if GameInfo.BUILD_TYPE == BuildType.WEB:
-            GameInfo.saveTimeToWeb()
+            GameInfo.save_time_to_web()
         else:
-            GameInfo.saveTimeTxt()
+            GameInfo.save_time_dat()
 
     @staticmethod
-    def saveTimeToWeb():
+    def save_time_to_web():
         if __import__("sys").platform == "emscripten":
             from platform import window
 
@@ -113,13 +124,16 @@ class GameInfo:
                 window.localStorage.setItem(f"level{i + 1}", GameInfo.level_time[i + 1])
 
     @staticmethod
-    def saveTimeTxt():
-        with open(f'{PATH}save.txt', 'w') as f:
+    def save_time_dat():
+        with open(f'{PATH}save.dat', 'wb') as f:
             for i in range(GameInfo.NUMBER_OF_LEVELS):
-                f.write(f"{GameInfo.level_time[i + 1]}\n")
+                s = str(GameInfo.level_time[i + 1])
+                b = s.encode("utf-8")
+                hx = b.hex()
+                f.write(hx.encode("utf-8") + b"\n")
 
     @staticmethod
-    def loadSettings():
+    def load_settings():
         try:
             with open(f'{PATH}game_settings.txt') as f:
                 GameInfo._sound = int(f.readline())

@@ -9,7 +9,7 @@ To change version go to `GameInfo.py` and change `GameInfo.BUILD_TYPE`
 * none
 
 **build**:<br>
-* `pyinstaller main.spec`
+* `pyinstaller pyinstaller.spec`
 
 **Preview**:<br>
 ![image](https://github.com/domus55/Python-Game/blob/main/images/github/windows.png)

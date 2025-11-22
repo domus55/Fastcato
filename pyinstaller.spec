@@ -2,11 +2,11 @@
 
 
 a = Analysis(
-    ['src/main.py'],
+    ['src\\main.py'],
     pathex=[],
     binaries=[],
-    datas=[],
-    hiddenimports=[],
+    datas=[('src/*.py', 'src')],
+    hiddenimports=['pygame', 'src'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='Fastcato.exe',
+    name='Fastcato',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -35,5 +35,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['images/gameIcon.ico'],
+    icon=['images\\gameIcon.ico'],
 )
