@@ -96,13 +96,10 @@ class GameInfo:
                         raise ValueError
 
                     original_bytes = bytes.fromhex(line.decode('utf-8'))
-                    print(line)
-                    print(original_bytes)
-                    print(original_bytes.decode('utf-8'))
                     GameInfo.level_time[i + 1] = float(original_bytes.decode('utf-8'))
 
                 except (ValueError, TypeError, IndexError):
-                    print("error\n")
+                    print("Error when loading a save!\n")
                     GameInfo.level_time[i + 1] = 0.0
                     error = True
         if error:
