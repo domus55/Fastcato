@@ -226,7 +226,7 @@ class MainMenu:
                     game_info.GameInfo.musicDown()
                 MainMenu.image = MainMenu.SETTINGS_DEFAULT
                 MainMenu.SOUND_CLICK.set_volume(game_info.GameInfo.getSound())
-                music.Music.adjustVolume()
+                music.Music.adjust_volume()
                 game_info.GameInfo.saveSettings()
             # in levels
             elif MainMenu.state is MainMenu.State.IN_LEVELS:

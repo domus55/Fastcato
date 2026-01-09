@@ -35,7 +35,7 @@ class Game:
         self._maxFps = 60
         self._clock = pygame.time.Clock()
         GameInfo.load()
-        Music.start()
+        Music.start(True)
         LevelManager.initialize()
         screenInitialize()
         CloudManager.initialize()
