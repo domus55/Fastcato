@@ -130,10 +130,10 @@ class Player(pygame.sprite.Sprite):
         self.pos[1] += 10
         self._velocityY = 0
         self.last_dash_time = time.time() - self._DASH_DELAY
-        Player.DASH_SOUND.set_volume(game_info.GameInfo.getSound())
-        Player.DASH_READY.set_volume(game_info.GameInfo.getSound())
-        Player.SOUND_MEOW1.set_volume(game_info.GameInfo.getSound())
-        Player.SOUND_MEOW2.set_volume(game_info.GameInfo.getSound())
+        Player.DASH_SOUND.set_volume(game_info.GameInfo.get_sound())
+        Player.DASH_READY.set_volume(game_info.GameInfo.get_sound())
+        Player.SOUND_MEOW1.set_volume(game_info.GameInfo.get_sound())
+        Player.SOUND_MEOW2.set_volume(game_info.GameInfo.get_sound())
         deadline.Deadline.stop()
 
     def _move(self, keyPressed):

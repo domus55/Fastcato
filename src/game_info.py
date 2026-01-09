@@ -1,6 +1,8 @@
 import os.path
 from enum import Enum
 
+import pygame
+
 PATH = os.path.abspath('') + '/'
 
 
@@ -26,44 +28,44 @@ class GameInfo:
     TROPHY_TIMES = [[0, 0], [30, 40], [36, 44], [32, 40], [43, 50], [52, 56], [55, 57]]
 
     @staticmethod
-    def soundUp():
+    def sound_up():
         if GameInfo._sound < 6:
             GameInfo._sound += 1
 
     @staticmethod
-    def soundDown():
+    def sound_down():
         if GameInfo._sound > 0:
             GameInfo._sound -= 1
 
     @staticmethod
-    def musicUp():
+    def music_up():
         if GameInfo._music < 6:
             GameInfo._music += 1
 
     @staticmethod
-    def musicDown():
+    def music_down():
         if GameInfo._music > 0:
             GameInfo._music -= 1
 
     @staticmethod
-    def getSound():
+    def get_sound():
         return GameInfo._sound/6
 
     @staticmethod
-    def getMusic():
+    def get_music():
         return GameInfo._music/6
 
     @staticmethod
     def load():
         if GameInfo.BUILD_TYPE == BuildType.WEB:
-            GameInfo.loadTimeFromWeb()
+            GameInfo.load_time_from_web()
         else:
             GameInfo.load_time_dat()
 
         GameInfo.load_settings()
 
     @staticmethod
-    def loadTimeFromWeb():
+    def load_time_from_web():
         GameInfo.level_time[0] = 1
         if __import__("sys").platform == "emscripten":
             from platform import window
@@ -139,13 +141,22 @@ class GameInfo:
         except Exception:
             GameInfo._sound = 6
             GameInfo._music = 6
-            GameInfo.fullScreen = 0
-            GameInfo.saveSettings()
+            # if player's screen is 1600x900 or bigger play the game in window. Otherwise, use fullscreen
+            display_info = pygame.display.get_desktop_sizes()
+            if len(display_info) == 0:
+                GameInfo.fullScreen = 0
+            else:
+                main_monitor = display_info[0]
+                if main_monitor[0] >= 1600 and main_monitor[1] >= 900:
+                    GameInfo.fullScreen = 0
+                else:
+                    GameInfo.fullScreen = 1
+            GameInfo.save_settings()
 
     @staticmethod
-    def saveSettings():
+    def save_settings():
         with open(f'{PATH}game_settings.txt', 'w') as f:
-            f.write(f"{GameInfo._sound}\n{GameInfo._music}\n{GameInfo.fullScreen}")
+            f.write(f"{GameInfo._sound}\n{GameInfo._music}\n{int(GameInfo.fullScreen)}")
 
     @staticmethod
     def str_level_time(level_nr):

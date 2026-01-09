@@ -46,7 +46,7 @@ class Result:
         Result._isNewRecord = is_new_record
         Result.state = Result.State.OPEN
         in_game_menu.InGameMenu.state = in_game_menu.InGameMenu.State.CLOSED
-        main_menu.MainMenu.SOUND_CLICK.set_volume(game_info.GameInfo.getSound())
+        main_menu.MainMenu.SOUND_CLICK.set_volume(game_info.GameInfo.get_sound())
 
     @staticmethod
     def render():

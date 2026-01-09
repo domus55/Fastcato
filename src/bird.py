@@ -74,10 +74,10 @@ class Bird(pygame.sprite.Sprite):
     def create(pos, has_icon=False):
         obj = Bird(pos, has_icon)
         Bird.all_birds.append(obj)
-        Bird.SOUNDS_SCARE_CROW1.set_volume(game_info.GameInfo.getSound())
-        Bird.SOUNDS_SCARE_CROW2.set_volume(game_info.GameInfo.getSound())
-        Bird.SOUNDS_SCARE_PIGEON1.set_volume(game_info.GameInfo.getSound())
-        Bird.SOUNDS_SCARE_PIGEON2.set_volume(game_info.GameInfo.getSound())
+        Bird.SOUNDS_SCARE_CROW1.set_volume(game_info.GameInfo.get_sound())
+        Bird.SOUNDS_SCARE_CROW2.set_volume(game_info.GameInfo.get_sound())
+        Bird.SOUNDS_SCARE_PIGEON1.set_volume(game_info.GameInfo.get_sound())
+        Bird.SOUNDS_SCARE_PIGEON2.set_volume(game_info.GameInfo.get_sound())
 
     @staticmethod
     def updateAll():

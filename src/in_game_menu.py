@@ -31,7 +31,7 @@ class InGameMenu:
         if Result.state is Result.State.OPEN:
             return
         InGameMenu.state = InGameMenu.State.CLOSED if InGameMenu.state is InGameMenu.State.OPEN else InGameMenu.State.OPEN
-        main_menu.MainMenu.SOUND_CLICK.set_volume(game_info.GameInfo.getSound())
+        main_menu.MainMenu.SOUND_CLICK.set_volume(game_info.GameInfo.get_sound())
 
     @staticmethod
     def update(keyPressed):

@@ -45,7 +45,7 @@ class Deadline:
 
     @staticmethod
     def _start():
-        Deadline.SOUND_TIMER.set_volume(game_info.GameInfo.getSound())
+        Deadline.SOUND_TIMER.set_volume(game_info.GameInfo.get_sound())
         Deadline._startTime = time.time()
         Deadline.isRunning = True
         Deadline.timeOut = False

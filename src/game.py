@@ -23,7 +23,7 @@ from src.music import Music
 from src.obstacles.obstacle_manager import ObstacleManager
 from src.player import Player
 from src.result import Result
-from src.screen import screenInitialize, screenRender
+from src.screen import screen_initialize, screen_render
 
 
 class Game:
@@ -37,7 +37,7 @@ class Game:
         GameInfo.load()
         Music.start(True)
         LevelManager.initialize()
-        screenInitialize()
+        screen_initialize()
         CloudManager.initialize()
 
     def update(self):
@@ -89,7 +89,7 @@ class Game:
                 InGameMenu.render()
             elif Result.state == Result.State.OPEN:
                 Result.render()
-        screenRender()
+        screen_render()
 
     def delay(self):
         self._clock.tick(self._maxFps)

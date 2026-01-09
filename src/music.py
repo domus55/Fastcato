@@ -24,4 +24,4 @@ class Music:
 
     @staticmethod
     def adjust_volume():
-        pygame.mixer.music.set_volume(game_info.GameInfo.getMusic())
+        pygame.mixer.music.set_volume(game_info.GameInfo.get_music())

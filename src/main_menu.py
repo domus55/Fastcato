@@ -37,7 +37,9 @@ class MainMenu:
     SETTINGS_SOUND_DOWN = loadImage(f"{PATH}images/gui/mainMenu/settings/soundDown.png", IMG_SIZE)
     SETTINGS_MUSIC_UP = loadImage(f"{PATH}images/gui/mainMenu/settings/musicUp.png", IMG_SIZE)
     SETTINGS_MUSIC_DOWN = loadImage(f"{PATH}images/gui/mainMenu/settings/musicDown.png", IMG_SIZE)
-    SETTINGS_ACTIVE_BAR = loadImage(f"{PATH}images/gui/mainMenu/settings/activeBar.png", (15, 45))
+    SETTINGS_FULLSCREEN_DOWN = loadImage(f"{PATH}images/gui/mainMenu/settings/fullscreenDown.png", IMG_SIZE)
+    SETTINGS_ACTIVE_BAR = loadImage(f"{PATH}images/gui/mainMenu/settings/activeBar.png", (14, 42))
+    SETTINGS_FULLSCREEN_CROSS = loadImage(f"{PATH}images/gui/mainMenu/settings/fullscreenCross.png", (28, 28))
 
     LEVELS_DEFAULT = loadImage(f"{PATH}images/gui/mainMenu/levels/default.png", IMG_SIZE)
     LEVELS_BACK = loadImage(f"{PATH}images/gui/mainMenu/levels/back.png", IMG_SIZE)
@@ -71,10 +73,11 @@ class MainMenu:
 
     # settings hitboxes
     hitboxSettingBack = pygame.Rect(633, 583, 335, 96)
-    hitboxSoundUp = pygame.Rect(944, 320, 25, 74)
-    hitboxSoundDown = pygame.Rect(918, 320, 25, 74)
-    hitboxMusicUp = pygame.Rect(944, 411, 25, 74)
-    hitboxMusicDown = pygame.Rect(918, 411, 25, 74)
+    hitboxSoundUp = pygame.Rect(944, 319, 25, 74)
+    hitboxSoundDown = pygame.Rect(918, 319, 25, 74)
+    hitboxMusicUp = pygame.Rect(944, 410, 25, 74)
+    hitboxMusicDown = pygame.Rect(918, 410, 25, 74)
+    hitboxFullscreen = pygame.Rect(908, 500, 60, 64)
 
     # levels hitboxes
     hitboxLevelsBack = pygame.Rect(633, 583, 272, 96)
@@ -89,7 +92,7 @@ class MainMenu:
     @staticmethod
     def open():
         MainMenu.state = MainMenu.State.IN_MAIN
-        MainMenu.SOUND_CLICK.set_volume(game_info.GameInfo.getSound())
+        MainMenu.SOUND_CLICK.set_volume(game_info.GameInfo.get_sound())
         cloud_manager.CloudManager.initialize()
         MainMenu.renderBackground()
 
@@ -108,6 +111,12 @@ class MainMenu:
                 screen.screen.blit(MainMenu.SETTINGS_ACTIVE_BAR, (788 + i * 19, 334))
             for i in range(game_info.GameInfo._music):
                 screen.screen.blit(MainMenu.SETTINGS_ACTIVE_BAR, (788 + i * 19, 424))
+            if game_info.GameInfo.fullScreen:
+                if MainMenu.image == MainMenu.SETTINGS_FULLSCREEN_DOWN:
+                    screen.screen.blit(MainMenu.SETTINGS_FULLSCREEN_CROSS, (924, 521))
+                else:
+                    screen.screen.blit(MainMenu.SETTINGS_FULLSCREEN_CROSS, (924, 515))
+
         if MainMenu.state is MainMenu.State.IN_LEVELS:
             for i in range(3):
                 lvl = MainMenu.levelsPage * 3 + i + 1
@@ -132,7 +141,7 @@ class MainMenu:
                 elif game_info.GameInfo.get_trophy(lvl) == 3:
                     screen.screen.blit(MainMenu.TROPHY_GOLD, (700, posY - 8))
 
-        # pygame.draw.rect(screen.screen, (255, 0, 0), MainMenu.hitboxLevelsBack)
+        #pygame.draw.rect(screen.screen, (255, 0, 0), MainMenu.hitboxLevelsBack)
 
     @staticmethod
     def renderBackground():
@@ -163,6 +172,9 @@ class MainMenu:
                     MainMenu.SOUND_CLICK.play()
                 elif MainMenu.hitboxMusicDown.collidepoint(mousePos):
                     MainMenu.image = MainMenu.SETTINGS_MUSIC_DOWN
+                    MainMenu.SOUND_CLICK.play()
+                elif MainMenu.hitboxFullscreen.collidepoint(mousePos):
+                    MainMenu.image = MainMenu.SETTINGS_FULLSCREEN_DOWN
                     MainMenu.SOUND_CLICK.play()
             # in levels
             elif MainMenu.state is MainMenu.State.IN_LEVELS:
@@ -217,17 +229,20 @@ class MainMenu:
                     MainMenu.image = MainMenu.DEFAULT
                     return
                 elif MainMenu.hitboxSoundUp.collidepoint(mousePos) and MainMenu.image == MainMenu.SETTINGS_SOUND_UP:
-                    game_info.GameInfo.soundUp()
+                    game_info.GameInfo.sound_up()
                 elif MainMenu.hitboxSoundDown.collidepoint(mousePos) and MainMenu.image == MainMenu.SETTINGS_SOUND_DOWN:
-                    game_info.GameInfo.soundDown()
+                    game_info.GameInfo.sound_down()
                 elif MainMenu.hitboxMusicUp.collidepoint(mousePos) and MainMenu.image == MainMenu.SETTINGS_MUSIC_UP:
-                    game_info.GameInfo.musicUp()
+                    game_info.GameInfo.music_up()
                 elif MainMenu.hitboxMusicDown.collidepoint(mousePos) and MainMenu.image == MainMenu.SETTINGS_MUSIC_DOWN:
-                    game_info.GameInfo.musicDown()
+                    game_info.GameInfo.music_down()
+                elif MainMenu.hitboxFullscreen.collidepoint(mousePos) and MainMenu.image == MainMenu.SETTINGS_FULLSCREEN_DOWN:
+                    game_info.GameInfo.fullScreen = not game_info.GameInfo.fullScreen
+                    screen.screen_initialize()
                 MainMenu.image = MainMenu.SETTINGS_DEFAULT
-                MainMenu.SOUND_CLICK.set_volume(game_info.GameInfo.getSound())
+                MainMenu.SOUND_CLICK.set_volume(game_info.GameInfo.get_sound())
                 music.Music.adjust_volume()
-                game_info.GameInfo.saveSettings()
+                game_info.GameInfo.save_settings()
             # in levels
             elif MainMenu.state is MainMenu.State.IN_LEVELS:
                 if MainMenu.hitboxLevelsBack.collidepoint(mousePos) and MainMenu.image == MainMenu.LEVELS_BACK:

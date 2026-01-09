@@ -52,7 +52,7 @@ class BirdCounter:
     def restart():
         BirdCounter.all_birds = len(bird.Bird.all_birds)
         BirdCounter.birds_caught = 0
-        BirdCounter.SOUND.set_volume(game_info.GameInfo.getSound())
+        BirdCounter.SOUND.set_volume(game_info.GameInfo.get_sound())
         BirdCounter._set_font_background_width()
 
     @staticmethod
