@@ -44,7 +44,7 @@ class LevelManager:
 
     @staticmethod
     def initialize():
-        LevelManager.current_level = 7
+        LevelManager.current_level = 0
         LevelManager._loadImages()
         LevelManager.restartLevel()
 
