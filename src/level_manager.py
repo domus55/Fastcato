@@ -39,12 +39,12 @@ class LevelManager:
     ATTENTION = (180, 215, 180)
     STAR = (180, 230, 180)
 
-    current_level = 6
+    current_level = 0
     current_level_img = pygame.image.load(f"{PATH}images/levels/1.bmp")
 
     @staticmethod
     def initialize():
-        LevelManager.current_level = 0
+        LevelManager.current_level = 7
         LevelManager._loadImages()
         LevelManager.restartLevel()
 

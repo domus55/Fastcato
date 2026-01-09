@@ -68,7 +68,7 @@ class Game:
         else:
             Background.getInstance().render()
             if LevelManager.current_level == 7:
-                Credits.renderText()
+                Credits.render_text()
             Block.renderBackground()
             Icons.renderAll()
             Decorations.renderAll()
@@ -78,7 +78,7 @@ class Game:
             Bird.renderAll()
             Block.renderBlocks()
             if LevelManager.current_level == 7:
-                Credits.renderFade()
+                Credits.render_fade()
             if Result.state == Result.State.CLOSED:
                 Tutorial.render(Game.keyPressed)
                 Deadline.render()

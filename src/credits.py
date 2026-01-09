@@ -23,12 +23,12 @@ class Credits:
         Credits._started = True
         Credits.text.clear()
 
-        lines = "I hope you enjoyed\nThank you for playing\n\nCreator\nDominik Palenik".splitlines()
+        lines = "I hope you enjoyed\nThank you for playing\n\nCreator\nDominik Palenik\n\nGraphics\nUliana Nawrocka\n\nMusic\nAnita Saglam".splitlines()
         for i, line in enumerate(lines):
             Credits.text.append(Credits._FONT.render(line, False, Credits._color))
 
     @staticmethod
-    def renderText():
+    def render_text():
         if not Credits._started:
             return
 
@@ -38,12 +38,11 @@ class Credits:
             screen.screen.blit(line, (x, Credits.y + 45 * i))
 
     @staticmethod
-    def renderFade():
+    def render_fade():
         if not Credits._started:
             return
-
-        if Credits.y < 350:
-            alpha = (350 - Credits.y)
+        if Credits.y < 150:
+            alpha = (150 - Credits.y)
             if alpha > 255:
                 alpha = 255
 
@@ -51,5 +50,5 @@ class Credits:
             Credits._fade.fill((0, 0, 0))
             screen.screen.blit(Credits._fade, (0, 0))
 
-            if Credits.y < 0 and in_game_menu.InGameMenu.state == in_game_menu.InGameMenu.State.CLOSED:
+            if Credits.y < -150 and in_game_menu.InGameMenu.state == in_game_menu.InGameMenu.State.CLOSED:
                 in_game_menu.InGameMenu.open()
