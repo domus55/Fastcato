@@ -23,7 +23,7 @@ class Credits:
         Credits._started = True
         Credits.text.clear()
 
-        lines = "I hope you enjoyed\nThank you for playing\n\nCreator\nDominik Palenik\n\nSteam graphics\nUliana Nawrocka\n\nMusic\nAnita Saglam".splitlines()
+        lines = "I hope you enjoyed\nThank you for playing\n\nCreator\nDominik Palenik\n\nSteam graphics\nUlyana Naurotskaya\n\nMusic\nAnita Saglam".splitlines()
         for i, line in enumerate(lines):
             Credits.text.append(Credits._FONT.render(line, False, Credits._color))
 
