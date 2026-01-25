@@ -25,8 +25,8 @@ class GameInfo:
 
     # Times for gold and silver
     # TROPHY_TIMES[3][1] returns time on 3rd level for silver, TROPHY_TIMES[1][0] returns time on first level for gold
-    TROPHY_TIMES = [[0, 0], [30, 40], [36, 44], [32, 40], [43, 50], [52, 56], [55, 57]]
-
+    TROPHY_TIMES = [[0, 0], [30, 40], [34, 40], [31, 35], [43, 47], [51, 55], [55, 57]]
+                            #1           2           3       4       5           6
     @staticmethod
     def sound_up():
         if GameInfo._sound < 6:

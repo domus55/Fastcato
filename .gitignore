@@ -162,7 +162,7 @@ cython_debug/
 .idea/
 
 game_settings.txt
-save.txt
+save.dat
 .buildozer
 main.spec
 Fastcato.spec
