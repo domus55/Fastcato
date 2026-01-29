@@ -26,9 +26,15 @@ Block **colliders** are automatically consolidated into rectangles, and their ap
 
 ## Builds
 Game is aviable on these platforms:
-- [windows](https://matix.li/d8b89beef392)
+- [windows (Steam)](https://store.steampowered.com/app/4202400/FastCato/)
 - [web](https://fatcat668.itch.io/fastcato)
-- [android](https://play.google.com/store/apps/details?id=org.dominikpalenik.fastcato&hl=pl&gl=US)
+- [android](https://apkpure.com/fast-cato/org.dominikpalenik.fastcato)
 
 
 To read more about building game on these platforms check [build differences](https://github.com/domus55/Python-Game/blob/main/build%20differences.md) file
+
+## Contributors
+A huge thank you to my friends whose talent and support helped me while creating this game.
+
+- **Anita Saglam** - for composing the beautiful music that welcomes you as the game begins
+- **Ulyana Naurotskaya** - for designing all the beautiful Steam graphics
